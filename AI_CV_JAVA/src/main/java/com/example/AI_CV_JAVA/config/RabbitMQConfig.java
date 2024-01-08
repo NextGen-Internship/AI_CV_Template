@@ -2,10 +2,7 @@ package com.example.AI_CV_JAVA.config;
 
 
 import com.rabbitmq.client.AMQP;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.core.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,20 +11,19 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQConfig {
     @Value("${rabbitmq.queue.name}")
     private String queue;
-
-    @Value("${rabbitmq.exchange.name")
+    @Value("${rabbitmq.exchange.name}")
     private String exchange;
-    @Value("${rabbitmq.routing.key")
+    @Value("${rabbitmq.routing.key}")
     private String routing_key;
 
     @Bean
-public Queue queue(){
-        return new Queue(queue);
+    public Queue queue(){
+        return new Queue(queue,true);
     }
 
     @Bean
-   public TopicExchange exchange(){
-        return new TopicExchange(exchange);
+    public DirectExchange exchange(){
+        return new DirectExchange(exchange);
     }
 
     @Bean

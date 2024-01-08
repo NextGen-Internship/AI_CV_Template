@@ -22,5 +22,4 @@ def handle_cv(cv):
             processed_data += chunk.choices[0].delta.content
 
     processed_data_json = json.loads(processed_data)    
-    publish_message_to_rabbitmq(processed_data_json)    
-
+    publish_message_to_rabbitmq(processed_data_json)
