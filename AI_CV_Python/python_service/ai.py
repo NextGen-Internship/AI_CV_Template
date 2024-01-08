@@ -1,8 +1,9 @@
 from openai import OpenAI
 from python_service.rabbitmq_publisher import publish_message_to_rabbitmq
+from python_service import app
 
 def handle_cv(cv):
-    OPENAI_API_KEY="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"
+    app.secret_key = os.environ.get('OPENAI_API_KEY')
     client = OpenAI(api_key=OPENAI_API_KEY)
     completion = client.chat.completions.create(
     model="gpt-3.5-turbo",
