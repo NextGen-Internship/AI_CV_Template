@@ -1,5 +1,5 @@
 from openai import OpenAI
-from python_service.rabbitmq_consumer import publish_message_to_rabbitmq
+from python_service.rabbitmq_publisher import publish_message_to_rabbitmq
 
 def handle_cv(cv):
     OPENAI_API_KEY="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"

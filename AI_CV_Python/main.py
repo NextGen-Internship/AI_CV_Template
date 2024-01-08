@@ -1,6 +1,6 @@
 from python_service import app
 from python_service.rabbitmq_listener import start_listening
-from python_service.rabbitmq_consumer import publish_message_to_rabbitmq
+from python_service.rabbitmq_publisher import publish_message_to_rabbitmq
 
 
 @app.route('/')
