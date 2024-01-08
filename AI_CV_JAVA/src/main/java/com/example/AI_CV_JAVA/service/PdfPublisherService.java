@@ -2,6 +2,7 @@ package com.example.AI_CV_JAVA.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +19,7 @@ private  final Logger LOGGER = LoggerFactory.getLogger(PdfPublisherService.class
     @Value("${rabbitmq.routing.key}")
     private String routingKey;
 
-    private final   RabbitTemplate rabbitTemplate;
+    private  AmqpTemplate rabbitTemplate;
 
     @Autowired
     public PdfPublisherService(RabbitTemplate rabbitTemplate) {
