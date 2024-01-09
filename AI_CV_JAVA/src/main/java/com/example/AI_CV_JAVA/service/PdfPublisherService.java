@@ -1,5 +1,6 @@
 package com.example.AI_CV_JAVA.service;
 
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
+@RequiredArgsConstructor
 public class PdfPublisherService {
 
     private  final Logger LOGGER = LoggerFactory.getLogger(PdfPublisherService.class);
@@ -19,15 +21,16 @@ public class PdfPublisherService {
     @Value("${rabbitmq.routing.key}")
     private String routingKey;
 
-    private  AmqpTemplate rabbitTemplate;
+    private final AmqpTemplate rabbitTemplate;
 
-    @Autowired
-    public PdfPublisherService(RabbitTemplate rabbitTemplate) {
-        this.rabbitTemplate = rabbitTemplate;
-    }
+//    @Autowired
+//    public PdfPublisherService(RabbitTemplate rabbitTemplate) {
+//        this.rabbitTemplate = rabbitTemplate;
+//    }this
 
-    public void sendMessage(String message){
-        LOGGER.info(String.format("Message sent -> %s", message));
-        rabbitTemplate.convertAndSend(exchange,routingKey,message);
+    public void sendMessage(byte[] pdf){
+
+        LOGGER.info("MESSAGE SENT");
+        rabbitTemplate.convertAndSend(exchange,routingKey,pdf);
     }
 }

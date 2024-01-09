@@ -1,11 +1,9 @@
 package com.example.AI_CV_JAVA.controller;
 
+import com.example.AI_CV_JAVA.service.PdfConsumerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.example.AI_CV_JAVA.service.PdfPublisherService;
 
 @RestController
@@ -13,15 +11,20 @@ import com.example.AI_CV_JAVA.service.PdfPublisherService;
 public class MessageController {
 
     private final PdfPublisherService producer;
+    private final PdfConsumerService consumer;
 
     @Autowired
-    public MessageController(PdfPublisherService producer) {
+    public MessageController(PdfPublisherService producer, PdfConsumerService consumer) {
         this.producer = producer;
+        this.consumer = consumer;
     }
 
     @GetMapping("/publish")
-    public ResponseEntity<String> sendMessage(@RequestParam("message") String message){
-        producer.sendMessage(message);
+    public ResponseEntity<String> sendMessage(@RequestBody byte[] byteArray){
+        producer.sendMessage(byteArray);
         return ResponseEntity.ok("Message sent");
     }
+
+
+
 }
