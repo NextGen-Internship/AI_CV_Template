@@ -3,11 +3,14 @@ import json
 import threading
 from python_service.ai import handle_cv
 
+def convert_message(message):
+    return message.decode('utf-8')
+    
 
 def on_message_received(ch, method, properties, body):
-    # bytearray_to_string = body.decode('utf-8')
-    print("Received message:", body.decode('utf-8'))
-    # handle_cv(bytearray_to_string)
+    bytearray_to_string = convert_message(body)
+    print("Received message:", bytearray_to_string)
+    handle_cv(bytearray_to_string)
 
 
 def listen_for_message_rabbitmq():
