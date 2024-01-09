@@ -23,7 +23,7 @@ def listen_for_message_rabbitmq():
     channel = connection.channel()
     channel.queue_delete(queue='javaguides')
     channel.queue_declare(queue='javaguides', durable=True)
-    channel.basic_consume(queue='javaguides', auto_ack=True, on_message_callback=on_message_received)
+    channel.basic_consume(queue='javaguides', auto_ack=False, on_message_callback=on_message_received)
 
     print("Start consuming")
     channel.start_consuming()
