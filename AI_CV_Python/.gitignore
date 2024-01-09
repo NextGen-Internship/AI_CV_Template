@@ -316,3 +316,5 @@ pip-selfcheck.json
 
 ### Mac OS ###
 .DS_Store
+
+.env
