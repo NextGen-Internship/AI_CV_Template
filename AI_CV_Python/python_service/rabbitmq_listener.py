@@ -8,9 +8,9 @@ def convert_message(message):
     
 
 def on_message_received(ch, method, properties, body):
-    bytearray_to_string = convert_message(body)
-    print("Received message:", bytearray_to_string)
-    handle_cv(bytearray_to_string)
+    to_string = convert_message(body)
+    print("Received message:", to_string)
+    handle_cv(to_string)
 
 
 def listen_for_message_rabbitmq():
