@@ -8,6 +8,7 @@ def convert_message(message):
     
 
 def on_message_received(ch, method, properties, body):
+    ch.basic_ack(delivery_tag=method.delivery_tag)
     to_string = convert_message(body)
     print("Received message:", to_string)
     handle_cv(to_string)
@@ -24,7 +25,6 @@ def listen_for_message_rabbitmq():
     )
     connection = pika.BlockingConnection(connection_parameters)
     channel = connection.channel()
-    channel.queue_delete(queue='javaguides')
     channel.queue_declare(queue='javaguides', durable=True)
     channel.basic_consume(queue='javaguides', auto_ack=False, on_message_callback=on_message_received)
 
