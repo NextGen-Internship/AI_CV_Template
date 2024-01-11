@@ -16,10 +16,17 @@ public class RabbitMQConfig {
     @Value("${rabbitmq.routing.key}")
     private String routing_key;
 
+
+
     @Bean
     public Queue queue(){
         return new Queue(queue,true);
     }
+
+
+
+
+
 
     @Bean
     public TopicExchange exchange(){
