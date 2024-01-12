@@ -16,6 +16,9 @@ public class RabbitMQConfig {
     @Value("${rabbitmq.routing.key}")
     private String routing_key;
 
+    @Value("${rabbitmq.queue.listener}")
+    private String rabbitmq_queue_listener;
+
 
 
     @Bean
@@ -23,7 +26,10 @@ public class RabbitMQConfig {
         return new Queue(queue,true);
     }
 
-
+    @Bean
+    public Queue pythonqueue(){
+        return new Queue(rabbitmq_queue_listener, true);
+    }
 
 
 
