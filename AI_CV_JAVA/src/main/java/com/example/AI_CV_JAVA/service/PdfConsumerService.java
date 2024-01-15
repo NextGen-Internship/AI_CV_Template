@@ -15,6 +15,6 @@ public class PdfConsumerService {
     @RabbitListener(queues = "${rabbitmq.queue.listener}")
     public void consume(String message){
         LOGGER.info(String.format("Received message -> %s",message));
-        pdfService.makeJson(message);
+        pdfService.makePdf(message);
     }
 }

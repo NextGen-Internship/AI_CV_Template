@@ -10,12 +10,13 @@ def handle_cv(cv):
     # print(app.secret_key)
     client = OpenAI(api_key=app.secret_key)
     completion = client.chat.completions.create(
-    model="gpt-3.5-turbo",
-    messages=[
-        {"role": "system", "content": "You are given a cv, can you extract the name, age, previouse experience, the skills and the education in a json format, don't send anything else that is not specified"},
-        {"role": "user", "content": cv}
-    ],
-    stream=True,
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system",
+             "content": "You are given a cv, can you extract the name, summary, previous work experience, the skills or technologies as technologies, education, and the role of the last company in a json format, don't send anything else that is not specified"},
+            {"role": "user", "content": cv}
+        ],
+        stream=True,
     )
 
     processed_data = ""
@@ -25,6 +26,5 @@ def handle_cv(cv):
             print(chunk.choices[0].delta.content, end="")
             processed_data += chunk.choices[0].delta.content
 
-    processed_data_json = json.loads(processed_data)    
+    processed_data_json = json.loads(processed_data)
     publish_message_to_rabbitmq(processed_data_json)
-    
