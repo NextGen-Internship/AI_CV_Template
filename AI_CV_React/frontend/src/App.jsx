@@ -16,10 +16,27 @@ function App() {
   const [isUploadSuccessful, setIsUploadSuccessful] = useState(false);
 
   const login = useGoogleLogin({
-    onSuccess: tokenResponse => {
-      console.log(tokenResponse);
-      setLoggedIn(true)
-    }
+    onSuccess: async (response) =>{
+      console.log('Google Login Response:', response)
+      try{
+        //Send the access token to the backend
+        const backendResponse = await axios.post(
+          'http://localhost:9090/process-google-token',
+          {
+            accessToken: response.access_token
+          },
+          {
+            headers: {
+              'Content-Type' : 'application/json',
+            },
+          }
+        );
+        console.log('Backend Response: ', backendResponse.data)
+        setLoggedIn(true)
+      } catch(err) {
+        console.error('Error sending access token to backend', err);
+      }
+    },
   });
 
   const handleUploadSuccess = () => {
