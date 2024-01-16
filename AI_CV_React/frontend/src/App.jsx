@@ -1,8 +1,6 @@
 import { useState } from 'react'
 import './App.css'
 import { GoogleLogin } from '@react-oauth/google';
-import { jwtDecode } from "jwt-decode";
-import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import LoginSignUp from './LoginSignUp/LoginSignUp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,47 +13,52 @@ function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isUploadSuccessful, setIsUploadSuccessful] = useState(false);
 
-  const login = useGoogleLogin({
-    onSuccess: async (response) =>{
-      console.log('Google Login Response:', response)
-      try{
-        //Send the access token to the backend
-        const backendResponse = await axios.post(
-          'http://localhost:9090/process-google-token',
-          {
-            accessToken: response.access_token
-          },
-          {
-            headers: {
-              'Content-Type' : 'application/json',
-            },
-          }
-        );
-        console.log('Backend Response: ', backendResponse.data)
-        setLoggedIn(true)
-      } catch(err) {
-        console.error('Error sending access token to backend', err);
-      }
-    },
-  });
+
+
+  const responseGoogle = async (response) => {
+    console.log(response.credential);
+    const credential = response.credential;
+    try{
+      const backendResponse = await axios.post('http://localhost:9090/process-google-token', credential);
+      console.log('Backend Response:', backendResponse.data);
+      setLoggedIn(true);
+    }catch(error) {
+      console.error('Error sending access token to backend', error);
+    }
+  };
 
   const handleUploadSuccess = () => {
     setIsUploadSuccessful(true);
   }
-  
+
   return (
     <>
     {isLoggedIn ? 
     (<PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>) : 
     (<LoginSignUp>
-        <button onClick={() => login()}>
+        <GoogleLogin
+        onSuccess={responseGoogle}
+        onFailure={responseGoogle}
+        clientId="882008211267-hm9q7m1g6ogig1j1nj1kug0tju1a96i4.apps.googleusercontent.com"
+        buttonText="Login with Google"
+        cookiePolicy={'single_host_origin'}
+        className="google-login-button"
+      />
+      </LoginSignUp>)
+      }
+      {isUploadSuccessful && <PdfDownload></PdfDownload>}
+      {/* {isLoggedIn ? 
+    (<PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>) : 
+    (<LoginSignUp>
+        <button onClick={() => responseGoogle()}>
         <FontAwesomeIcon icon={faGoogle} size='2x' color=''/> 
         </button>
       </LoginSignUp>)
       }
-      {isUploadSuccessful && <PdfDownload></PdfDownload>}
+      {isUploadSuccessful && <PdfDownload></PdfDownload>} */}
     </>
   )
 }
 
 export default App;
+
