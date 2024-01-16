@@ -1,14 +1,14 @@
 package com.example.AI_CV_JAVA.DTO;
 
 public class GoogleTokenRequest {
-    private String accessToken;
+    private String googleToken;
 
-    public String getAccessToken() {
-        return accessToken;
+    public String getGoogleTokenToken() {
+        return googleToken;
     }
 
     public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+        this.googleToken = googleToken;
     }
 
 
