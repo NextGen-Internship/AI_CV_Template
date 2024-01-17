@@ -1,5 +1,6 @@
 package com.example.AI_CV_JAVA.service;
 
+import com.example.AI_CV_JAVA.security.JwtService;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import org.springframework.http.HttpStatus;
@@ -46,6 +47,7 @@ public class GoogleLoginService {
                 String givenName = (String) payload.get("given_name");
 
                 // Use or store profile information
+
 
                 // ...
 
