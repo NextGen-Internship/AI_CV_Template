@@ -1,24 +1,20 @@
 package com.example.AI_CV_JAVA.service;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.stereotype.Service;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import java.util.Collections;
 
-@RestController
-public class GoogleService {
+@Service
+public class GoogleLoginService {
 
-    @PostMapping("/process-google-token")
-    public ResponseEntity<String> processGoogleToken(@RequestBody String googleToken) {
-
+    public ResponseEntity<String> processGoogleToken(String googleToken) {
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
         NetHttpTransport transport = new NetHttpTransport();
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
@@ -34,7 +30,7 @@ public class GoogleService {
             System.out.println("Id token string: " + idTokenString);
             System.out.println("Google id Token object " + idToken.getPayload());
             if (idToken != null) {
-                GoogleIdToken.Payload payload = idToken.getPayload();
+                Payload payload = idToken.getPayload();
 
                 // Print user identifier
                 String userId = payload.getSubject();
@@ -50,6 +46,7 @@ public class GoogleService {
                 String givenName = (String) payload.get("given_name");
 
                 // Use or store profile information
+
                 // ...
 
             } else {
