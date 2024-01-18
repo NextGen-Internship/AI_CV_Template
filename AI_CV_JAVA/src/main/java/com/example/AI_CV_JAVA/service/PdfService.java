@@ -35,13 +35,6 @@ public class PdfService {
         public void readJson(String message) throws JsonProcessingException {
 
         JsonNode jsonNode = makeJson(message);
-            System.out.println(message);
-            System.out.println(jsonNode.asText("name"));
-            System.out.println(jsonNode.asText("summary"));
-            System.out.println(jsonNode.asText("technologies"));
-            System.out.println(jsonNode.asText("education"));
-            System.out.println(jsonNode.asText("experience"));
-
         }
 
 
