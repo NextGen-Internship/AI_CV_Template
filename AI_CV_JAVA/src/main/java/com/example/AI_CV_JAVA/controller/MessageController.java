@@ -20,8 +20,8 @@ public class MessageController {
     }
 
     @GetMapping("/publish")
-    public ResponseEntity<String> sendMessage(@RequestBody byte[] byteArray){
-        producer.sendMessage(byteArray);
+    public ResponseEntity<String> sendMessage(@RequestBody String message){
+        producer.sendMessage(message);
         return ResponseEntity.ok("Message sent");
     }
 
