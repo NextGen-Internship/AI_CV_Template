@@ -17,8 +17,5 @@ public class MessageController {
     public ResponseEntity<String> sendMessage(@RequestBody String message){
         producer.sendMessage(message);
         return ResponseEntity.ok("Message sent");
-    }
-
-
-
+ }
 }
