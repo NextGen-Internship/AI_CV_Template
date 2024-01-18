@@ -22,7 +22,6 @@ public class MultipartController {
         } catch (IOException e) {
               return ResponseEntity.status(500).body("Error during file upload");
         }
-        }
        return ResponseEntity.ok("file uploaded successfully");
     }
 }
