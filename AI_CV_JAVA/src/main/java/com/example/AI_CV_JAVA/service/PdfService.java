@@ -33,7 +33,6 @@ public class PdfService {
 
 
         public void readJson(String message) throws JsonProcessingException {
-
         JsonNode jsonNode = makeJson(message);
         }
 
@@ -41,10 +40,8 @@ public class PdfService {
 
     public void upload(MultipartFile file) throws IOException {
         PDDocument document = PDDocument.load(file.getInputStream());
-
         PDFTextStripper pdfStripper = new PDFTextStripper();
         String text = pdfStripper.getText(document);
-        System.out.println(text);
         producer.sendMessage(text);
         document.close();
 
