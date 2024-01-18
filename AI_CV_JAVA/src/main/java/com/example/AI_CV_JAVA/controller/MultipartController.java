@@ -20,7 +20,8 @@ public class MultipartController {
         try {
             pdfService.upload(file);
         } catch (IOException e) {
-            ResponseEntity.notFound().build();
+              return ResponseEntity.status(500).body("Error during file upload");
+        }
         }
        return ResponseEntity.ok("file uploaded successfully");
     }
