@@ -22,12 +22,6 @@ public class PdfPublisherService {
     private String routingKey;
 
     private final AmqpTemplate rabbitTemplate;
-
-//    @Autowired
-//    public PdfPublisherService(RabbitTemplate rabbitTemplate) {
-//        this.rabbitTemplate = rabbitTemplate;
-//    }this
-
     public void sendMessage(String pdf){
 
         LOGGER.info("MESSAGE SENT");
