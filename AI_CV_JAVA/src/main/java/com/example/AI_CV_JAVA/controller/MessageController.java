@@ -1,6 +1,7 @@
 package com.example.AI_CV_JAVA.controller;
 
 import com.example.AI_CV_JAVA.service.PdfConsumerService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
