@@ -32,51 +32,16 @@ public class PdfService {
     }
 
 
-        public void makePdf(String message){
-            try {
-                File inputFile = new File("Resume - Gallery.pdf");
-                File outputFile = new File("output.pdf");
-                JsonNode param = makeJson(message);
-                String searchText = "Motivated self-starter with over a decade of solid development experience designing innovative and detailed solutions. Quickly adaptable to changing technologies and business requirements with an entrepreneurial initiative and drive.";
-                String replacementText = param.asText("summary"); ;
+        public void readJson(String message) throws JsonProcessingException {
 
-                replaceTextInPDF(inputFile, outputFile, searchText, replacementText);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-//            try {
-//                PDDocument document = new PDDocument();
-//
-//                PDPage page = new PDPage();
-//                document.addPage(page);
-//                JsonNode param = makeJson(message);
-//
-//                PDPageContentStream contentStream = new PDPageContentStream(document, page);
-//                String content = contentStream.getString();
+        JsonNode jsonNode = makeJson(message);
+            System.out.println(message);
+            System.out.println(jsonNode.asText("name"));
+            System.out.println(jsonNode.asText("summary"));
+            System.out.println(jsonNode.asText("technologies"));
+            System.out.println(jsonNode.asText("education"));
+            System.out.println(jsonNode.asText("experience"));
 
-//                if (content.contains("")) {
-//                    content = content.replace(searchText, replacementText);
-//                    contentStream.clear();
-//                    contentStream.writeBytes(content.getBytes());
-//                }
-
-//                contentStream.beginText();
-//                contentStream.newLineAtOffset(10,700); // Set the position
-//                contentStream.showText("Name:");
-//                contentStream.endText();
-//
-//                contentStream.close();
-//
-//                document.save("output.pdf");
-//
-//                document.close();
-//
-//                System.out.println("PDF created successfully.");
-
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
         }
 
 

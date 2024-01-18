@@ -28,7 +28,7 @@ public class PdfPublisherService {
 //        this.rabbitTemplate = rabbitTemplate;
 //    }this
 
-    public void sendMessage(byte[] pdf){
+    public void sendMessage(String pdf){
 
         LOGGER.info("MESSAGE SENT");
         rabbitTemplate.convertAndSend(exchange,routingKey,pdf);
