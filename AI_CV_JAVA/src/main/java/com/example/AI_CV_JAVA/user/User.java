@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.Collection;
 import java.util.List;
@@ -15,7 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "user")
-
 public class User implements UserDetails {
 
     @Id
@@ -25,9 +25,10 @@ public class User implements UserDetails {
     private String lastname;
     private String email;
     private String password;
+    private String pictureUrl;
 
     @Enumerated(EnumType.STRING)
-   private Role role;
+    private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
