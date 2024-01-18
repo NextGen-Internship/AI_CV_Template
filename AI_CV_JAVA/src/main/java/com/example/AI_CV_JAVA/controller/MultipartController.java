@@ -22,7 +22,7 @@ public class MultipartController {
         } catch (IOException e) {
             ResponseEntity.notFound().build();
         }
-       return ResponseEntity.ok("Ok");
+       return ResponseEntity.ok("file uploaded successfully");
     }
 }
 
