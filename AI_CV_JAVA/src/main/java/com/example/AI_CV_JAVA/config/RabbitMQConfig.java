@@ -18,27 +18,18 @@ public class RabbitMQConfig {
 
     @Value("${rabbitmq.queue.listener}")
     private String rabbitmq_queue_listener;
-
-
-
     @Bean
     public Queue queue(){
         return new Queue(queue,true);
     }
-
     @Bean
     public Queue pythonqueue(){
         return new Queue(rabbitmq_queue_listener, true);
     }
-
-
-
-
     @Bean
     public TopicExchange exchange(){
         return new TopicExchange(exchange);
     }
-
     @Bean
     public Binding binding(){
         return BindingBuilder.bind(queue())
