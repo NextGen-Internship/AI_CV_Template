@@ -20,7 +20,7 @@
 
 // LoginSignUp.js
 import React from 'react';
-import './LoginSignup.css';
+import './LoginSignUp.css';
 import GoogleLoginButton from './GoogleLoginButton.jsx'; 
 
 const LoginSignUp = ({ onGoogleLogin }) => {
