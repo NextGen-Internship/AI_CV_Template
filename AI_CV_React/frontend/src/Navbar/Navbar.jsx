@@ -1,12 +1,8 @@
-// Navbar.js
+import React from "react";
+import LogOut from "../Login/Logout";
+import "./Navbar.css";
 
-import React from 'react';
-// import { FaUser } from 'react-icons/fa'; 
-import LogOut from '../Login/Logout';
-import './Navbar.css'
-
-const Navbar = ({ user, onLogout}) => {
-    // console.log(user)
+const Navbar = ({ user, onLogout }) => {
   return (
     <nav className="navbar">
       <div className="navbar-left">
@@ -14,10 +10,9 @@ const Navbar = ({ user, onLogout}) => {
       </div>
       <div className="navbar-right">
         <div className="user-info">
-        {/* <img src={user?.profilePicture} alt="Profile" /> */}
           <span>{user?.email}</span>
-        </div> 
-        <LogOut onLogout={onLogout}/>
+        </div>
+        <LogOut onLogout={onLogout} />
       </div>
     </nav>
   );

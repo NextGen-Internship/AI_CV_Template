@@ -1,13 +1,10 @@
-/* PdfUpload.css */
-
-
-#upload-div{
+#upload-div {
   display: flex;
   flex-direction: column;
   margin: auto;
   margin-top: 50px;
-  width: 80%; 
-  max-width: 1000px; 
+  width: 80%;
+  max-width: 1000px;
   background: #fff;
   padding: 20px;
   border-radius: 15px;
@@ -15,41 +12,39 @@
 }
 
 #upload-pdf {
-    margin-bottom: 10px;
-    font-weight: bold;
-    font-size: 25px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 25px;
 }
 
-/* Input styles */
 #upload-file-input {
-    display: none; /* Hide the default file input */
+  display: none;
 }
 
-#upload-file-input{
-    color: white;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 15px;
+#upload-file-input {
+  color: white;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 15px;
 }
 
-/* Button styles */
 #upload-button {
-    background-color: #3c009d;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    margin-top: 10px;
-    width: 30%;
+  background-color: #3c009d;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 30%;
 }
 
 #upload-button:hover {
-    background-color: #42006C;
+  background-color: #42006c;
 }
 
 @media (max-width: 768px) {
-    #upload-div {
-      width: 90%; /* Adjusted width for smaller screens */
-    }
+  #upload-div {
+    width: 90%;
   }
+}

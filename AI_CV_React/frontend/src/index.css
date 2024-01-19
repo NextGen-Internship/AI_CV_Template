@@ -11,7 +11,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100vh;
-  background: linear-gradient(#2A00B7, #42006C);
+  background: linear-gradient(#2a00b7, #42006c);
 }
 
 button {
@@ -23,7 +23,9 @@ button {
   font-family: inherit;
   background-color: #d7cfdc;
   cursor: pointer;
-  transition: background-color 0.25s, border-color 0.25s;
+  transition:
+    background-color 0.25s,
+    border-color 0.25s;
   width: 30%;
   margin: auto;
   margin-top: 20px;
