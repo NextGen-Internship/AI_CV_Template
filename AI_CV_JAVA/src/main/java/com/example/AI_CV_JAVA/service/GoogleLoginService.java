@@ -37,7 +37,8 @@ public class GoogleLoginService {
 
             Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
             if (existingUser.isPresent()) {
-                return new ResponseEntity<>("User already exists", HttpStatus.OK);
+                String jwtNew = jwtService.generateToken(user);
+                return new ResponseEntity<>(jwtNew, HttpStatus.OK);
             }
 
             userRepository.save(user);
