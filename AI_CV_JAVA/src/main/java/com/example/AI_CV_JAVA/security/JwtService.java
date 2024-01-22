@@ -1,5 +1,6 @@
 package com.example.AI_CV_JAVA.security;
 
+import com.example.AI_CV_JAVA.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -41,6 +42,12 @@ public class JwtService {
             Map<String, Object> extraClaims,
             UserDetails userDetails
     ) {
+
+        if (userDetails instanceof User user) {
+            Integer userId = user.getId();
+            extraClaims.put("userid", userId);
+        }
+
         //Calculating minutes in ms
         long totalExpirationTimeMs = expirationMinutes * 60 * 1000;
         return Jwts
