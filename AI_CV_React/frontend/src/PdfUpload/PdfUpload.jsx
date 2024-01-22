@@ -42,6 +42,7 @@ const PdfUpload = () => {
   return (
     <div id="upload-div">
       <label id="upload-pdf">Upload PDF:</label>
+      <i className="fa fa-download" aria-hidden="true"></i>
       <label htmlFor="upload-file-input" id="upload-file-label">
         {selectedFile ? selectedFile.name : "Choose PDF File"}
       </label>

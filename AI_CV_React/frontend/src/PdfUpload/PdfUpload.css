@@ -1,3 +1,5 @@
+@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css);
+
 #upload-div {
   display: flex;
   flex-direction: column;
@@ -12,7 +14,7 @@
 }
 
 #upload-pdf {
-  margin-bottom: 10px;
+  margin-bottom: 30px;
   font-weight: bold;
   font-size: 25px;
 }
@@ -41,6 +43,16 @@
 
 #upload-button:hover {
   background-color: #42006c;
+}
+
+.fa.fa-download {
+  font-size: 60px;
+  color: grey;
+}
+
+.fas.fa-download {
+  font-size: 16px;
+  color: #333;
 }
 
 @media (max-width: 768px) {

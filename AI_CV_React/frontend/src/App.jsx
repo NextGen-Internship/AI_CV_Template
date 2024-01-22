@@ -10,6 +10,7 @@ import PdfDownload from "./PdfDownload/PdfDownload";
 import LogOut from "./Login/Logout";
 import Navbar from "./Navbar/Navbar";
 import { jwtDecode } from "jwt-decode";
+import HomePage from "./HomePage/HomePage";
 
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -32,34 +33,6 @@ function App() {
     }
   };
 
-  const responseGoogle = async (response) => {
-    console.log(response.credential);
-    const credential = response.credential;
-    try {
-      const backendResponse = await axios.post(
-        "http://localhost:9090/process-google-token",
-        credential
-      );
-      console.log("Backend Response:", backendResponse.data);
-      const jwtToken = backendResponse.data;
-      localStorage.setItem("jwtToken", jwtToken);
-      const decodedToken = jwtDecode(jwtToken);
-      console.log(decodedToken);
-
-      if (decodedToken) {
-        setUser({
-          email: decodedToken.sub,
-          exp: decodedToken.exp,
-          iat: decodedToken.iat,
-        });
-
-        setLoggedIn(true);
-      }
-    } catch (error) {
-      console.error("Error sending access token to backend", error);
-    }
-  };
-
   const handleUploadSuccess = () => {
     setIsUploadSuccessful(true);
   };
@@ -68,19 +41,27 @@ function App() {
     setLoggedIn(false);
     setUser(null);
     localStorage.removeItem("jwtToken");
+    localStorage.removeItem("userID");
   };
 
   useEffect(() => {
     console.log("User updated:", user);
+    // localStorage.setItem("userID", user?.userid);
+    if (user && user.userid !== undefined) {
+      localStorage.setItem("userID", user.userid);
+    }
   }, [user]);
 
   return (
     <>
-      <Navbar user={user} onLogout={handleLogout} />
+      {/* <Navbar user={user} onLogout={handleLogout} /> */}
       {isLoggedIn ? (
-        <PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>
+        <>
+          <Navbar user={user} onLogout={handleLogout} />
+          <PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>
+        </>
       ) : (
-        <LoginSignUp onGoogleLogin={responseGoogle} />
+        <HomePage setUser={setUser} setLoggedIn={setLoggedIn} />
       )}
       {isUploadSuccessful && <PdfDownload></PdfDownload>}
     </>
