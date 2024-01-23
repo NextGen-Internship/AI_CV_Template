@@ -13,8 +13,8 @@ const HomePage = ({ setUser, setLoggedIn }) => {
         "http://localhost:9090/process-google-token",
         credential
       );
-      console.log("Backend Response:", backendResponse.data);
-      const jwtToken = backendResponse.data;
+      console.log("Backend Response:", backendResponse.data.token);
+      const jwtToken = backendResponse.data.token;
       localStorage.setItem("jwtToken", jwtToken);
       const decodedToken = jwtDecode(jwtToken);
       console.log(decodedToken);
