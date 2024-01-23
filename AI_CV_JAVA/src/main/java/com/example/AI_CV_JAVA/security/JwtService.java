@@ -20,6 +20,7 @@ import java.util.function.Function;
 public class JwtService {
     @Value("${jwt.secret-key}")
     private String SECRET_KEY;
+
     @Value("${jwt.expiration-time-minutes}")
     private long expirationMinutes;
 
@@ -37,7 +38,6 @@ public class JwtService {
         return generateToken(new HashMap<>(), userDetails);
     }
 
-    // Generate a token
     public String generateToken(
             Map<String, Object> extraClaims,
             UserDetails userDetails
@@ -47,7 +47,6 @@ public class JwtService {
             extraClaims.put("userid", userId);
         }
 
-        //Calculating minutes in ms
         long totalExpirationTimeMs = expirationMinutes * 60 * 1000;
         return Jwts
                 .builder()

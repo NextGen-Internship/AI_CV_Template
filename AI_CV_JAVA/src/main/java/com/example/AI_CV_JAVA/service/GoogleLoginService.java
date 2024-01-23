@@ -1,6 +1,6 @@
 package com.example.AI_CV_JAVA.service;
 
-import com.example.AI_CV_JAVA.DTO.UserDTO;
+import com.example.AI_CV_JAVA.auth.AuthenticationResponse;
 import com.example.AI_CV_JAVA.security.JwtService;
 import com.example.AI_CV_JAVA.user.User;
 import com.example.AI_CV_JAVA.user.UserRepository;
@@ -25,30 +25,31 @@ public class GoogleLoginService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
 
-    public ResponseEntity<String> processGoogleToken(String googleToken) {
+    public AuthenticationResponse processGoogleToken(String googleToken) {
         try {
             GoogleIdToken idToken = verifyGoogleToken(googleToken);
             Payload payload = idToken.getPayload();
-
-            String userId = payload.getSubject();
-            System.out.println("User ID: " + userId);
-
             User user = extractUserFromPayload(payload);
 
             Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
             if (existingUser.isPresent()) {
                 User oldUser = existingUser.get();
                 String jwtNew = jwtService.generateToken(oldUser);
-                return new ResponseEntity<>(jwtNew, HttpStatus.OK);
+                return AuthenticationResponse.builder()
+                        .token(jwtNew)
+                        .build();
             }
 
             userRepository.save(user);
             String jwtToken = jwtService.generateToken(user);
-
-            return new ResponseEntity<>(jwtToken, HttpStatus.OK);
+            return AuthenticationResponse.builder()
+                    .token(jwtToken)
+                    .build();
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Error processing Google Id token", HttpStatus.INTERNAL_SERVER_ERROR);
+            return AuthenticationResponse.builder()
+                    .error("Error processing Google Id token")
+                    .build();
         }
     }
 

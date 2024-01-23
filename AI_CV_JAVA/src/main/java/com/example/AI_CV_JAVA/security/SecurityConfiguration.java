@@ -18,8 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration {
 
     private static final String[] WHITE_LIST_URL = {"/api/v1/auth/**",
-            "/process-google-token",
-            "/users/{id}"
+            "/process-google-token"
             };
 
     private final JwtAuthenticationFilter jwtAuthFilter;

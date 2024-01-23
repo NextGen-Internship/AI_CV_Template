@@ -27,7 +27,8 @@ public class User implements UserDetails {
     private String pictureUrl;
 
     @Enumerated(EnumType.STRING)
-    private Role role;
+    @Builder.Default
+    private Role role = Role.USER;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
