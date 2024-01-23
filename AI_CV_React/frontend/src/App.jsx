@@ -41,7 +41,7 @@ function App() {
     console.log(response.credential);
     const credential = response.credential;
     try{
-      const backendResponse = await axios.post('http://localhost:9090/process-google-token', credential);
+      const backendResponse = await axios.post('http://localhost:8080/process-google-token', credential);
       console.log('Backend Response:', backendResponse.data);
       const jwtToken = backendResponse.data;
       localStorage.setItem('jwtToken', jwtToken);
