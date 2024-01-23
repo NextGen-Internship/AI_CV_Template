@@ -42,7 +42,6 @@ public class JwtService {
             Map<String, Object> extraClaims,
             UserDetails userDetails
     ) {
-
         if (userDetails instanceof User user) {
             Integer userId = user.getId();
             extraClaims.put("userid", userId);
