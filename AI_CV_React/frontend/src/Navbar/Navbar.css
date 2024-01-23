@@ -13,7 +13,7 @@ li {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
+  padding: 20px 20px;
   background-color: #333;
   color: white;
   background: transparent;
@@ -72,4 +72,19 @@ button:hover {
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+}
+
+.userProfile {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  margin-right: 20px;
+  margin-top: 22px;
+}
+
+.userName {
+  margin-right: 15px;
+  margin-top: 18px;
 }

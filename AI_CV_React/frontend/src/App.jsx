@@ -19,15 +19,31 @@ function App() {
 
   const checkToken = async () => {
     const storedToken = localStorage.getItem("jwtToken");
+    console.log(storedToken);
+    const id = localStorage.getItem("userID");
     if (storedToken) {
       try {
         const decodedToken = jwtDecode(storedToken);
         if (decodedToken) {
-          setUser(decodedToken.user);
+          const response = await axios.get(
+            `http://localhost:9090/users/${id}`,
+            {
+              // headers: {
+              //   Authorization: `Bearer ${storedToken}`,
+              // },
+            }
+          );
+
+          setUser(response.data);
+          // console.log(response.data.firstname);
+          localStorage.setItem("userInfo", JSON.stringify(response.data));
           setLoggedIn(true);
         }
       } catch (error) {
-        console.error("Error decoding JWT token:", error.message);
+        console.error(
+          "Error decoding or fetching user information:",
+          error.message
+        );
         localStorage.removeItem("jwtToken");
       }
     }
@@ -42,20 +58,24 @@ function App() {
     setUser(null);
     localStorage.removeItem("jwtToken");
     localStorage.removeItem("userID");
+    localStorage.removeItem("userInfo");
   };
 
   useEffect(() => {
     console.log("User updated:", user);
-    // localStorage.setItem("userID", user?.userid);
     if (user && user.userid !== undefined) {
       localStorage.setItem("userID", user.userid);
     }
   }, [user]);
 
+  useEffect(() => {
+    checkToken();
+  }, [isLoggedIn]);
+
   return (
     <>
       {/* <Navbar user={user} onLogout={handleLogout} /> */}
-      {isLoggedIn ? (
+      {localStorage.getItem("jwtToken") ? (
         <>
           <Navbar user={user} onLogout={handleLogout} />
           <PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>
