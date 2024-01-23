@@ -4,7 +4,7 @@ import json
 
 def publish_message_to_rabbitmq(data):
     data_to_string = json.dumps(data)
-    connection_parameters = pika.ConnectionParameters('localhost')
+    connection_parameters = pika.ConnectionParameters('rabbit')
     connection = pika.BlockingConnection(connection_parameters)
     channel = connection.channel()
     channel.queue_declare(queue='json_python', durable=True)

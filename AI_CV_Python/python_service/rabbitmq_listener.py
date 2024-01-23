@@ -16,11 +16,11 @@ def on_message_received(ch, method, properties, body):
 
 def listen_for_message_rabbitmq():
     connection_parameters = pika.ConnectionParameters(
-        host='localhost',  # Replace with your RabbitMQ server host
+        host='rabbit',  # Replace with your RabbitMQ server host
         port=5672,  # Replace with RabbitMQ server port if different
         credentials=pika.credentials.PlainCredentials(
-            username='guest',  # Replace with your RabbitMQ username
-            password='guest'  # Replace with your RabbitMQ password
+            username='admin',  # Replace with your RabbitMQ username
+            password='admin'  # Replace with your RabbitMQ password
         )
     )
     connection = pika.BlockingConnection(connection_parameters)
