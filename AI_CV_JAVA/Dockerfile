@@ -1,13 +1,10 @@
-# FROM openjdk:23-jdk-slim
-#
-# COPY target/*.jar app.jar
-#
-# CMD ["java", "-jar", "/app.jar"]
 FROM maven:3-eclipse-temurin-21 AS builder
 
 WORKDIR /app
 
-COPY . .
+COPY pom.xml .
+
+COPY src src
 
 RUN mvn clean package
 
