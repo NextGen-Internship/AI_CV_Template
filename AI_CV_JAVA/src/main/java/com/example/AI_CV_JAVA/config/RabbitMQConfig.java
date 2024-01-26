@@ -15,9 +15,10 @@ public class RabbitMQConfig {
     @Value("${rabbitmq.exchange.name}")
     private String exchange;
     @Value("${rabbitmq.routing.key}")
-    private String routing_key;
+    private String routingKeyIn;
+
     @Value("${rabbitmq.queue.listener}")
-    private String rabbitmq_queue_listener;
+    private String queueOut;
 
     @Bean
     public Queue queue() {
@@ -25,8 +26,8 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Queue pythonqueue() {
-        return new Queue(rabbitmq_queue_listener, true);
+    public Queue queueOut() {
+        return new Queue(this.queueOut, true);
     }
 
     @Bean
@@ -38,6 +39,6 @@ public class RabbitMQConfig {
     public Binding binding() {
         return BindingBuilder.bind(queue())
                 .to(exchange())
-                .with(routing_key);
+                .with(routingKeyIn);
     }
 }
