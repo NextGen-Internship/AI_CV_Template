@@ -1,0 +1,59 @@
+version: "3.8"
+services:
+  rabbit:
+    image: 'rabbitmq:3.12.11-management-alpine'
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    environment:
+      AMQP_URL: "amqp://rabbitmq?connection_attempts=5&retry_delay=5"
+      RABBITMQ_DEFAULT_USER: "guest"
+      RABBITMQ_DEFAULT_PASS: "guest"
+    networks:
+      - network
+  db:
+    environment:
+      MYSQL_ROOT_PASSWORD: rootroot
+      MYSQL_USER: user
+      MYSQL_PASSWORD: rootroot
+      MYSQL_DATABASE: ai_cv
+    container_name: db
+    image: mysql
+    volumes:
+      - mysql_volume:/var/lib/mysql
+    ports:
+      - 3306:3306
+    networks:
+      - network
+
+  frontend:
+    build: ./AI_CV_React/frontend
+    container_name: frontend
+    ports:
+      - '5173:5173'
+    networks:
+      - network
+
+  backend_python:
+    build: ./AI_CV_Python
+    container_name: backend_python
+    ports:
+      - '5001:5001'
+    networks:
+      - network
+
+  backend_java:
+    build: ./AI_CV_JAVA
+    container_name: backend_java
+    ports:
+      - '8080:8080'
+    networks:
+      - network
+
+
+volumes:
+  mysql_volume:
+
+networks:
+  network:
+    driver: bridge
