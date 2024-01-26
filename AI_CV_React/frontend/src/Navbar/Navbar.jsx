@@ -29,7 +29,6 @@ const Navbar = ({ user, onLogout }) => {
   return (
     <nav className="navbar">
       <div className="navbar-left">
-        {/* <img src="/public/images.jpeg" alt="Logo" className="logo" /> */}
       </div>
       <div className="navbar-right">
         <div className="user-info">

@@ -2,13 +2,8 @@ import React from "react";
 import "./Logout.css";
 
 const LogOut = ({ onLogout }) => {
-  const handleLogoutSuccess = () => {
-    console.log("Logout successful");
-  };
-
   const handleLogout = () => {
     onLogout();
-    console.log("Logout successful");
   };
 
   return (

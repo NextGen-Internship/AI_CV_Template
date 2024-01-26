@@ -6,18 +6,15 @@ import { jwtDecode } from "jwt-decode";
 
 const HomePage = ({ setUser, setLoggedIn }) => {
   const responseGoogle = async (response) => {
-    console.log(response.credential);
     const credential = response.credential;
     try {
       const backendResponse = await axios.post(
-        "http://localhost:9090/process-google-token",
+        "http://localhost:8080/process-google-token",
         credential
       );
-      console.log("Backend Response:", backendResponse.data.token);
       const jwtToken = backendResponse.data.token;
       localStorage.setItem("jwtToken", jwtToken);
       const decodedToken = jwtDecode(jwtToken);
-      console.log(decodedToken);
 
       if (decodedToken) {
         setUser({

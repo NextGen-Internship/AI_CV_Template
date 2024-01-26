@@ -19,14 +19,13 @@ function App() {
 
   const checkToken = async () => {
     const storedToken = localStorage.getItem("jwtToken");
-    console.log(storedToken);
     const id = localStorage.getItem("userID");
     if (storedToken) {
       try {
         const decodedToken = jwtDecode(storedToken);
         if (decodedToken) {
           const response = await axios.get(
-            `http://localhost:9090/api/v1/users/${id}`,
+            `http://localhost:8080/api/v1/users/${id}`,
             {
               headers: {
                 Authorization: `Bearer ${storedToken}`,
@@ -35,7 +34,6 @@ function App() {
           );
 
           setUser(response.data);
-          // console.log(response.data.firstname);
           localStorage.setItem("userInfo", JSON.stringify(response.data));
           setLoggedIn(true);
         }
@@ -62,7 +60,6 @@ function App() {
   };
 
   useEffect(() => {
-    console.log("User updated:", user);
     if (user && user.userid !== undefined) {
       localStorage.setItem("userID", user.userid);
     }
@@ -74,7 +71,6 @@ function App() {
 
   return (
     <>
-      {/* <Navbar user={user} onLogout={handleLogout} /> */}
       {localStorage.getItem("jwtToken") ? (
         <>
           <Navbar user={user} onLogout={handleLogout} />

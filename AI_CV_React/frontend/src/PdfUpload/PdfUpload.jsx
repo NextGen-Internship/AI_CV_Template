@@ -11,7 +11,6 @@ const PdfUpload = () => {
 
   const handleUpload = () => {
     if (selectedFile) {
-      console.log("Selected File:", selectedFile);
 
       const formData = new FormData();
       formData.append("file", selectedFile);
@@ -27,7 +26,6 @@ const PdfUpload = () => {
           return response.json();
         })
         .then((data) => {
-          console.log("File uploaded successfully:", data);
           setSelectedFile(null);
           onUploadSuccess();
         })
