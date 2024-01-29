@@ -10,4 +10,5 @@ def home():
 
 if __name__ == '__main__':
     start_listening()
-    app.run(port=5000)
+
+app.run(port=5000)

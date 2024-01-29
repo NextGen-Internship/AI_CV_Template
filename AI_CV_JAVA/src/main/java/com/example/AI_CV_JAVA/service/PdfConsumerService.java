@@ -1,6 +1,5 @@
 package com.example.AI_CV_JAVA.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -14,7 +13,7 @@ public class PdfConsumerService {
     private final PdfService pdfService;
 
     @RabbitListener(queues = "${rabbitmq.queue.listener}")
-    public void consume(String message) throws JsonProcessingException {
+    public void consume(String message) throws Exception {
         log.info(String.format("Received message -> %s", message));
         pdfService.readJson(message);
     }
