@@ -1,0 +1,62 @@
+@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css);
+
+#upload-div {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  margin-top: 50px;
+  width: 80%;
+  max-width: 1000px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#upload-pdf {
+  margin-bottom: 30px;
+  font-weight: bold;
+  font-size: 25px;
+}
+
+#upload-file-input {
+  display: none;
+}
+
+#upload-file-input {
+  color: white;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 15px;
+}
+
+#upload-button {
+  background-color: #3c009d;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 30%;
+}
+
+#upload-button:hover {
+  background-color: #42006c;
+}
+
+.fa.fa-download {
+  font-size: 60px;
+  color: grey;
+}
+
+.fas.fa-download {
+  font-size: 16px;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  #upload-div {
+    width: 90%;
+  }
+}

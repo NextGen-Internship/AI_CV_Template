@@ -1,0 +1,7 @@
+.logout-btn {
+  width: 100px;
+  background-color: white;
+  border: none; /* Remove border to make it look cleaner */
+  cursor: pointer;
+  padding: 10px;
+}

@@ -1,0 +1,61 @@
+import React, { useState } from "react";
+import "./PdfUpload.css";
+
+const PdfUpload = () => {
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+  };
+
+  const handleUpload = () => {
+    if (selectedFile) {
+
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+
+
+      fetch('localhost:8080/pdf/upload', {
+        method: 'POST',
+        body: formData,
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("File upload failed");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setSelectedFile(null);
+          onUploadSuccess();
+        })
+        .catch((error) => {
+          console.error("Error uploading file:", error);
+        });
+    } else {
+      console.log("No file selected");
+    }
+  };
+
+  return (
+    <div id="upload-div">
+      <label id="upload-pdf">Upload PDF:</label>
+      <i className="fa fa-download" aria-hidden="true"></i>
+      <label htmlFor="upload-file-input" id="upload-file-label">
+        {selectedFile ? selectedFile.name : "Choose PDF File"}
+      </label>
+      <input
+        type="file"
+        accept=".pdf"
+        onChange={handleFileChange}
+        id="upload-file-input"
+      />
+      <button onClick={handleUpload} id="upload-button">
+        Upload PDF
+      </button>
+    </div>
+  );
+};
+
+export default PdfUpload;
