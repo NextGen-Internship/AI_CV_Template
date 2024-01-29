@@ -1,10 +1,10 @@
-#download-div{
+#download-div {
   display: flex;
   flex-direction: column;
   margin: auto;
   margin-top: 50px;
-  width: 80%; 
-  max-width: 1000px; 
+  width: 80%;
+  max-width: 1000px;
   background: #fff;
   padding: 20px;
   border-radius: 15px;
@@ -12,36 +12,36 @@
 }
 
 #download-pdf {
-    margin-bottom: 5px;
-    font-weight: bold;
-    font-size: 25px;
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 25px;
 }
 
-.preview{
-    height: 300px;
-    margin: 30px;
-    width: 90%;
+.preview {
+  height: 300px;
+  margin: 30px;
+  width: 90%;
 }
 
 #download-button {
-    background-color: #3c009d;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    margin-top: 10px;
-    width: 30%;
-    margin-top: 10px;
-    margin-bottom: 10px;
+  background-color: #3c009d;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 30%;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 #download-button:hover {
-    background-color: #42006C;
+  background-color: #42006c;
 }
 
 .pdf-container {
-    width: 100%;
-    max-width: 900px; /* Set a maximum width if needed */
-    margin: 0 auto; /* Center the container */
-  }
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
