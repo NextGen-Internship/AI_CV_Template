@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1")
 public class MessageController {
-
     private final PdfPublisherService producer;
     private final PdfConsumerService consumer;
 
