@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @Table(name = "technologies")
 public class Technology {
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
     private long id;
 
     @Column(nullable = false)
