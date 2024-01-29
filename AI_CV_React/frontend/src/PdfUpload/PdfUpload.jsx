@@ -11,8 +11,6 @@ const PdfUpload = () => {
 
   const handleUpload = () => {
     if (selectedFile) {
-      console.log("Selected File:", selectedFile);
-
       const formData = new FormData();
       formData.append("file", selectedFile);
 
@@ -27,7 +25,6 @@ const PdfUpload = () => {
           return response.json();
         })
         .then((data) => {
-          console.log("File uploaded successfully:", data);
           setSelectedFile(null);
           onUploadSuccess();
         })
@@ -42,6 +39,7 @@ const PdfUpload = () => {
   return (
     <div id="upload-div">
       <label id="upload-pdf">Upload PDF:</label>
+      <i className="fa fa-download" aria-hidden="true"></i>
       <label htmlFor="upload-file-input" id="upload-file-label">
         {selectedFile ? selectedFile.name : "Choose PDF File"}
       </label>

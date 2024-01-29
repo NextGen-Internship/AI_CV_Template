@@ -4,9 +4,10 @@ import threading
 from python_service.ai import handle_cv
 import os
 
+
 def convert_message(message):
     return message.decode('utf-8')
-    
+
 
 def on_message_received(ch, method, properties, body):
     ch.basic_ack(delivery_tag=method.delivery_tag)
@@ -29,7 +30,6 @@ def listen_for_message_rabbitmq():
     channel = connection.channel()
     channel.queue_declare(queue='javaguides', durable=True)
     channel.basic_consume(queue='javaguides', auto_ack=False, on_message_callback=on_message_received)
-
     print("Start consuming")
     channel.start_consuming()
 
@@ -37,4 +37,3 @@ def listen_for_message_rabbitmq():
 def start_listening():
     thread = threading.Thread(target=listen_for_message_rabbitmq)
     thread.start()
-
