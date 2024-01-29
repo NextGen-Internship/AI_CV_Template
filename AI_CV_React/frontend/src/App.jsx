@@ -1,112 +1,87 @@
-import { useState, useEffect } from 'react'
-import './App.css'
-import { GoogleLogin, googleLogout } from '@react-oauth/google';
-import axios from 'axios';
-import LoginSignUp from './Login/LoginSignUp';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGoogle } from '@fortawesome/free-brands-svg-icons';
-import PdfUpload from './PdfUpload/PdfUpload';
-import PdfDownload from './PdfDownload/PdfDownload';
-import LogOut from './Login/Logout';
-import Navbar from './Navbar/Navbar';
+import { useState, useEffect } from "react";
+import "./App.css";
+import { GoogleLogin, googleLogout } from "@react-oauth/google";
+import axios from "axios";
+import LoginSignUp from "./Login/LoginSignUp";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import PdfUpload from "./PdfUpload/PdfUpload";
+import PdfDownload from "./PdfDownload/PdfDownload";
+import LogOut from "./Login/Logout";
+import Navbar from "./Navbar/Navbar";
 import { jwtDecode } from "jwt-decode";
-// import jwt from 'jsonwebtoken';
-
+import HomePage from "./HomePage/HomePage";
 
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isUploadSuccessful, setIsUploadSuccessful] = useState(false);
   const [user, setUser] = useState(null);
 
-
   const checkToken = async () => {
-    const storedToken = localStorage.getItem('jwtToken');
+    const storedToken = localStorage.getItem("jwtToken");
+    const id = localStorage.getItem("userID");
     if (storedToken) {
       try {
         const decodedToken = jwtDecode(storedToken);
         if (decodedToken) {
-          setUser(decodedToken.user); 
+          const response = await axios.get(
+            `http://localhost:8080/api/v1/users/${id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${storedToken}`,
+              },
+            }
+          );
+
+          setUser(response.data);
+          localStorage.setItem("userInfo", JSON.stringify(response.data));
           setLoggedIn(true);
         }
       } catch (error) {
-        console.error('Error decoding JWT token:', error.message);
-        // Clear the invalid token from localStorage
-        localStorage.removeItem('jwtToken');
+        console.error(
+          "Error decoding or fetching user information:",
+          error.message
+        );
+        localStorage.removeItem("jwtToken");
       }
-    }
-  };
-
-
-  const responseGoogle = async (response) => {
-    console.log(response.credential);
-    const credential = response.credential;
-    try{
-      const backendResponse = await axios.post('http://localhost:8080/process-google-token', credential);
-      console.log('Backend Response:', backendResponse.data);
-      const jwtToken = backendResponse.data;
-      localStorage.setItem('jwtToken', jwtToken);
-      const decodedToken = jwtDecode(jwtToken);
-      console.log(decodedToken)
-
-      if (decodedToken) {
-        // console.log(decodedToken.user)
-        // setUser(decodedToken.user);
-
-        setUser({
-          email: decodedToken.sub,
-          exp: decodedToken.exp,
-          iat: decodedToken.iat
-        })
-
-        // console.log(user)
-
-        setLoggedIn(true);
-      }
-
-      // console.log('Backend Response:', backendResponse.data);
-      // console.log(backendResponse.data.user)
-      // setUser(backendResponse.data.user)
-      // setLoggedIn(true);
-    }catch(error) {
-      console.error('Error sending access token to backend', error);
     }
   };
 
   const handleUploadSuccess = () => {
     setIsUploadSuccessful(true);
-  }
+  };
 
   const handleLogout = () => {
     setLoggedIn(false);
     setUser(null);
-    localStorage.removeItem('jwtToken');
+    localStorage.removeItem("jwtToken");
+    localStorage.removeItem("userID");
+    localStorage.removeItem("userInfo");
   };
 
   useEffect(() => {
-    console.log("User updated:", user);
+    if (user && user.userid !== undefined) {
+      localStorage.setItem("userID", user.userid);
+    }
   }, [user]);
+
+  useEffect(() => {
+    checkToken();
+  }, [isLoggedIn]);
 
   return (
     <>
-    <Navbar user={user} onLogout={handleLogout} />
-    {isLoggedIn ? 
-    (<PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>
-    ) : 
-    (<LoginSignUp onGoogleLogin={responseGoogle} />)
-      }
+      {localStorage.getItem("jwtToken") ? (
+        <>
+          <Navbar user={user} onLogout={handleLogout} />
+          <PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>
+        </>
+      ) : (
+        <HomePage setUser={setUser} setLoggedIn={setLoggedIn} />
+      )}
       {isUploadSuccessful && <PdfDownload></PdfDownload>}
-      {/* {isLoggedIn ? 
-    (<PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>) : 
-    (<LoginSignUp>
-        <button onClick={() => responseGoogle()}>
-        <FontAwesomeIcon icon={faGoogle} size='2x' color=''/> 
-        </button>
-      </LoginSignUp>)
-      }
-      {isUploadSuccessful && <PdfDownload></PdfDownload>} */}
     </>
-  )
+  );
 }
 
 export default App;
-

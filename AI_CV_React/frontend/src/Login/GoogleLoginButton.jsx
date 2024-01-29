@@ -1,8 +1,15 @@
-import React from 'react';
-import { GoogleLogin} from '@react-oauth/google';
-import PropTypes from 'prop-types';
+import React from "react";
+import { GoogleLogin } from "@react-oauth/google";
+import PropTypes from "prop-types";
 
-const GoogleLoginButton = ({ onSuccess, onFailure, clientId, buttonText, cookiePolicy, className }) => {
+const GoogleLoginButton = ({
+  onSuccess,
+  onFailure,
+  clientId,
+  buttonText,
+  cookiePolicy,
+  className,
+}) => {
   return (
     <GoogleLogin
       onSuccess={onSuccess}
@@ -11,15 +18,6 @@ const GoogleLoginButton = ({ onSuccess, onFailure, clientId, buttonText, cookieP
       buttonText={buttonText}
       cookiePolicy={cookiePolicy}
       className={className}
-    //   render={(renderProps) => (
-    //     <button
-    //       onClick={renderProps.onClick}
-    //       disabled={renderProps.disabled}
-    //       className={className}
-    //     >
-    //       {buttonText}
-    //     </button>
-    //   )}
     />
   );
 };
