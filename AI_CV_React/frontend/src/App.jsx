@@ -25,7 +25,7 @@ function App() {
         const decodedToken = jwtDecode(storedToken);
         if (decodedToken) {
           const response = await axios.get(
-            `http://backend_java/api/v1/users/${id}`,
+            `http://localhost:8080/api/v1/users/${id}`,
             {
               headers: {
                 Authorization: `Bearer ${storedToken}`,

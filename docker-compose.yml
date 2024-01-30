@@ -31,6 +31,11 @@ services:
       - 3306:3306
     networks:
       - network
+#    healthcheck:
+#      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "user", "-prootroot" ]
+#      interval: 5s
+#      timeout: 5s
+#      retries: 3
 
   frontend:
     build: ./AI_CV_React/frontend
@@ -39,11 +44,11 @@ services:
       - '5173:5173'
     networks:
       - network
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:5173/" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+#    healthcheck:
+#      test: [ "CMD", "curl", "-f", "http://localhost:5173/" ]
+#      interval: 30s
+#      timeout: 10sa
+#      retries: 3
     volumes:
       - ./AI_CV_React/frontend:/app:delegated
       - /app/node_modules
@@ -71,6 +76,8 @@ services:
     depends_on:
       rabbit:
         condition: service_healthy
+      db:
+        condition: service_started
 
 
 volumes:

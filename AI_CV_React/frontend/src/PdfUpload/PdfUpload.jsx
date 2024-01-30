@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import axios from "axios";
 import "./PdfUpload.css";
 
-const PdfUpload = () => {
+const PdfUpload = ({onUploadSuccess}) => {
   const [selectedFile, setSelectedFile] = useState(null);
 
   const handleFileChange = (event) => {
@@ -12,28 +13,25 @@ const PdfUpload = () => {
   const handleUpload = () => {
     if (selectedFile) {
       const formData = new FormData();
+      const storedToken = localStorage.getItem("jwtToken");
       formData.append("file", selectedFile);
 
-      fetch("backend_java/pdf/upload", {
-        method: "POST",
-        body: formData,
+      axios.post("http://localhost:8080/pdf/upload", formData, {
+      headers: {
+        Authorization: `Bearer ${storedToken}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+      .then((response) => {
+        setSelectedFile(null);
+        // onUploadSuccess();
       })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("File upload failed");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          setSelectedFile(null);
-          onUploadSuccess();
-        })
-        .catch((error) => {
-          console.error("Error uploading file:", error);
-        });
-    } else {
-      console.log("No file selected");
-    }
+      .catch((error) => {
+        console.error("Error uploading file:", error);
+      });
+  } else {
+    console.log("No file selected");
+  }
   };
 
   return (
