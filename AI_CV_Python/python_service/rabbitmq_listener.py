@@ -2,6 +2,7 @@ import pika
 import json
 import threading
 from python_service.ai import handle_cv
+import os
 
 
 def convert_message(message):
@@ -17,13 +18,14 @@ def on_message_received(ch, method, properties, body):
 
 def listen_for_message_rabbitmq():
     connection_parameters = pika.ConnectionParameters(
-        host='localhost',
-        port=5672,
+        host='rabbit',
+        port=5672,  
         credentials=pika.credentials.PlainCredentials(
-            username='guest',
-            password='guest'
+            username='admin',  
+            password='admin'  
         )
     )
+        
     connection = pika.BlockingConnection(connection_parameters)
     channel = connection.channel()
     channel.queue_declare(queue='javaguides', durable=True)

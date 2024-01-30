@@ -1,14 +1,20 @@
 version: "3.8"
 services:
   rabbit:
+    container_name: rabbit
     image: 'rabbitmq:3.12.11-management-alpine'
     ports:
       - '5672:5672'
       - '15672:15672'
     environment:
-      AMQP_URL: "amqp://rabbitmq?connection_attempts=5&retry_delay=5"
-      RABBITMQ_DEFAULT_USER: "guest"
-      RABBITMQ_DEFAULT_PASS: "guest"
+      AMQP_URL: "amqp://admin:admin@rabbit:5672/%2F"
+      RABBITMQ_DEFAULT_USER: "admin"
+      RABBITMQ_DEFAULT_PASS: "admin"
+    healthcheck:
+      test: rabbitmq-diagnostics -q alarms
+      interval: 5s
+      timeout: 5s
+      retries: 3
     networks:
       - network
   db:
@@ -25,6 +31,11 @@ services:
       - 3306:3306
     networks:
       - network
+#    healthcheck:
+#      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "user", "-prootroot" ]
+#      interval: 5s
+#      timeout: 5s
+#      retries: 3
 
   frontend:
     build: ./AI_CV_React/frontend
@@ -33,6 +44,16 @@ services:
       - '5173:5173'
     networks:
       - network
+#    healthcheck:
+#      test: [ "CMD", "curl", "-f", "http://localhost:5173/" ]
+#      interval: 30s
+#      timeout: 10sa
+#      retries: 3
+    volumes:
+      - ./AI_CV_React/frontend:/app:delegated
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
 
   backend_python:
     build: ./AI_CV_Python
@@ -41,6 +62,9 @@ services:
       - '5001:5001'
     networks:
       - network
+    depends_on:
+      rabbit:
+        condition: service_healthy
 
   backend_java:
     build: ./AI_CV_JAVA
@@ -49,6 +73,11 @@ services:
       - '8080:8080'
     networks:
       - network
+    depends_on:
+      rabbit:
+        condition: service_healthy
+      db:
+        condition: service_started
 
 
 volumes:

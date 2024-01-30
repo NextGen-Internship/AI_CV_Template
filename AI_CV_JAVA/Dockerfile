@@ -1,5 +1,17 @@
-FROM openjdk:23-jdk-slim
+FROM maven:3-eclipse-temurin-21 AS builder
 
-COPY target/*.jar app.jar
+WORKDIR /app
 
-CMD ["java", "-jar", "/app.jar"]
+COPY pom.xml .
+
+COPY src src
+
+RUN mvn clean package -DskipTests
+
+FROM openjdk:17
+
+WORKDIR /app
+
+COPY --from=builder /app/target/demo-0.0.1-SNAPSHOT.jar /app/demo-0.0.1-SNAPSHOT.jar
+
+CMD ["java", "-jar", "demo-0.0.1-SNAPSHOT.jar"]
