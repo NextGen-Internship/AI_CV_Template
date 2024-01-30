@@ -11,6 +11,7 @@ import LogOut from "./Login/Logout";
 import Navbar from "./Navbar/Navbar";
 import { jwtDecode } from "jwt-decode";
 import HomePage from "./HomePage/HomePage";
+import Footer from "./Footer/Footer";
 
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -75,9 +76,13 @@ function App() {
         <>
           <Navbar user={user} onLogout={handleLogout} />
           <PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>
+          <Footer></Footer>
         </>
       ) : (
+        <>
         <HomePage setUser={setUser} setLoggedIn={setLoggedIn} />
+        {/* <Footer></Footer> */}
+        </>
       )}
       {isUploadSuccessful && <PdfDownload></PdfDownload>}
     </>
