@@ -14,7 +14,7 @@ public class EducationService {
     private final EducationDao educationDao;
 
     public Education saveEducation(Education education){
-        return educationDao.save(education);
+        return educationDao.saveAndFlush(education);
     }
 
     public List<Education> getAllEducations(){

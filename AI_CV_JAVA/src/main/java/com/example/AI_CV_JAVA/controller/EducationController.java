@@ -22,7 +22,7 @@ public class EducationController {
         return new ResponseEntity<>(savedEducation, HttpStatus.CREATED);
     }
 
-    @PostMapping
+    @GetMapping
     public ResponseEntity<List<Education>> getAllEducations(){
         List<Education> educations = educationService.getAllEducations();
         return new ResponseEntity<>(educations, HttpStatus.OK);
