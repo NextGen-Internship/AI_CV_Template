@@ -2,10 +2,10 @@ version: "3.8"
 services:
   rabbit:
     container_name: rabbit
-    image: 'rabbitmq:3.12.11-management-alpine'
+    image: "rabbitmq:3.12.11-management-alpine"
     ports:
-      - '5672:5672'
-      - '15672:15672'
+      - "5672:5672"
+      - "15672:15672"
     environment:
       AMQP_URL: "amqp://admin:admin@rabbit:5672/%2F"
       RABBITMQ_DEFAULT_USER: "admin"
@@ -31,24 +31,14 @@ services:
       - 3306:3306
     networks:
       - network
-#    healthcheck:
-#      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "user", "-prootroot" ]
-#      interval: 5s
-#      timeout: 5s
-#      retries: 3
 
   frontend:
     build: ./AI_CV_React/frontend
     container_name: frontend
     ports:
-      - '5173:5173'
+      - "5173:5173"
     networks:
       - network
-#    healthcheck:
-#      test: [ "CMD", "curl", "-f", "http://localhost:5173/" ]
-#      interval: 30s
-#      timeout: 10sa
-#      retries: 3
     volumes:
       - ./AI_CV_React/frontend:/app:delegated
       - /app/node_modules
@@ -59,7 +49,7 @@ services:
     build: ./AI_CV_Python
     container_name: backend_python
     ports:
-      - '5001:5001'
+      - "5001:5001"
     networks:
       - network
     depends_on:
@@ -70,7 +60,8 @@ services:
     build: ./AI_CV_JAVA
     container_name: backend_java
     ports:
-      - '8080:8080'
+      - "8080:8080"
+      - "8000:8000"
     networks:
       - network
     depends_on:
@@ -78,7 +69,8 @@ services:
         condition: service_healthy
       db:
         condition: service_started
-
+    environment:
+      - JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000"
 
 volumes:
   mysql_volume:
