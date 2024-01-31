@@ -12,7 +12,7 @@ function Footer() {
         <div className='container'>
             <div className='row'> 
                 <div className='footer-col'>
-                    <img className='logo-image' src="public/logo.png"/>
+                    <img className='logo-image' src="public/AI_CV_Logo.png"/>
                 </div>
                 <div className='footer-col'>
                     <h4>Home</h4>

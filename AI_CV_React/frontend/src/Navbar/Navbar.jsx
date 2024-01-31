@@ -29,6 +29,8 @@ const Navbar = ({ user, onLogout }) => {
   return (
     <nav className="navbar">
       <div className="navbar-left">
+        <img className='logo-image-nav' src="public/AI_CV_Logo.png"/>
+        <div className="project-name">AI CV Template</div>
       </div>
       <div className="navbar-right">
         <div className="user-info">
