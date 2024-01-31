@@ -2,7 +2,6 @@ package com.example.AI_CV_JAVA.controller;
 
 import com.example.AI_CV_JAVA.auth.AuthenticationResponse;
 import com.example.AI_CV_JAVA.service.GoogleLoginService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;

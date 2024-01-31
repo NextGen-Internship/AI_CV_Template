@@ -29,7 +29,7 @@ public class JwtService {
     }
 
     // Extract a claim
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver){
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
@@ -60,8 +60,9 @@ public class JwtService {
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
-        return(username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
+
     public boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
@@ -79,6 +80,7 @@ public class JwtService {
                 .parseClaimsJws(token)
                 .getBody();
     }
+
     private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);

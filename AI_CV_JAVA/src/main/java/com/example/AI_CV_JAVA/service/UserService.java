@@ -1,6 +1,5 @@
 package com.example.AI_CV_JAVA.service;
 
-
 import com.example.AI_CV_JAVA.DTO.UserDTO;
 import com.example.AI_CV_JAVA.user.User;
 import com.example.AI_CV_JAVA.user.UserRepository;
