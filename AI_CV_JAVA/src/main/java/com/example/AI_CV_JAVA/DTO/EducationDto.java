@@ -6,7 +6,7 @@ import lombok.Data;
 public class EducationDto {
     private long id;
     private String degree;
-    private String college;
+    private String collage;
     private String startYear;
     private String endYear;
 }

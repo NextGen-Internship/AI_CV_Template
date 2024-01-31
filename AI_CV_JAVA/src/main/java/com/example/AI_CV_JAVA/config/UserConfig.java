@@ -1,6 +1,5 @@
 package com.example.AI_CV_JAVA.config;
 
-
 import com.example.AI_CV_JAVA.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

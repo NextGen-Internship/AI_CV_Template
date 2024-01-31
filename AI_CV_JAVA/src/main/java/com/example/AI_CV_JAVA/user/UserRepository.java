@@ -1,6 +1,5 @@
 package com.example.AI_CV_JAVA.user;
 
-import com.example.AI_CV_JAVA.DTO.UserDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

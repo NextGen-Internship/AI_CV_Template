@@ -1,6 +1,5 @@
 package com.example.AI_CV_JAVA.auth;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
