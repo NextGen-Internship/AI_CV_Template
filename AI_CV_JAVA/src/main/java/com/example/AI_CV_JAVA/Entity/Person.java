@@ -27,14 +27,14 @@ public class Person {
     private String summary;
 
     @Column
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Technology> technologies;
 
     @Column
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Experience> experience;
 
     @Column
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Education> education;
 }

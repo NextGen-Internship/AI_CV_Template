@@ -21,7 +21,7 @@ public class Education {
     private String degree;
 
     @Column
-    private String collage;
+    private String college;
 
     @Column(nullable = false)
     private String startYear;
