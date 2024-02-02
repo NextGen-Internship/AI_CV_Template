@@ -54,6 +54,8 @@ services:
       - /app/node_modules
     environment:
       - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - backend_java
 
   backend_python:
     build: ./AI_CV_Python

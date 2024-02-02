@@ -11,6 +11,7 @@ import LogOut from "./Login/Logout";
 import Navbar from "./Navbar/Navbar";
 import { jwtDecode } from "jwt-decode";
 import HomePage from "./HomePage/HomePage";
+import WebSocket from "./WebSocket/WebSocket";
 
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -75,6 +76,7 @@ function App() {
         <>
           <Navbar user={user} onLogout={handleLogout} />
           <PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>
+          <WebSocket></WebSocket>
         </>
       ) : (
         <HomePage setUser={setUser} setLoggedIn={setLoggedIn} />
