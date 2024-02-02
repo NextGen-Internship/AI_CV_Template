@@ -1,106 +1,122 @@
-import React from 'react'
-import './CvTemplate.css'
-import image from '/public/logo.png'
-import axios from 'axios'; // Import axios
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import './CvTemplate.css';
+import image from '/public/logo.png';
+import PersonIdInput from './SearchCv';
+
 
 const CvTemplate = () => {
+  const [personId, setPersonId] = useState('');
+  const [personData, setPersonData] = useState(null);
+  const [personName, setPersonName] = useState(null);
+  const [personSummary, setPersonSummary] = useState(null);
+  const [technologies, setTechnologies] = useState([]);
+  const [education, setEducation] = useState([]);
+  const [experiences, setExperiences] = useState([]);
 
 
- const handleUpload = () => {
-    
-      const formData = new FormData();
+  const handleInputChange = (e) => {
+    setPersonId(e.target.value);
+  };
+
+  const handleFetchData = async () => {
+    try {
       const storedToken = localStorage.getItem("jwtToken");
-      
-
-      axios.get("http://localhost:8080/pdf/1", formData, {
-      headers: {
-        Authorization: `Bearer ${storedToken}`,
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-      .then((response) => {
-        const dto = response.data;
-        console.log(dto)
-
-        // onUploadSuccess();
-      })
-      .catch((error) => {
-        console.error("wrong id");
+  
+      const response = await axios.get(`http://localhost:8080/pdf/${personId}`, {
+        headers: {
+          Authorization: `Bearer ${storedToken}`,
+        },
       });
-    
+  
+      setPersonData(response.data);
+      setPersonName(response.data.name)
+      setPersonSummary(response.data.summary)
+      setExperiences(response.data.experience)
+      setEducation(response.data.education)
+      setTechnologies(response.data.technologies)
+      console.log(response.data.technologies)
+    } catch (error) {
+      console.error('Error fetching person data:', error);
+    }
   };
   
 
+  useEffect(() => {
+    handleFetchData();
+  }, [personId]); // Refetch data when personId changes
+
+  
+  if (personData != null){
+    const { name, summary, education, experiences } = personData;
+  }
+  
+
   return (
-
     
-   <div id='cv'>
-<label htmlFor="" onClick={handleUpload}>ppp</label>
-    <div id='nameAndRole'>
-    <img src={image} alt="edf" />
-        <h1>name</h1>
-        <h2>Java Developer, Blankfactor</h2>
-        </div>
-        <div id='all'>
+    <div>
+      <PersonIdInput
+        personId={personId}
+        handleInputChange={handleInputChange}
+        handleFetchData={handleFetchData}
+      />
+      <div id='cv'>
+      <div id='nameAndRole'>
+        <img src={image} alt='edf' />
+        <h1>{personName}</h1>
+        {experiences.length > 0 && (
+          <h2>{experiences[0].role}</h2>
+        )}
+      </div>
+      <div id='all'>
         <div id='STE'>
-        <div className='first'>
-        <h3>Summary</h3>
-        <p>Motivated self-starter with over a decade
-          of solid development experience designing
-          innovative and detailed solutions.
-          Quickly adaptable to changing technologies
-          and business requirements with an entrepreneurial initiative and drive. 
-        </p>
-        </div>
-        <div className='first'>
-        <h3>Technologies</h3>
-        <ul>
-          <li>
-            <i>GOLANG, </i>
-            <i>NODE, </i>
-            <i>RUBY, </i>
-            <i>.NET, </i>
-            <i>CORE ANGULAR, </i>
-            <i>CORE ANGULAR, </i>
-            <i>EMBER AND REACT AWS, </i>
-            <i>DIGITALOCEAN, </i>
-            <i>HEROKU, </i>
-            <i>AZURE GIT, </i>
-            <i>GITHUB DOCKER, </i>
-            <i>DOCKER SWARM, </i>
-            <i>KUBERNETES MYSQL, </i>
-            <i>MSSQL, </i>
-            <i>POSTGRES, </i>
-            <i>REDIS</i>  
-          </li>
-        </ul>
-        </div>
-        <div className='first'>
-        <h3>Education</h3>
-          <ul>
-            <li>
-              <i></i>
-            </li>
-          </ul>
-        </div>
-        </div>
-        <div id='Experience'>
-          <h3>EXPERIENCE</h3>
-             <h4 id='role'>Senior Vice President, Product Engineering,</h4>
-             <div id='CR'>
-             <h4 id='company'>Blankfactor </h4>
-             <h4 id='when'> 2022 - Present</h4>
-             </div>
-             <p id='description'>Responsible for leading and delivering successful technology solutions in the payments and banking industries. 
-</p>
-         
-        </div>
+          <div className='first'>
+            <h3>Summary</h3>
+            <p>{personSummary}</p>
+          </div>
+          <div className='first'>
+  <h3>Technologies</h3>
+  <i>
+    {technologies.map((tech, index) => (
+      <React.Fragment key={index}>
+        {tech.name}
+        {index < technologies.length - 1 ? ', ' : ''}
+      </React.Fragment>
+    ))}
+  </i>
+</div>
+          <div className='first'>
+            <h3>Education</h3>
+            <ul>
+            {education.map((edu, index) => (
+      <li key={index}>
+        <i>{edu.degree} - {edu.college}, {edu.startYear} - {edu.endYear}</i>
+      </li>
+    ))}
+            </ul>
+          </div>
+          </div>
+          <div id='Experience'>
+            <h3>EXPERIENCE</h3>
+            {experiences.map((exp, index) => (
+              <div className='exp' key={index}>
+                <h4 id='role'>{exp.role}</h4>
+                <div id='CR'>
+                  <h4 id='company'>{exp.companyName}</h4>
+                  <h4 id='when'>
+                    {exp.startYear} - {exp.endYear || 'Present'}
+                  </h4>
+                </div>
+                <p id='description'>{exp.description}</p>
+              </div>
+            ))}
+          </div>
         
-       </div>
+      </div>
+      </div>
+    </div>
+  );
+};
 
-       </div>
-        
-  )
-}
+export default CvTemplate;
 
-export default CvTemplate

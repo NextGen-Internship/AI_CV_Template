@@ -1,7 +1,8 @@
-package com.example.AI_CV_JAVA.service;
+package com.example.AI_CV_JAVA.service.impl;
 
 import com.example.AI_CV_JAVA.Entity.Experience;
 import com.example.AI_CV_JAVA.Repo.ExperienceDao;
+import com.example.AI_CV_JAVA.service.interfaces.ExperienceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class ExperienceService {
+public class ExperienceServiceImpl implements ExperienceService {
     private final ExperienceDao experienceDao;
 
     public Experience saveExperience(Experience experience){

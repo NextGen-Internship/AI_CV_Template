@@ -27,11 +27,13 @@ h1{
 }
 h3{
     border-bottom: 1px solid gray;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     width: 300px;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
     float: left;
     display: flex;
+    margin-top: 20px;
+
 }
 .first{
     width: 300px;
@@ -42,6 +44,7 @@ h3{
 }
 p{
     text-align: left;
+    font-size: 15px;
 }
 p ,ul{
     margin-bottom: 30px;
@@ -67,6 +70,9 @@ li{
 
     
 }
+i{
+    text-align: left;
+}
 #all{
 display: flex;
 margin-top: 40px;
@@ -79,23 +85,32 @@ img{
     margin-left: 30px;
 
 }
-#role{
-    float: left;
-    display: flex;
-    margin: 0 0 0 0;
-}
-#company{
-    margin: 0 0 0 0;
+#when,
+#company {
+  margin: 0;
+  display: contents;
 }
 
-#when{
-    margin: 0px 0px 0px 3px
-}
-#CR{
+#role{
+    float: left;
+    margin: 0;
     display: flex;
+}
+
+#CR{
+    
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      
+    
 }
 #description{
     margin-top: 3px;
+}
+.exp{
+    display: flex;
+    flex-direction: column;
 }
 
 

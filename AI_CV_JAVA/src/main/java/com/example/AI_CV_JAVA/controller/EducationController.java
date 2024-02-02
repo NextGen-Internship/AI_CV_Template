@@ -1,7 +1,7 @@
 package com.example.AI_CV_JAVA.controller;
 
 import com.example.AI_CV_JAVA.Entity.Education;
-import com.example.AI_CV_JAVA.service.EducationService;
+import com.example.AI_CV_JAVA.service.interfaces.EducationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,8 +1,7 @@
 package com.example.AI_CV_JAVA.controller;
 
-import com.example.AI_CV_JAVA.Entity.Education;
 import com.example.AI_CV_JAVA.Entity.Technology;
-import com.example.AI_CV_JAVA.service.TechnologyService;
+import com.example.AI_CV_JAVA.service.impl.TechnologyServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +14,7 @@ import java.util.Optional;
 @RequestMapping("/technology")
 @RequiredArgsConstructor
 public class TechnologyController {
-    private final TechnologyService technologyService;
+    private final TechnologyServiceImpl technologyService;
 
     @PostMapping
     public ResponseEntity<Technology> saveEducation(@RequestBody Technology technology){

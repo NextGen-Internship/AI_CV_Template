@@ -1,4 +1,4 @@
-package com.example.AI_CV_JAVA.service;
+package com.example.AI_CV_JAVA.service.impl;
 
 import com.example.AI_CV_JAVA.Entity.Technology;
 import com.example.AI_CV_JAVA.Repo.TechnologyDao;
@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class TechnologyService {
+public class TechnologyServiceImpl {
     private final TechnologyDao technologyDao;
 
     public Technology saveTechnology(Technology technology){

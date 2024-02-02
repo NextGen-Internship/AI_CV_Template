@@ -1,9 +1,8 @@
 package com.example.AI_CV_JAVA.controller;
 
 import com.example.AI_CV_JAVA.Entity.Experience;
-import com.example.AI_CV_JAVA.service.ExperienceService;
+import com.example.AI_CV_JAVA.service.impl.ExperienceServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.eclipse.jetty.http.HttpParser;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,29 +14,29 @@ import java.util.Optional;
 @RequestMapping("experience")
 @RequiredArgsConstructor
 public class ExperienceController {
-    private final ExperienceService experienceService;
+    private final ExperienceServiceImpl experienceServiceImpl;
 
     @PostMapping
     public ResponseEntity<Experience> saveExperience(@RequestBody Experience experience){
-        Experience savedExperience = experienceService.saveExperience(experience);
+        Experience savedExperience = experienceServiceImpl.saveExperience(experience);
         return new ResponseEntity<>(savedExperience, HttpStatus.CREATED);
     }
 
     @GetMapping
     public ResponseEntity<List<Experience>> getAllExperiences(){
-        List<Experience> allExperiences = experienceService.getAllExperience();
+        List<Experience> allExperiences = experienceServiceImpl.getAllExperience();
         return new ResponseEntity<>(allExperiences, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Experience>> getExperienceById(@PathVariable Long id){
-        Optional<Experience> experience = experienceService.getExperienceById(id);
+        Optional<Experience> experience = experienceServiceImpl.getExperienceById(id);
         return new ResponseEntity<>(experience, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Experience> updateExperience(@PathVariable Long id, @RequestBody Experience toUpdateExperience){
-        Experience updatedExperience = experienceService.updateExperience(id, toUpdateExperience);
+        Experience updatedExperience = experienceServiceImpl.updateExperience(id, toUpdateExperience);
         if (updatedExperience != null){
             return new ResponseEntity<>(updatedExperience, HttpStatus.OK);
         }else{
@@ -47,7 +46,7 @@ public class ExperienceController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteExperience(@PathVariable Long id){
-        experienceService.deleteExperience(id);
+        experienceServiceImpl.deleteExperience(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
