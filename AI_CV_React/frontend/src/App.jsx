@@ -14,7 +14,7 @@ import HomePage from "./HomePage/HomePage";
 
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
-  const [isUploadSuccessful, setIsUploadSuccessful] = useState(false);
+  const [isUploadSuccessful, setIsUploadSuccessful] = useState(true);
   const [user, setUser] = useState(null);
 
   const checkToken = async () => {
