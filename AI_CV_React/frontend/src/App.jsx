@@ -80,8 +80,7 @@ function App() {
         </>
       ) : (
         <>
-        <HomePage setUser={setUser} setLoggedIn={setLoggedIn} />
-        {/* <Footer></Footer> */}
+          <HomePage setUser={setUser} setLoggedIn={setLoggedIn} />
         </>
       )}
       {isUploadSuccessful && <PdfDownload></PdfDownload>}
