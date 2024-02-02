@@ -16,7 +16,7 @@ li {
   padding: 20px 20px;
   background-color: #333;
   color: white;
-  background: transparent;
+  background: #24262b;
 }
 
 .navbar-left {
@@ -87,4 +87,14 @@ button:hover {
 .userName {
   margin-right: 15px;
   margin-top: 18px;
+}
+
+.logo-image-nav {
+  width: 10%;
+  border-radius: 50%;
+}
+
+.project-name {
+  padding: 10px 10px;
+  padding-left: 5%;
 }
