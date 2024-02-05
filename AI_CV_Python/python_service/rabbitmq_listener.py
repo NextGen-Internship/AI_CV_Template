@@ -3,6 +3,8 @@ import json
 import threading
 from python_service.ai import handle_cv
 import os
+import logging
+from python_service import app
 
 
 def convert_message(message):
@@ -12,6 +14,7 @@ def convert_message(message):
 def on_message_received(ch, method, properties, body):
     ch.basic_ack(delivery_tag=method.delivery_tag)
     to_string = convert_message(body)
+    app.logger.info("Received message: %s", to_string) 
     print("Received message:", to_string)
     handle_cv(to_string)
 

@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.List;
 
 @Builder
@@ -18,6 +17,10 @@ public class Person {
 
     @Id
     @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column
     private String email;
 
     @Column
@@ -27,14 +30,14 @@ public class Person {
     private String summary;
 
     @Column
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Technology> technologies;
 
     @Column
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Experience> experience;
 
     @Column
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Education> education;
 }
