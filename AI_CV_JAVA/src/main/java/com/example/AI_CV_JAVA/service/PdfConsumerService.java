@@ -1,5 +1,6 @@
 package com.example.AI_CV_JAVA.service;
 
+import com.example.AI_CV_JAVA.service.impl.PdfServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class PdfConsumerService {
 
-    private final PdfService pdfService;
+    private final PdfServiceImpl pdfService;
 
     @RabbitListener(queues = "${rabbitmq.queue.listener}")
     public void consume(String message) throws Exception {

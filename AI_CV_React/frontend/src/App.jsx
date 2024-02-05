@@ -11,6 +11,7 @@ import LogOut from "./Login/Logout";
 import Navbar from "./Navbar/Navbar";
 import { jwtDecode } from "jwt-decode";
 import HomePage from "./HomePage/HomePage";
+import CvTemplate from "./cv/CvTemplate";
 import Footer from "./Footer/Footer";
 
 function App() {
@@ -75,6 +76,7 @@ function App() {
       {localStorage.getItem("jwtToken") ? (
         <>
           <Navbar user={user} onLogout={handleLogout} />
+          <CvTemplate/>
           <PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>
           <Footer></Footer>
         </>
