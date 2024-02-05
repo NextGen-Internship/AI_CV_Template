@@ -1,6 +1,7 @@
 package com.example.AI_CV_JAVA.Entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.groups.Default;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +21,7 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column
+    @Column(name = "email", nullable = true)
     private String email;
 
     @Column
