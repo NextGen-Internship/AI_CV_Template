@@ -1,6 +1,6 @@
 package com.example.AI_CV_JAVA.security;
 
-import com.example.AI_CV_JAVA.user.UserRepository;
+import com.example.AI_CV_JAVA.user.UserDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
-    private final UserRepository repository;
+    private final UserDao repository;
 
     @Bean
     public UserDetailsService userDetailsService() {

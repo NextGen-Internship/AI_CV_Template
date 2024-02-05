@@ -2,6 +2,7 @@ package com.example.AI_CV_JAVA.service.impl;
 
 import com.example.AI_CV_JAVA.Entity.Experience;
 import com.example.AI_CV_JAVA.Repo.ExperienceDao;
+import com.example.AI_CV_JAVA.exception.ApiRequestException;
 import com.example.AI_CV_JAVA.service.interfaces.ExperienceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,8 +31,9 @@ public class ExperienceServiceImpl implements ExperienceService {
         if (existingExperience.isPresent()) {
             toUpdate.setId(id);
             return experienceDao.save(toUpdate);
+        }else{
+            throw new ApiRequestException("No existing experience with that id");
         }
-        return null;
     }
 
     public void deleteExperience(Long id) {
