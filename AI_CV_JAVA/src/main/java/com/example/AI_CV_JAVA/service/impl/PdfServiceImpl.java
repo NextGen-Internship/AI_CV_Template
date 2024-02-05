@@ -41,6 +41,7 @@ public class PdfServiceImpl implements PdfService {
         }
         return experiences;
     }
+
     public Person makePerson(String jsonMessage) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(jsonMessage);
@@ -52,10 +53,11 @@ public class PdfServiceImpl implements PdfService {
         person.setEducation(mapEducation(jsonNode.path("education")));
         return person;
     }
+
     public List<Education> mapEducation(JsonNode education) {
         List<Education> educations = new ArrayList<>();
         for (JsonNode jsonNode : education) {
-           Education education1 = new Education();
+            Education education1 = new Education();
             education1.setDegree(jsonNode.path("degree").asText());
             education1.setCollege(jsonNode.path("college").asText());
             education1.setStartYear(jsonNode.path("start_year").asText());
@@ -64,20 +66,23 @@ public class PdfServiceImpl implements PdfService {
         }
         return educations;
     }
+
     public List<Technology> mapTechnologies(JsonNode technologiesNode) {
         List<Technology> technologies = new ArrayList<>();
         for (JsonNode technologyNode : technologiesNode) {
-          Technology technology = new Technology();
+            Technology technology = new Technology();
             technology.setName(technologyNode.asText());
             technologies.add(technology);
         }
         return technologies;
     }
+
     public void readJson(String message) throws Exception {
-       Person person = makePerson(message);
-       personService.savePerson(person);
+        Person person = makePerson(message);
+        personService.savePerson(person);
 
     }
+
     public void upload(MultipartFile file) throws IOException {
         PDDocument document = PDDocument.load(file.getInputStream());
         PDFTextStripper pdfStripper = new PDFTextStripper();

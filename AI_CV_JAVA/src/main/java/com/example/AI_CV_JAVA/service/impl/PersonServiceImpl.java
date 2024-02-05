@@ -5,7 +5,6 @@ import com.example.AI_CV_JAVA.Repo.PersonDao;
 import com.example.AI_CV_JAVA.service.interfaces.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -14,11 +13,11 @@ import java.util.Optional;
 public class PersonServiceImpl implements PersonService {
     private final PersonDao personDao;
 
-    public void savePerson(Person person){
+    public void savePerson(Person person) {
         personDao.saveAndFlush(person);
     }
 
-    public List<Person> getAllPeople(){
+    public List<Person> getAllPeople() {
         return personDao.findAll();
     }
 
@@ -27,7 +26,7 @@ public class PersonServiceImpl implements PersonService {
         return personDao.findById(id);
     }
 
-    public Optional<Person> getPersonByEmail(String email){
+    public Optional<Person> getPersonByEmail(String email) {
         return personDao.findByEmail(email);
     }
 
@@ -41,16 +40,7 @@ public class PersonServiceImpl implements PersonService {
 
     }
 
-//    public Person updatePerson(Long id, Person toUpdate){
-//        Optional<Person> existingPerson = personDao.findById(id);
-//        if(existingPerson.isPresent()){
-//            toUpdate.setEmail(email);
-//            personDao.save(toUpdate);
-//        }
-//        return null;
-//    }
-
-    public void deletePerson(Long id){
+    public void deletePerson(Long id) {
         personDao.deleteById(id
         );
     }

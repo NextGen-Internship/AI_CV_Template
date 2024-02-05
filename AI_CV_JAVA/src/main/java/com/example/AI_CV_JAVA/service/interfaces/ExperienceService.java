@@ -7,17 +7,15 @@ import java.util.Optional;
 
 public interface ExperienceService {
 
-    public Experience saveExperience(Experience experience);
+    Experience saveExperience(Experience experience);
 
-    public List<Experience> getAllExperience();
+    List<Experience> getAllExperience();
 
-    public Optional<Experience> getExperienceById(Long id);
+    Optional<Experience> getExperienceById(Long id);
 
-    public Experience updateExperience(Long id, Experience toUpdate);
+    Experience updateExperience(Long id, Experience toUpdate);
 
-
-
-    public void deleteExperience(Long id);
+    void deleteExperience(Long id);
 
 
 }

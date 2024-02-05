@@ -13,9 +13,14 @@ import java.util.List;
 public interface PdfService {
 
     List<Experience> mapExperiences(JsonNode experiencesNode);
+
     Person makePerson(String jsonMessage) throws Exception;
+
     List<Education> mapEducation(JsonNode education);
+
     List<Technology> mapTechnologies(JsonNode technologiesNode);
+
     void readJson(String message) throws Exception;
+
     void upload(MultipartFile file) throws IOException;
 }

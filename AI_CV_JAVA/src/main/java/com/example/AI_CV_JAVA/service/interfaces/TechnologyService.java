@@ -7,14 +7,14 @@ import java.util.Optional;
 
 public interface TechnologyService {
 
-    public Technology saveTechnology(Technology technology);
+    Technology saveTechnology(Technology technology);
 
-    public List<Technology> getAllTechnologies();
+    List<Technology> getAllTechnologies();
 
-    public Optional<Technology> getTechnologyById(Long id);
+    Optional<Technology> getTechnologyById(Long id);
 
-    public Technology updateTechnology(Long id, Technology toUpdateTechnology);
+    Technology updateTechnology(Long id, Technology toUpdateTechnology);
 
-    public void deleteTechnology(Long id);
+    void deleteTechnology(Long id);
 }
 

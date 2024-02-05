@@ -7,10 +7,15 @@ import java.util.Optional;
 
 public interface PersonService {
     void savePerson(Person person);
+
     List<Person> getAllPeople();
+
     Optional<Person> findById(long id);
+
     Optional<Person> getPersonByEmail(String email);
+
     void deleteById(long id);
+
     void deleteByEmail(String email);
 }
 

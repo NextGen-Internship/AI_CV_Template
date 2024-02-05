@@ -7,7 +7,6 @@ import com.example.AI_CV_JAVA.service.impl.PdfServiceImpl;
 import com.example.AI_CV_JAVA.service.interfaces.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

@@ -92,6 +92,7 @@ button:hover {
 .logo-image-nav {
   width: 10%;
   border-radius: 50%;
+  height: 10%;
 }
 
 .project-name {

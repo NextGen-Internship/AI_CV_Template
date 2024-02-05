@@ -7,16 +7,15 @@ import java.util.Optional;
 
 public interface EducationService {
 
-    public Education saveEducation(Education education);
+    Education saveEducation(Education education);
 
-    public List<Education> getAllEducations();
+    List<Education> getAllEducations();
 
+    Optional<Education> getEducationById(Long id);
 
-    public Optional<Education> getEducationById(Long id);
+    Education updateEducation(Long id, Education toUpdate);
 
-    public Education updateEducation(Long id, Education toUpdate);
-
-    public void deleteEducation(Long id);
+    void deleteEducation(Long id);
 
 
 }
