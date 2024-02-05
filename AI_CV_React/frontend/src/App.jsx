@@ -11,6 +11,7 @@ import LogOut from "./Login/Logout";
 import Navbar from "./Navbar/Navbar";
 import { jwtDecode } from "jwt-decode";
 import HomePage from "./HomePage/HomePage";
+import WebSocket from "./WebSocket/WebSocket";
 import CvTemplate from "./cv/CvTemplate";
 import Footer from "./Footer/Footer";
 
@@ -76,8 +77,9 @@ function App() {
       {localStorage.getItem("jwtToken") ? (
         <>
           <Navbar user={user} onLogout={handleLogout} />
-          <CvTemplate/>
+          {/* <CvTemplate /> */}
           <PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>
+          {/* <WebSocket></WebSocket> */}
           <Footer></Footer>
         </>
       ) : (
@@ -85,7 +87,7 @@ function App() {
           <HomePage setUser={setUser} setLoggedIn={setLoggedIn} />
         </>
       )}
-      {isUploadSuccessful && <PdfDownload></PdfDownload>}
+      {/* {isUploadSuccessful && <PdfDownload></PdfDownload>} */}
     </>
   );
 }
