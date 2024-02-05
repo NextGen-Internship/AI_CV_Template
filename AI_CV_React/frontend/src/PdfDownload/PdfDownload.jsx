@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { usePDF } from "react-to-pdf";
 import axios from "axios";
 import CvTemplate from "../cv/CvTemplate";
-import CvSearch from "../cv/SearchCV";
+import SearchCV from "../cv/SearchCV";
 
 const PdfDownload = () => {
   const [personId, setPersonId] = useState("");
@@ -53,7 +53,7 @@ const PdfDownload = () => {
 
   return (
     <div id="download-div">
-      <CvSearch
+      <SearchCV
         personId={personId}
         handleInputChange={handleInputChange}
         handleFetchData={handleFetchData}
