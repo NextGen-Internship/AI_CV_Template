@@ -1,14 +1,19 @@
-import { useState, useEffect } from "react";
 import React from "react";
 import LogOut from "../Login/Logout";
 import "./Navbar.css";
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 
 const Navbar = ({ user, onLogout }) => {
+  const navigate = useNavigate();
   const storedUserInfo = localStorage.getItem("userInfo");
-  const [firstName, setFirstName] = useState("null");
-  const [picture, setPicture] = useState(null);
+  const [firstName, setFirstName] = React.useState("null");
+  const [picture, setPicture] = React.useState(null);
 
-  useEffect(() => {
+  const handleUpload = () => {
+    navigate('/pdf-upload')
+  }
+
+  React.useEffect(() => {
     if (storedUserInfo) {
       try {
         const userInfoObject = JSON.parse(storedUserInfo);
@@ -31,7 +36,17 @@ const Navbar = ({ user, onLogout }) => {
       <div className="navbar-left">
         <img className="logo-image-nav" src="public/AI_CV_Logo.png" />
         <div className="project-name">AI CV Template</div>
-        <div>Upload</div>
+       <ul>
+        <li> 
+          <Link className="link" to="/pdf-upload">
+            Upload
+          </Link>
+          <Link className="link" to="/cv-template">
+            CV
+          </Link>
+
+        </li>
+       </ul>
       </div>
       <div className="navbar-right">
         <div className="user-info">

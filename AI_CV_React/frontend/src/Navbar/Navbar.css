@@ -99,3 +99,8 @@ button:hover {
   padding: 10px 10px;
   padding-left: 5%;
 }
+
+.link{
+  color: white;
+  margin: 5px;
+}
