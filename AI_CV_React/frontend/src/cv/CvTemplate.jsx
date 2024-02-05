@@ -4,7 +4,6 @@ import './CvTemplate.css';
 import image from '/public/logo.png';
 import PersonIdInput from './SearchCv';
 
-
 const CvTemplate = () => {
   const [personId, setPersonId] = useState('');
   const [personData, setPersonData] = useState(null);
@@ -13,8 +12,6 @@ const CvTemplate = () => {
   const [technologies, setTechnologies] = useState([]);
   const [education, setEducation] = useState([]);
   const [experiences, setExperiences] = useState([]);
-
-
   const handleInputChange = (e) => {
     setPersonId(e.target.value);
   };
@@ -40,17 +37,13 @@ const CvTemplate = () => {
       console.error('Error fetching person data:', error);
     }
   };
-  
 
   useEffect(() => {
     handleFetchData();
-  }, [personId]); // Refetch data when personId changes
-
-  
+  }, [personId]);
   if (personData != null){
     const { name, summary, education, experiences } = personData;
   }
-  
 
   return (
     
@@ -75,8 +68,8 @@ const CvTemplate = () => {
             <p>{personSummary}</p>
           </div>
           <div className='first'>
-  <h3>Technologies</h3>
-  <i>
+            <h3>Technologies</h3>
+          <i>
     {technologies.map((tech, index) => (
       <React.Fragment key={index}>
         {tech.name}
@@ -111,12 +104,10 @@ const CvTemplate = () => {
               </div>
             ))}
           </div>
-        
       </div>
       </div>
     </div>
   );
 };
-
 export default CvTemplate;
 
