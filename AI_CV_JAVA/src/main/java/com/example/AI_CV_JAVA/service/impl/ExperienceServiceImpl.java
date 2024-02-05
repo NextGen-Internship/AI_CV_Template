@@ -1,42 +1,54 @@
 package com.example.AI_CV_JAVA.service.impl;
 
+import com.example.AI_CV_JAVA.Entity.Education;
 import com.example.AI_CV_JAVA.Entity.Experience;
-import com.example.AI_CV_JAVA.Repo.ExperienceDao;
+import com.example.AI_CV_JAVA.Repo.ExperienceRepository;
 import com.example.AI_CV_JAVA.exception.ApiRequestException;
+import com.example.AI_CV_JAVA.exception.DataNotFoundException;
 import com.example.AI_CV_JAVA.service.interfaces.ExperienceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class ExperienceServiceImpl implements ExperienceService {
-    private final ExperienceDao experienceDao;
+    private final ExperienceRepository experienceRepository;
 
     public Experience saveExperience(Experience experience) {
-        return experienceDao.saveAndFlush(experience);
+        return experienceRepository.saveAndFlush(experience);
     }
 
     public List<Experience> getAllExperience() {
-        return experienceDao.findAll();
+        return experienceRepository.findAll();
     }
 
     public Optional<Experience> getExperienceById(Long id) {
-        return experienceDao.findById(id);
+        Optional<Experience> experience = experienceRepository.findById(id);
+        if (experience.isEmpty()) {
+            throw new DataNotFoundException("Experience with id " + id + " not found");
+        }
+        return experience;
     }
 
     public Experience updateExperience(Long id, Experience toUpdate) {
-        Optional<Experience> existingExperience = experienceDao.findById(id);
-        if (existingExperience.isPresent()) {
+        Optional<Experience> experience = experienceRepository.findById(id);
+        if (experience.isPresent()) {
             toUpdate.setId(id);
-            return experienceDao.save(toUpdate);
-        }else{
-            throw new ApiRequestException("No existing experience with that id");
+            return experienceRepository.save(toUpdate);
+        } else {
+            throw new DataNotFoundException("Experience with id " + id + " not found");
         }
     }
 
     public void deleteExperience(Long id) {
-        experienceDao.deleteById(id);
+        Optional<Experience> experience = experienceRepository.findById(id);
+        if (experience.isPresent()) {
+            experienceRepository.deleteById(id);
+        } else {
+            throw new DataNotFoundException("Experience with id " + id + " not found");
+        }
     }
 }

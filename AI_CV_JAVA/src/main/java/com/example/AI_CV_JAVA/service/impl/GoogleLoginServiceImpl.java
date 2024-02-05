@@ -1,10 +1,10 @@
 package com.example.AI_CV_JAVA.service.impl;
 
+import com.example.AI_CV_JAVA.Repo.UserRepository;
 import com.example.AI_CV_JAVA.auth.AuthenticationResponse;
 import com.example.AI_CV_JAVA.security.JwtService;
 import com.example.AI_CV_JAVA.service.interfaces.GoogleLoginService;
 import com.example.AI_CV_JAVA.user.User;
-import com.example.AI_CV_JAVA.user.UserDao;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -20,7 +20,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class GoogleLoginServiceImpl implements GoogleLoginService {
 
-    private final UserDao userDao;
+    private final UserRepository userRepository;
     private final JwtService jwtService;
 
     @Override
@@ -30,7 +30,7 @@ public class GoogleLoginServiceImpl implements GoogleLoginService {
             GoogleIdToken.Payload payload = idToken.getPayload();
             User user = extractUserFromPayload(payload);
 
-            Optional<User> existingUser = userDao.findByEmail(user.getEmail());
+            Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
             if (existingUser.isPresent()) {
                 User oldUser = existingUser.get();
                 String jwtNew = jwtService.generateToken(oldUser);
@@ -39,7 +39,7 @@ public class GoogleLoginServiceImpl implements GoogleLoginService {
                         .build();
             }
 
-            userDao.save(user);
+            userRepository.save(user);
             String jwtToken = jwtService.generateToken(user);
             return AuthenticationResponse.builder()
                     .token(jwtToken)

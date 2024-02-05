@@ -3,7 +3,7 @@ package com.example.AI_CV_JAVA.auth;
 import com.example.AI_CV_JAVA.security.JwtService;
 import com.example.AI_CV_JAVA.user.Role;
 import com.example.AI_CV_JAVA.user.User;
-import com.example.AI_CV_JAVA.user.UserDao;
+import com.example.AI_CV_JAVA.Repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthenticationService {
 
-    private final UserDao userDao;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -27,7 +27,7 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
                 .build();
-        userDao.save(user);
+        userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
@@ -41,7 +41,7 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
-        var user = userDao.findByEmail(request.getEmail())
+        var user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()

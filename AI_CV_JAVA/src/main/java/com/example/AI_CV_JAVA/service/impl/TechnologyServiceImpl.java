@@ -1,40 +1,41 @@
 package com.example.AI_CV_JAVA.service.impl;
 
 import com.example.AI_CV_JAVA.Entity.Technology;
-import com.example.AI_CV_JAVA.Repo.TechnologyDao;
+import com.example.AI_CV_JAVA.Repo.TechnologyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class TechnologyServiceImpl {
-    private final TechnologyDao technologyDao;
+    private final TechnologyRepository technologyRepository;
 
     public Technology saveTechnology(Technology technology) {
-        return technologyDao.saveAndFlush(technology);
+        return technologyRepository.saveAndFlush(technology);
     }
 
     public List<Technology> getAllTechnologies() {
-        return technologyDao.findAll();
+        return technologyRepository.findAll();
     }
 
     public Optional<Technology> getTechnologyById(Long id) {
-        return technologyDao.findById(id);
+        return technologyRepository.findById(id);
     }
 
     public Technology updateTechnology(Long id, Technology toUpdateTechnology) {
-        Optional<Technology> existingTechnology = technologyDao.findById(id);
+        Optional<Technology> existingTechnology = technologyRepository.findById(id);
         if (existingTechnology.isPresent()) {
             toUpdateTechnology.setId(id);
-            return technologyDao.save(toUpdateTechnology);
+            return technologyRepository.save(toUpdateTechnology);
         }
         return null;
     }
 
     public void deleteTechnology(Long id) {
-        technologyDao.deleteById(id);
+        technologyRepository.deleteById(id);
     }
 }
 

@@ -1,9 +1,9 @@
 package com.example.AI_CV_JAVA.service.impl;
 
 import com.example.AI_CV_JAVA.DTO.UserDTO;
+import com.example.AI_CV_JAVA.Repo.UserRepository;
 import com.example.AI_CV_JAVA.service.interfaces.UserService;
 import com.example.AI_CV_JAVA.user.User;
-import com.example.AI_CV_JAVA.user.UserDao;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserDao userRepo;
+    private final UserRepository userRepo;
     private final ModelMapper mapper;
 
     @Override
