@@ -6,7 +6,7 @@ const WebSocket = () => {
   const [message, setMessage] = useState("");
   const [stompClient, setStompClient] = useState(null);
 
-  const WS_URL = "ws://backend_java:8080/ws";
+  const WS_URL = "ws://localhost:8080/ws";
 
   const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(
     WS_URL,
@@ -20,10 +20,10 @@ const WebSocket = () => {
     console.log("Connection state changed");
     if (readyState === ReadyState.OPEN) {
       sendJsonMessage({
-        event: "subscribe",
-        data: {
+        destination: "/app/subscribe/general-chatroom",
+        body: JSON.stringify({
           channel: "general-chatroom",
-        },
+        }),
       });
     }
   }, [readyState]);

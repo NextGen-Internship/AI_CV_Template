@@ -4,6 +4,7 @@ import com.example.AI_CV_JAVA.DTO.EducationDto;
 import com.example.AI_CV_JAVA.DTO.ExperienceDto;
 import com.example.AI_CV_JAVA.DTO.PersonDto;
 import com.example.AI_CV_JAVA.DTO.TechnologyDto;
+import com.example.AI_CV_JAVA.controller.WebSocketController;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import java.util.concurrent.CompletableFuture;
 @RequiredArgsConstructor
 public class PdfService {
     private final PdfPublisherService producer;
+    private final WebSocketController webSocketController;
 
     private static List<ExperienceDto> mapExperiences(JsonNode experiencesNode) {
         List<ExperienceDto> experiences = new ArrayList<>();
@@ -72,6 +74,7 @@ public class PdfService {
     }
     public void readJson(String message) throws Exception {
         PersonDto personDto = makePerson(message);
+        webSocketController.sendMessage("message");
     }
     public CompletableFuture<PersonDto> upload(MultipartFile file) throws IOException {
         PDDocument document = PDDocument.load(file.getInputStream());
