@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./PdfUpload.css";
+import PdfDownload from "../PdfDownload/PdfDownload";
+import CvTemplate from "../cv/CvTemplate";
 
-const PdfUpload = ({onUploadSuccess}) => {
+const PdfUpload = ({ onUploadSuccess }) => {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [uploadSuccessful, setIsUploadSuccessful] = useState(true);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -16,22 +19,23 @@ const PdfUpload = ({onUploadSuccess}) => {
       const storedToken = localStorage.getItem("jwtToken");
       formData.append("file", selectedFile);
 
-      axios.post("http://localhost:8080/pdf/upload", formData, {
-      headers: {
-        Authorization: `Bearer ${storedToken}`,
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-      .then((response) => {
-        setSelectedFile(null);
-        // onUploadSuccess();
-      })
-      .catch((error) => {
-        console.error("Error uploading file:", error);
-      });
-  } else {
-    console.log("No file selected");
-  }
+      axios
+        .post("http://localhost:8080/pdf/upload", formData, {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          setSelectedFile(null);
+          setIsUploadSuccessful(true);
+        })
+        .catch((error) => {
+          console.error("Error uploading file:", error);
+        });
+    } else {
+      console.log("No file selected");
+    }
   };
 
   return (
@@ -50,6 +54,7 @@ const PdfUpload = ({onUploadSuccess}) => {
       <button onClick={handleUpload} id="upload-button">
         Upload PDF
       </button>
+      <PdfDownload></PdfDownload>
     </div>
   );
 };

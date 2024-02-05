@@ -17,7 +17,7 @@ import Footer from "./Footer/Footer";
 
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
-  const [isUploadSuccessful, setIsUploadSuccessful] = useState(true);
+  const [isUploadSuccessful, setIsUploadSuccessful] = useState(false);
   const [user, setUser] = useState(null);
 
   const checkToken = async () => {
@@ -77,9 +77,9 @@ function App() {
       {localStorage.getItem("jwtToken") ? (
         <>
           <Navbar user={user} onLogout={handleLogout} />
-          <CvTemplate />
+          {/* <CvTemplate /> */}
           <PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>
-          <WebSocket></WebSocket>
+          {/* <WebSocket></WebSocket> */}
           <Footer></Footer>
         </>
       ) : (
@@ -87,7 +87,7 @@ function App() {
           <HomePage setUser={setUser} setLoggedIn={setLoggedIn} />
         </>
       )}
-      {isUploadSuccessful && <PdfDownload></PdfDownload>}
+      {/* {isUploadSuccessful && <PdfDownload></PdfDownload>} */}
     </>
   );
 }
