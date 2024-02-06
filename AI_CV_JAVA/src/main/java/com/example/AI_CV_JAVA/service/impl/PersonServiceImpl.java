@@ -48,8 +48,8 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void deleteByEmail(String email) {
-       Optional<Person> person = personRepository.findByEmail(email);
-        if(person.isEmpty()){
+        Optional<Person> person = personRepository.findByEmail(email);
+        if (person.isEmpty()) {
             throw new DataNotFoundException("Person with email " + email + " not found");
         }
         personRepository.deleteById(person.get().getId());

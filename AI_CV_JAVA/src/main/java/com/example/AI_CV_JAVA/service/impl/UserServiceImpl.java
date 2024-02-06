@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO getUserById(int id) {
         Optional<User> user = userRepo.findById(id);
-        if(user.isEmpty()){
+        if (user.isEmpty()) {
             throw new DataNotFoundException("User with id " + id + " not found");
         }
         return mapper.map(user, UserDTO.class);

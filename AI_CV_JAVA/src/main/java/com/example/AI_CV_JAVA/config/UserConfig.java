@@ -1,8 +1,8 @@
 package com.example.AI_CV_JAVA.config;
 
+import com.example.AI_CV_JAVA.Repo.UserRepository;
 import com.example.AI_CV_JAVA.service.impl.UserServiceImpl;
 import com.example.AI_CV_JAVA.service.interfaces.UserService;
-import com.example.AI_CV_JAVA.Repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

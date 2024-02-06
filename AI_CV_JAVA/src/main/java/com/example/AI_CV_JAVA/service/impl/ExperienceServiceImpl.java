@@ -1,9 +1,7 @@
 package com.example.AI_CV_JAVA.service.impl;
 
-import com.example.AI_CV_JAVA.Entity.Education;
 import com.example.AI_CV_JAVA.Entity.Experience;
 import com.example.AI_CV_JAVA.Repo.ExperienceRepository;
-import com.example.AI_CV_JAVA.exception.ApiRequestException;
 import com.example.AI_CV_JAVA.exception.DataNotFoundException;
 import com.example.AI_CV_JAVA.service.interfaces.ExperienceService;
 import lombok.RequiredArgsConstructor;

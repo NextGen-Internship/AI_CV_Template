@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -30,10 +31,10 @@ public class EducationController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Education>> getEducationById(@PathVariable Long id) {
-        try{
+        try {
             Optional<Education> education = educationService.getEducationById(id);
             return new ResponseEntity<>(education, HttpStatus.OK);
-        }catch (DataNotFoundException e) {
+        } catch (DataNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Optional.empty());
         }
     }

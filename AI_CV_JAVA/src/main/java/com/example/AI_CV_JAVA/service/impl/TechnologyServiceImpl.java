@@ -1,6 +1,5 @@
 package com.example.AI_CV_JAVA.service.impl;
 
-import com.example.AI_CV_JAVA.Entity.Experience;
 import com.example.AI_CV_JAVA.Entity.Technology;
 import com.example.AI_CV_JAVA.Repo.TechnologyRepository;
 import com.example.AI_CV_JAVA.exception.DataNotFoundException;
@@ -43,7 +42,7 @@ public class TechnologyServiceImpl {
 
     public void deleteTechnology(Long id) {
         Optional<Technology> technology = technologyRepository.findById(id);
-        if(technology.isEmpty()){
+        if (technology.isEmpty()) {
             throw new DataNotFoundException("Technology with id " + id + " not found");
         }
         technologyRepository.deleteById(id);
