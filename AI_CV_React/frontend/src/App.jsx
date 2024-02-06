@@ -115,21 +115,7 @@ function App() {
     ) : (
       <Navigate to="/home-page" />
     )
-  } />
-   {/* <Route
-  path="/cv-template"
-  element={
-    localStorage.getItem("jwtToken") ? (
-      <>
-        <Navbar user={user} onLogout={handleLogout} />
-      <PdfDownload></PdfDownload>
-        <Footer></Footer>
-      </>
-    ) : (
-      <Navigate to="/home-page" />
-    )
-  } /> */}
-        
+  } />  
       </Routes>
     </Router>
   );
