@@ -16,7 +16,7 @@ const CvTemplate = ({
         <div id="nameAndRole">
           <img src={image} alt="edf" />
           <h1>{personName}</h1>
-          {experiences.length > 0 && <h2>{experiences[0].role}</h2>}
+          {/* {experiences.length > 0 && <h2>{experiences[0].role}</h2>} */}
         </div>
         <div id="all">
           <div id="STE">
