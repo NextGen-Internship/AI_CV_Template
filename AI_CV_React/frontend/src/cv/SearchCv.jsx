@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 
 const SearchCV = ({ personId, handleInputChange, handleFetchData }) => {
   return (
     <div>
-      <label htmlFor='personId'>Enter Person ID:</label>
+      <label htmlFor="personId">Enter Person ID:</label>
       <input
-        type='text'
-        id='personId'
-        name='personId'
+        type="text"
+        id="personId"
+        name="personId"
         value={personId}
         onChange={handleInputChange}
       />

@@ -1,90 +1,81 @@
-body{
-    background-color: #fff;
-    width: 100%;
-  
-    
-  
+body {
+  background-color: #fff;
+  width: 100%;
 }
-#cv{
-    width: 21cm;
-    min-height: 29.7cm;
-    display: flex;
-    flex-direction: column;
-    text-align: centers;
-    border: 1px solid black;
-    background-image: url("/public/background.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    margin: 30px 0px;
+#cv {
+  width: 25.5cm;
+  min-height: 35.9cm;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  border: 1px solid black;
+  background-image: url("/public/background.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: auto;
+  padding-right: 40px;
 }
-h1{
-    margin-bottom: 10px;
+h1 {
+  margin-bottom: 10px;
 }
 
+#STE {
+  float: left;
+  margin-left: 40px;
+}
+h3 {
+  width: 300px;
+  float: left;
+  display: flex;
+  margin-top: 20cm;
+}
+.first {
+  width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+p {
+  text-align: left;
+  font-size: 16px;
+}
+p,
+ul {
+  padding-bottom: 30px;
+}
+ul {
+  list-style-type: none;
+}
+li {
+  text-align: left;
+}
+#nameAndRole {
+  float: right;
+  text-align: right;
+  margin-top: 30px;
+  margin-right: 40px;
+}
+#Experience {
+  display: flex;
+  flex-direction: column;
 
-#STE{
-    float: left;
-    margin-left: 40px;
+  margin-left: 70px;
 }
-h3{
-    border-bottom: 1px solid gray;
-    margin-bottom: 15px;
-    width: 300px;
-    padding-bottom: 10px;
-    float: left;
-    display: flex;
-    margin-top: 20px;
-
+i {
+  text-align: left;
+  margin-bottom: 10px;
 }
-.first{
-    width: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+#all {
+  display: flex;
+  margin-top: 40px;
 }
-p{
-    text-align: left;
-    font-size: 15px;
-}
-p ,ul{
-    margin-bottom: 30px;
-}
-ul{
-    list-style-type: none;
-}
-li{
-   text-align: left; 
-}
-#nameAndRole{
-    float: right;
-    text-align: right;
-    margin-top: 30px;
-    margin-right: 40px;
-    
-}
-#Experience{
-    display: flex;
-    flex-direction: column;
-   
-    margin-left: 70px;
-
-    
-}
-i{
-    text-align: left;
-}
-#all{
-display: flex;
-margin-top: 40px;
-}
-img{
-    width: 170px;
-    height: 20px;
-    float: left;
-    display: flex;
-    margin-left: 30px;
-
+img {
+  width: 170px;
+  height: 20px;
+  float: left;
+  display: flex;
+  margin-left: 30px;
 }
 #when,
 #company {
@@ -92,26 +83,30 @@ img{
   display: contents;
 }
 
-#role{
-    float: left;
-    margin: 0;
-    display: flex;
+#role {
+  float: left;
+  margin: 0;
+  display: flex;
 }
 
-#CR{
-    
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      
-    
+#CR {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-#description{
-    margin-top: 3px;
+#description {
+  margin-top: 3px;
 }
-.exp{
-    display: flex;
-    flex-direction: column;
+.exp {
+  display: flex;
+  flex-direction: column;
 }
 
-
+.line {
+  height: 1.2px;
+  width: 300px;
+  /* margin-top: 15px; */
+  margin-bottom: 15px;
+  background-color: gray;
+  float: left;
+}

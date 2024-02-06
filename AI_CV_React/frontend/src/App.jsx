@@ -4,6 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import Navbar from "./Navbar/Navbar";
 import HomePage from "./HomePage/HomePage";
+import WebSocket from "./WebSocket/WebSocket";
 import CvTemplate from "./cv/CvTemplate";
 import Footer from "./Footer/Footer";
 import PdfUpload from "./PdfUpload/PdfUpload";

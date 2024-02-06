@@ -1,51 +1,73 @@
 import React, { useEffect, useState } from "react";
-import "./PdfDownload.css";
+import { usePDF } from "react-to-pdf";
+import axios from "axios";
+import CvTemplate from "../cv/CvTemplate";
+import SearchCV from "../cv/SearchCV";
 
 const PdfDownload = () => {
-  const [pdfData, setPdfData] = useState(null);
+  const [personId, setPersonId] = useState("");
+  const [personData, setPersonData] = useState(null);
+  const [personName, setPersonName] = useState(null);
+  const [personSummary, setPersonSummary] = useState(null);
+  const [technologies, setTechnologies] = useState([]);
+  const [education, setEducation] = useState([]);
+  const [experiences, setExperiences] = useState([]);
+
+  const { toPDF, targetRef } = usePDF({ filename: personName + ".pdf" });
+
+  const handleInputChange = (e) => {
+    setPersonId(e.target.value);
+  };
+
+  const handleFetchData = async () => {
+    try {
+      const storedToken = localStorage.getItem("jwtToken");
+
+      const response = await axios.get(
+        `http://localhost:8080/pdf/${personId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+          },
+        }
+      );
+
+      setPersonData(response.data);
+      setPersonName(response.data.name);
+      setPersonSummary(response.data.summary);
+      setExperiences(response.data.experience);
+      setEducation(response.data.education);
+      setTechnologies(response.data.technologies);
+    } catch (error) {
+      console.error("Error fetching person data:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchPdf = async () => {
-      try {
-        const response = await fetch("./sample.pdf"); //to add real endpoint
-        if (!response.ok) {
-          throw new Error("Failed to fetch PDF");
-        }
+    handleFetchData();
+  }, [personId]);
 
-        const pdfBlob = await response.blob();
-        setPdfData(URL.createObjectURL(pdfBlob));
-      } catch (error) {
-        console.log("Error fetching PDF: ", error);
-      }
-    };
-
-    fetchPdf();
-  }, []);
-
-  const handleDownload = () => {
-    const link = document.createElement("a");
-    link.href = pdfData;
-    link.download = "cv.pdf";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
+  if (personData != null) {
+    const { name, summary, education, experiences } = personData;
+  }
 
   return (
     <div id="download-div">
-      <label id="download-pdf">Download PDF:</label>
-      <div className="pdf-container">
-        {pdfData && (
-          <iframe
-            src={`${pdfData}#toolbar=0`}
-            type="application/pdf"
-            className="preview"
-          />
-        )}
+      <SearchCV
+        personId={personId}
+        handleInputChange={handleInputChange}
+        handleFetchData={handleFetchData}
+      />
+      <button onClick={() => toPDF()}>Download Pdf</button>
+      <div ref={targetRef}>
+        <CvTemplate
+          personName={personName}
+          personSummary={personSummary}
+          technologies={technologies}
+          education={education}
+          experiences={experiences}
+        />
       </div>
-      <button onClick={handleDownload} id="download-button">
-        Download PDF
-      </button>
     </div>
   );
 };

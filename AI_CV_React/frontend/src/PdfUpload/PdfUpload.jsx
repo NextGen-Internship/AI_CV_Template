@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./PdfUpload.css";
+import PdfDownload from "../PdfDownload/PdfDownload";
+import CvTemplate from "../cv/CvTemplate";
 
-const PdfUpload = ({onUploadSuccess}) => {
+const PdfUpload = ({ onUploadSuccess }) => {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [uploadSuccessful, setIsUploadSuccessful] = useState(true);
   const [response, setResponse] = useState(null);
 
   const handleFileChange = (event) => {
@@ -11,8 +14,9 @@ const PdfUpload = ({onUploadSuccess}) => {
     setSelectedFile(file);
   };
 
-  const handleRemove = () =>{
-    setSelectedFile(null)}
+  const handleRemove = () => {
+    setSelectedFile(null);
+  };
 
   const handleUpload = () => {
     if (selectedFile) {
@@ -20,22 +24,23 @@ const PdfUpload = ({onUploadSuccess}) => {
       const storedToken = localStorage.getItem("jwtToken");
       formData.append("file", selectedFile);
 
-    const response =  axios.post("http://localhost:8080/pdf/upload", formData, {
-      headers: {
-        Authorization: `Bearer ${storedToken}`,
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-      .then((response) => {
-        setSelectedFile(null);
-        setResponse(response)
-      })
-      .catch((error) => {
-        console.error("Error uploading file:", error);
-      });
-  } else {
-    console.log("No file selected");
-  }
+      const response = axios
+        .post("http://localhost:8080/pdf/upload", formData, {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          setSelectedFile(null);
+          setResponse(response);
+        })
+        .catch((error) => {
+          console.error("Error uploading file:", error);
+        });
+    } else {
+      console.log("No file selected");
+    }
   };
 
   return (
@@ -67,15 +72,14 @@ const PdfUpload = ({onUploadSuccess}) => {
       <button onClick={handleUpload} id="upload-button">
         Upload PDF
       </button>
+      <PdfDownload></PdfDownload>
       {response && (
         <div>
-        
           <pre>{JSON.stringify(response.data, null, 2)}</pre>
         </div>
       )}
     </div>
   );
-  
 };
 
 export default PdfUpload;
