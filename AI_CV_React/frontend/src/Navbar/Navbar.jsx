@@ -1,59 +1,53 @@
-import React from "react";
+// Navbar.js
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import LogOut from "../Login/Logout";
 import "./Navbar.css";
-import { Link, NavLink, useNavigate } from 'react-router-dom';
 
-const Navbar = ({ user, onLogout }) => {
-  const navigate = useNavigate();
-  const storedUserInfo = localStorage.getItem("userInfo");
-  const [firstName, setFirstName] = React.useState("null");
-  const [picture, setPicture] = React.useState(null);
+const Navbar = ({ onLogout }) => {
+  const [user, setUser] = useState(null);
+  const [firstName, setFirstName] = useState(null);
+  const [picture, setPicture] = useState(null);
 
-  const handleUpload = () => {
-    navigate('/pdf-upload')
-  }
-
-  React.useEffect(() => {
+  useEffect(() => {
+    const storedUserInfo = localStorage.getItem("userInfo");
     if (storedUserInfo) {
       try {
         const userInfoObject = JSON.parse(storedUserInfo);
         const userFirstName = userInfoObject?.firstname;
         const userPicture = userInfoObject?.pictureUrl;
-        if (userInfoObject && userFirstName) {
-          setFirstName(userFirstName);
-        }
-        if (userInfoObject && userPicture) {
-          setPicture(userPicture);
-        }
+        if (userFirstName) setFirstName(userFirstName);
+        if (userPicture) setPicture(userPicture);
+        setUser(userInfoObject);
       } catch (error) {
         console.error("Error parsing stored user info:", error.message);
       }
     }
-  }, [storedUserInfo]);
+  }, []);
 
   return (
     <nav className="navbar">
       <div className="navbar-left">
-        <img className="logo-image-nav" src="public/AI_CV_Logo.png" />
+        <img className="logo-image-nav" src="public/AI_CV_Logo.png" alt="Logo" />
         <div className="project-name">AI CV Template</div>
-       <ul>
-        <li> 
-          <Link className="link" to="/pdf-upload">
-            Upload
-          </Link>
-          <Link className="link" to="/cv-template">
-            CV
-          </Link>
-
-        </li>
-       </ul>
+        <ul className="nav-links">
+          <li>
+            <Link className="link" to="/pdf-upload">Upload</Link>
+          </li>
+          <li>
+            <Link className="link" to="/home-page">CV</Link>
+          </li>
+        </ul>
       </div>
       <div className="navbar-right">
-        <div className="user-info">
-          <span className="userName">{firstName}</span>
-          <img src={picture} alt="userProfile" className="userProfile" />
-          <LogOut onLogout={onLogout} />
-        </div>
+        {user && (
+          <div className="user-info">
+            <span className="userName">{firstName}</span>
+            {picture && <img src={picture} alt="userProfile" className="userProfile" />}
+            {/* Pass onLogout function to LogOut component */}
+            <LogOut onLogout={onLogout} />
+          </div>
+        )}
       </div>
     </nav>
   );

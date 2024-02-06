@@ -4,8 +4,6 @@ import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import Navbar from "./Navbar/Navbar";
 import HomePage from "./HomePage/HomePage";
-import WebSocket from "./WebSocket/WebSocket";
-import CvTemplate from "./cv/CvTemplate";
 import Footer from "./Footer/Footer";
 import PdfUpload from "./PdfUpload/PdfUpload";
 import PdfDownload from "./PdfDownload/PdfDownload";
@@ -82,7 +80,6 @@ function App() {
               ) : (
                 <>
                  <Navbar user={user} onLogout={handleLogout} />
-                  <CvTemplate />
                   <Footer />
                 </>
               )
@@ -97,7 +94,7 @@ function App() {
             localStorage.getItem("jwtToken") ? (
               <>
                <Navbar user={user} onLogout={handleLogout} />
-                <CvTemplate />
+               <PdfDownload></PdfDownload>
                 <Footer />
               </>
             ) : (
@@ -119,19 +116,19 @@ function App() {
       <Navigate to="/home-page" />
     )
   } />
-   <Route
+   {/* <Route
   path="/cv-template"
   element={
     localStorage.getItem("jwtToken") ? (
       <>
         <Navbar user={user} onLogout={handleLogout} />
-        <CvTemplate />
+      <PdfDownload></PdfDownload>
         <Footer></Footer>
       </>
     ) : (
       <Navigate to="/home-page" />
     )
-  } />
+  } /> */}
         
       </Routes>
     </Router>
@@ -139,3 +136,4 @@ function App() {
 }
 
 export default App;
+
