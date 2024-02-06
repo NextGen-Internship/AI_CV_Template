@@ -72,7 +72,7 @@ const PdfUpload = ({ onUploadSuccess }) => {
       <button onClick={handleUpload} id="upload-button">
         Upload PDF
       </button>
-      <PdfDownload></PdfDownload>
+      
       {response && (
         <div>
           <pre>{JSON.stringify(response.data, null, 2)}</pre>
