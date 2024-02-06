@@ -1,7 +1,9 @@
 package com.example.AI_CV_JAVA.service.impl;
 
+import com.example.AI_CV_JAVA.Entity.Experience;
 import com.example.AI_CV_JAVA.Entity.Technology;
 import com.example.AI_CV_JAVA.Repo.TechnologyRepository;
+import com.example.AI_CV_JAVA.exception.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +24,11 @@ public class TechnologyServiceImpl {
     }
 
     public Optional<Technology> getTechnologyById(Long id) {
-        return technologyRepository.findById(id);
+        Optional<Technology> technology = technologyRepository.findById(id);
+        if (technology.isEmpty()) {
+            throw new DataNotFoundException("Technology with id " + id + " not found");
+        }
+        return technology;
     }
 
     public Technology updateTechnology(Long id, Technology toUpdateTechnology) {
@@ -30,11 +36,16 @@ public class TechnologyServiceImpl {
         if (existingTechnology.isPresent()) {
             toUpdateTechnology.setId(id);
             return technologyRepository.save(toUpdateTechnology);
+        } else {
+            throw new DataNotFoundException("Technology with id " + id + " not found");
         }
-        return null;
     }
 
     public void deleteTechnology(Long id) {
+        Optional<Technology> technology = technologyRepository.findById(id);
+        if(technology.isEmpty()){
+            throw new DataNotFoundException("Technology with id " + id + " not found");
+        }
         technologyRepository.deleteById(id);
     }
 }
