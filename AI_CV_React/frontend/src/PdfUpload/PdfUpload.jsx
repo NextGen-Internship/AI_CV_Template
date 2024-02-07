@@ -6,6 +6,7 @@ import CvTemplate from "../cv/CvTemplate";
 
 const PdfUpload = ({ onUploadSuccess }) => {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [gmail, setGmail] = useState("");
   const [uploadSuccessful, setIsUploadSuccessful] = useState(true);
   const [response, setResponse] = useState(null);
 
@@ -14,17 +15,23 @@ const PdfUpload = ({ onUploadSuccess }) => {
     setSelectedFile(file);
   };
 
+  const handleGmailChange = (event) => {
+    const { value } = event.target;
+    setGmail(value);
+  };
+
   const handleRemove = () => {
     setSelectedFile(null);
   };
 
   const handleUpload = () => {
-    if (selectedFile) {
+    if (selectedFile && gmail) {
       const formData = new FormData();
       const storedToken = localStorage.getItem("jwtToken");
       formData.append("file", selectedFile);
+      formData.append("gmail", gmail);
 
-      const response = axios
+      axios
         .post("http://localhost:8080/pdf/upload", formData, {
           headers: {
             Authorization: `Bearer ${storedToken}`,
@@ -33,13 +40,14 @@ const PdfUpload = ({ onUploadSuccess }) => {
         })
         .then((response) => {
           setSelectedFile(null);
+          setGmail("");
           setResponse(response);
         })
         .catch((error) => {
           console.error("Error uploading file:", error);
         });
     } else {
-      console.log("No file selected");
+      console.log("Please select a file and enter a Gmail address.");
     }
   };
 
@@ -69,10 +77,19 @@ const PdfUpload = ({ onUploadSuccess }) => {
         onChange={handleFileChange}
         id="upload-file-input"
       />
+
+      <label htmlFor="gmail-input">Enter Gmail Address:</label>
+      <input
+        type="email"
+        id="gmail-input"
+        value={gmail}
+        onChange={handleGmailChange}
+      />
+
       <button onClick={handleUpload} id="upload-button">
         Upload PDF
       </button>
-      
+
       {response && (
         <div>
           <pre>{JSON.stringify(response.data, null, 2)}</pre>
