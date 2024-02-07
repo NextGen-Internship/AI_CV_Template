@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 @Service
 @RequiredArgsConstructor
@@ -52,6 +53,7 @@ public class PdfServiceImpl implements PdfService {
         person.setTechnologies(mapTechnologies(jsonNode.path("technologies")));
         person.setExperience(mapExperiences(jsonNode.path("experience")));
         person.setEducation(mapEducation(jsonNode.path("education")));
+        person.setEmail(jsonNode.path("gmail").asText());
         return person;
     }
 
@@ -81,15 +83,15 @@ public class PdfServiceImpl implements PdfService {
     public void readJson(String message) throws Exception {
         Person person = makePerson(message);
         personService.savePerson(person);
-
     }
 
-    public void upload(MultipartFile file) throws IOException {
+    public void upload(MultipartFile file, String gmail) throws IOException {
         PDDocument document = PDDocument.load(file.getInputStream());
         PDFTextStripper pdfStripper = new PDFTextStripper();
         String text = pdfStripper.getText(document);
+        String textToSend = text + "Blankfactor gmail: " + gmail;
         document.close();
-        producer.sendMessage(text);
+        producer.sendMessage(textToSend);
     }
 
 }

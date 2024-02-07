@@ -1,4 +1,3 @@
-// Navbar.js
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import LogOut from "../Login/Logout";
@@ -44,7 +43,6 @@ const Navbar = ({ onLogout }) => {
           <div className="user-info">
             <span className="userName">{firstName}</span>
             {picture && <img src={picture} alt="userProfile" className="userProfile" />}
-            {/* Pass onLogout function to LogOut component */}
             <LogOut onLogout={onLogout} />
           </div>
         )}

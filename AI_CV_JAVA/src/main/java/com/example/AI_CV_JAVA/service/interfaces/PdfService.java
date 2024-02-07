@@ -22,5 +22,5 @@ public interface PdfService {
 
     void readJson(String message) throws Exception;
 
-    void upload(MultipartFile file) throws IOException;
+    void upload(MultipartFile file, String gmail) throws IOException;
 }
