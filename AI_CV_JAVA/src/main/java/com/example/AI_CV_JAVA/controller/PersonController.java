@@ -1,13 +1,18 @@
 package com.example.AI_CV_JAVA.controller;
 
+import com.example.AI_CV_JAVA.DTO.PersonDto;
 import com.example.AI_CV_JAVA.Entity.Person;
 import com.example.AI_CV_JAVA.service.interfaces.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("person")
@@ -19,6 +24,14 @@ public class PersonController {
     public ResponseEntity<List<Person>> getAllPeople() {
         List<Person> allPeopleList = personService.getAllPeople();
         return new ResponseEntity<>(allPeopleList, HttpStatus.OK);
+    }
+
+    @GetMapping("/update/{email}")
+    public ResponseEntity<Boolean> updatePersonByEmail(@PathVariable("person") Person person){
+        if (personService.updateByEmail(person)){
+            return ResponseEntity.ok().build();
+        };
+        return ResponseEntity.badRequest().build();
     }
 
     @GetMapping("/{email}")

@@ -17,6 +17,8 @@ public interface PersonService {
     void deleteById(long id);
 
     void deleteByEmail(String email);
+
+    boolean updateByEmail(Person person);
 }
 
 

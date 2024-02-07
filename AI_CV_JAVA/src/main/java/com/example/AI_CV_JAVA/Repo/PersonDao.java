@@ -12,4 +12,5 @@ import java.util.Optional;
 public interface PersonDao extends JpaRepository<Person, Long> {
     @Query("SELECT p FROM Person p WHERE p.email = :email")
     Optional<Person> findByEmail(@Param("email") String email);
+
 }

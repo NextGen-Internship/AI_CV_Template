@@ -40,6 +40,19 @@ public class PersonServiceImpl implements PersonService {
 
     }
 
+    @Override
+    public boolean updateByEmail(Person person) {
+    Optional<Person> editedPerson= personDao.findByEmail(person.getEmail());
+    if (editedPerson.isPresent()){
+        editedPerson.get().setSummary(person.getSummary());
+        editedPerson.get().setTechnologies(person.getTechnologies());
+        editedPerson.get().setEducation(person.getEducation());
+        personDao.save(editedPerson.get());
+        return true;
+    }
+        return false;
+    }
+
     public void deletePerson(Long id) {
         personDao.deleteById(id
         );
