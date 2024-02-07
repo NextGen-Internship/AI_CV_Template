@@ -1,6 +1,6 @@
 package com.example.AI_CV_JAVA.security;
 
-import com.example.AI_CV_JAVA.user.UserRepository;
+import com.example.AI_CV_JAVA.Repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

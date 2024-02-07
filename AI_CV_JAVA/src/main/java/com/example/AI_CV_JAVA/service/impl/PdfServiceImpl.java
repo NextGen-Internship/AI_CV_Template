@@ -4,7 +4,7 @@ import com.example.AI_CV_JAVA.Entity.Education;
 import com.example.AI_CV_JAVA.Entity.Experience;
 import com.example.AI_CV_JAVA.Entity.Person;
 import com.example.AI_CV_JAVA.Entity.Technology;
-import com.example.AI_CV_JAVA.service.PdfPublisherService;
+import com.example.AI_CV_JAVA.service.interfaces.PdfPublisherService;
 import com.example.AI_CV_JAVA.service.interfaces.PdfService;
 import com.example.AI_CV_JAVA.service.interfaces.PersonService;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -14,6 +14,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

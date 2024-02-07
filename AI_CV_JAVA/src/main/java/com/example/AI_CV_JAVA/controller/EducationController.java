@@ -1,11 +1,13 @@
 package com.example.AI_CV_JAVA.controller;
 
 import com.example.AI_CV_JAVA.Entity.Education;
+import com.example.AI_CV_JAVA.exception.DataNotFoundException;
 import com.example.AI_CV_JAVA.service.interfaces.EducationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -29,17 +31,21 @@ public class EducationController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Education>> getEducationById(@PathVariable Long id) {
-        Optional<Education> education = educationService.getEducationById(id);
-        return new ResponseEntity<>(education, HttpStatus.OK);
+        try {
+            Optional<Education> education = educationService.getEducationById(id);
+            return new ResponseEntity<>(education, HttpStatus.OK);
+        } catch (DataNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Optional.empty());
+        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Education> updateEducation(@PathVariable Long id, @RequestBody Education toUpdate) {
-        Education updatedEducation = educationService.updateEducation(id, toUpdate);
-        if (updatedEducation != null) {
+        try {
+            Education updatedEducation = educationService.updateEducation(id, toUpdate);
             return new ResponseEntity<>(updatedEducation, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (DataNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
