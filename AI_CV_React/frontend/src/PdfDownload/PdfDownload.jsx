@@ -4,7 +4,7 @@ import axios from "axios";
 import CvTemplate from "../cv/CvTemplate";
 import SearchCV from "../cv/SearchCV";
 
-const PdfDownload = ({ selectedEmail }) => {
+const PdfDownload = ({ email }) => {
   const [personId, setPersonId] = useState("");
   const [personData, setPersonData] = useState(null);
   const [personName, setPersonName] = useState(null);
@@ -20,6 +20,7 @@ const PdfDownload = ({ selectedEmail }) => {
   };
 
   const fetchByEmail = async (email) => {
+    console.log(email);
     try {
       const storedToken = localStorage.getItem("jwtToken");
       const response = await axios.get(
@@ -67,12 +68,12 @@ const PdfDownload = ({ selectedEmail }) => {
   };
 
   useEffect(() => {
-    if (selectedEmail) {
-      fetchByEmail(selectedEmail);
-    } else {
-      fetchById(personData?.id);
+    if (email) {
+      fetchByEmail(email);
+    } else if (personId !== "") {
+      fetchById(personId);
     }
-  }, [selectedEmail]);
+  }, [email, personId]);
 
   if (personData != null) {
     const { name, summary, education, experiences } = personData;
@@ -80,14 +81,10 @@ const PdfDownload = ({ selectedEmail }) => {
 
   return (
     <div id="download-div">
-      {/* <SearchCV
-        personId={personId}
-        handleInputChange={handleInputChange}
-        handleFetchData={handleFetchData}
-      /> */}
       <SearchCV
-        handleInputChange={(e) => setPersonData(null)}
-        handleFetchData={() => fetchById(personData?.id)}
+        personId={personId}
+        handleInputChange={fetchById}
+        handleFetchData={fetchById}
       />
       <button onClick={() => toPDF()}>Download Pdf</button>
       <div ref={targetRef}>

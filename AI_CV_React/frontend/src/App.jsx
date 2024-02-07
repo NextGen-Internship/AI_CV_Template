@@ -20,6 +20,11 @@ function App() {
   const [isUploadSuccessful, setIsUploadSuccessful] = useState(false);
   const [user, setUser] = useState(null);
   const [messages, setMessages] = useState([]);
+  const [selectedEmail, setSelectedEmail] = useState(null);
+
+  const handleOpenTemplateApp = (email) => {
+    setSelectedEmail(email);
+  };
 
   const checkToken = async () => {
     const storedToken = localStorage.getItem("jwtToken");
@@ -77,9 +82,17 @@ function App() {
     <>
       {localStorage.getItem("jwtToken") ? (
         <>
-          <Navbar user={user} onLogout={handleLogout} messages={messages} />
+          <Navbar
+            user={user}
+            onLogout={handleLogout}
+            messages={messages}
+            handleOpenTemplateApp={handleOpenTemplateApp}
+            setSelectedEmail={setSelectedEmail}
+            setMessages={setMessages}
+          />
           <PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>
           <WebSocket messages={messages} setMessages={setMessages}></WebSocket>
+          {selectedEmail && <PdfDownload email={selectedEmail} />}
           <Footer></Footer>
         </>
       ) : (
@@ -87,7 +100,7 @@ function App() {
           <HomePage setUser={setUser} setLoggedIn={setLoggedIn} />
         </>
       )}
-      {/* {isUploadSuccessful && <PdfDownload></PdfDownload>} */}
+      <PdfDownload email={selectedEmail} />
     </>
   );
 }

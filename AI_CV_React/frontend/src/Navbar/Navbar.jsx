@@ -1,33 +1,35 @@
-import { useState, useEffect } from "react";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import LogOut from "../Login/Logout";
 import "./Navbar.css";
 import PdfDownload from "../PdfDownload/PdfDownload";
 
-const Navbar = ({ user, onLogout, messages }) => {
+const Navbar = ({
+  user,
+  onLogout,
+  messages,
+  handleOpenTemplateApp,
+  setSelectedEmail,
+  setMessages,
+}) => {
   const storedUserInfo = localStorage.getItem("userInfo");
-  const [firstName, setFirstName] = useState("null");
+  const [firstName, setFirstName] = useState(null);
   const [picture, setPicture] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [selectedEmail, setSelectedEmail] = useState(null);
 
   useEffect(() => {
+    const storedUserInfo = localStorage.getItem("userInfo");
     if (storedUserInfo) {
       try {
         const userInfoObject = JSON.parse(storedUserInfo);
         const userFirstName = userInfoObject?.firstname;
         const userPicture = userInfoObject?.pictureUrl;
-        if (userInfoObject && userFirstName) {
-          setFirstName(userFirstName);
-        }
-        if (userInfoObject && userPicture) {
-          setPicture(userPicture);
-        }
+        if (userFirstName) setFirstName(userFirstName);
+        if (userPicture) setPicture(userPicture);
       } catch (error) {
         console.error("Error parsing stored user info:", error.message);
       }
     }
-  }, [storedUserInfo]);
+  }, []);
 
   useEffect(() => {
     console.log("Messages updated:", messages);
@@ -40,15 +42,19 @@ const Navbar = ({ user, onLogout, messages }) => {
   const handleOpenTemplate = (email) => {
     setSelectedEmail(email);
     console.log("Opening CV template for email:", email);
+    setMessages(messages.filter((message) => message.email !== email));
     toggleDropdown();
   };
 
   return (
     <nav className="navbar">
       <div className="navbar-left">
-        <img className="logo-image-nav" src="public/AI_CV_Logo.png" />
+        <img
+          className="logo-image-nav"
+          src="public/AI_CV_Logo.png"
+          alt="Logo"
+        />
         <div className="project-name">AI CV Template</div>
-        <div>Upload</div>
       </div>
 
       <div className="navbar-right">
@@ -70,17 +76,14 @@ const Navbar = ({ user, onLogout, messages }) => {
             </div>
           )}
         </div>
-        <div className="user-info">
-          <span className="userName">{firstName}</span>
-          <img src={picture} alt="userProfile" className="userProfile" />
-          <LogOut onLogout={onLogout} />
-        </div>
+        {user && (
+          <div className="user-info">
+            <span className="userName">{firstName}</span>
+            <img src={picture} alt="userProfile" className="userProfile" />
+            <LogOut onLogout={onLogout} />
+          </div>
+        )}
       </div>
-      {selectedEmail && (
-        <>
-          <PdfDownload email={selectedEmail} />
-        </>
-      )}
     </nav>
   );
 };
