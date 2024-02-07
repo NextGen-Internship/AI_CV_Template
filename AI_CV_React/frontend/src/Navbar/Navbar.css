@@ -2,7 +2,6 @@ body,
 h1,
 h2,
 h3,
-p,
 ul,
 li {
   margin: 0;
@@ -98,4 +97,9 @@ button:hover {
 .project-name {
   padding: 10px 10px;
   padding-left: 5%;
+}
+
+.link{
+  color: white;
+  margin: 5px;
 }
