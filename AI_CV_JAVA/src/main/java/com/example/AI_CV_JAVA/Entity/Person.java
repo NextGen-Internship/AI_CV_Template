@@ -1,12 +1,10 @@
 package com.example.AI_CV_JAVA.Entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.groups.Default;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.List;
 
 @Builder
