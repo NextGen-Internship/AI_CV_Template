@@ -23,6 +23,8 @@ public class MultipartController {
     private final PersonService personService;
     private final UserDetailsService userDetailsService;
 
+    private final WebSocketController webSocketController;
+
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
         CompletableFuture<PersonDto> personDtoFuture = null;

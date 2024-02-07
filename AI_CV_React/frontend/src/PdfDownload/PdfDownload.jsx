@@ -4,7 +4,7 @@ import axios from "axios";
 import CvTemplate from "../cv/CvTemplate";
 import SearchCV from "../cv/SearchCV";
 
-const PdfDownload = () => {
+const PdfDownload = ({ selectedEmail }) => {
   const [personId, setPersonId] = useState("");
   const [personData, setPersonData] = useState(null);
   const [personName, setPersonName] = useState(null);
@@ -19,7 +19,30 @@ const PdfDownload = () => {
     setPersonId(e.target.value);
   };
 
-  const handleFetchData = async () => {
+  const fetchByEmail = async (email) => {
+    try {
+      const storedToken = localStorage.getItem("jwtToken");
+      const response = await axios.get(
+        `http://localhost:8080/person/${email}`,
+        {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+          },
+        }
+      );
+
+      setPersonData(response.data);
+      setPersonName(response.data.name);
+      setPersonSummary(response.data.summary);
+      setExperiences(response.data.experience);
+      setEducation(response.data.education);
+      setTechnologies(response.data.technologies);
+    } catch (error) {
+      console.error("Error fetching person data:", error);
+    }
+  };
+
+  const fetchById = async () => {
     try {
       const storedToken = localStorage.getItem("jwtToken");
 
@@ -44,8 +67,12 @@ const PdfDownload = () => {
   };
 
   useEffect(() => {
-    handleFetchData();
-  }, [personId]);
+    if (selectedEmail) {
+      fetchByEmail(selectedEmail);
+    } else {
+      fetchById(personData?.id);
+    }
+  }, [selectedEmail]);
 
   if (personData != null) {
     const { name, summary, education, experiences } = personData;
@@ -53,10 +80,14 @@ const PdfDownload = () => {
 
   return (
     <div id="download-div">
-      <SearchCV
+      {/* <SearchCV
         personId={personId}
         handleInputChange={handleInputChange}
         handleFetchData={handleFetchData}
+      /> */}
+      <SearchCV
+        handleInputChange={(e) => setPersonData(null)}
+        handleFetchData={() => fetchById(personData?.id)}
       />
       <button onClick={() => toPDF()}>Download Pdf</button>
       <div ref={targetRef}>

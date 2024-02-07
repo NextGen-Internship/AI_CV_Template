@@ -18,7 +18,9 @@ public class SecurityConfiguration {
 
     private static final String[] WHITE_LIST_URL = {
             "/process-google-token",
-            "/pdf/upload"
+            "/pdf/upload",
+            "/ws-message",
+//            "**"
     };
 
     private final JwtAuthenticationFilter jwtAuthFilter;

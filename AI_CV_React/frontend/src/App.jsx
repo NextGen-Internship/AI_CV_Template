@@ -11,14 +11,15 @@ import LogOut from "./Login/Logout";
 import Navbar from "./Navbar/Navbar";
 import { jwtDecode } from "jwt-decode";
 import HomePage from "./HomePage/HomePage";
-import WebSocket from "./WebSocket/WebSocket";
 import CvTemplate from "./cv/CvTemplate";
 import Footer from "./Footer/Footer";
+import WebSocket from "./WebSocket/Websocket";
 
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isUploadSuccessful, setIsUploadSuccessful] = useState(false);
   const [user, setUser] = useState(null);
+  const [messages, setMessages] = useState([]);
 
   const checkToken = async () => {
     const storedToken = localStorage.getItem("jwtToken");
@@ -76,10 +77,9 @@ function App() {
     <>
       {localStorage.getItem("jwtToken") ? (
         <>
-          <Navbar user={user} onLogout={handleLogout} />
-          {/* <CvTemplate /> */}
+          <Navbar user={user} onLogout={handleLogout} messages={messages} />
           <PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>
-          {/* <WebSocket></WebSocket> */}
+          <WebSocket messages={messages} setMessages={setMessages}></WebSocket>
           <Footer></Footer>
         </>
       ) : (

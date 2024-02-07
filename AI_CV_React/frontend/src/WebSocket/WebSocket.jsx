@@ -1,40 +1,49 @@
+import { Client } from "@stomp/stompjs";
 import React, { useEffect, useState } from "react";
-import useWebSocket, { ReadyState } from "react-use-websocket";
+import Navbar from "../Navbar/Navbar";
 
-const WebSocket = () => {
-  const [messages, setMessages] = useState([]);
-  const [message, setMessage] = useState("");
-  const [stompClient, setStompClient] = useState(null);
+const SOCKET_URL = "ws://localhost:8080/ws-message";
 
-  const WS_URL = "ws://backend_java:8080/ws";
-
-  const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(
-    WS_URL,
-    {
-      share: false,
-      shouldReconnect: () => true,
-    }
-  );
+function WebSocket({ messages, setMessages }) {
+  const [message, setMessage] = useState(null);
+  // const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    console.log("Connection state changed");
-    if (readyState === ReadyState.OPEN) {
-      sendJsonMessage({
-        event: "subscribe",
-        data: {
-          channel: "general-chatroom",
-        },
+    const client = new Client({
+      brokerURL: SOCKET_URL,
+      reconnectDelay: 5000,
+      heartbeatIncoming: 4000,
+      heartbeatOutgoing: 4000,
+    });
+
+    const onConnected = () => {
+      console.log("Connected!!");
+      client.subscribe("/topic/message", function (msg) {
+        if (msg.body) {
+          var jsonBody = JSON.parse(msg.body);
+          // console.log(jsonBody);
+          setMessages((prevMessages) => [...prevMessages, jsonBody]);
+          setMessage(jsonBody.message);
+          // console.log(messages.length);
+        }
       });
-    }
-  }, [readyState]);
+    };
 
-  useEffect(() => {
-    console.log(`Got a new message: ${lastJsonMessage}`);
-  }, [lastJsonMessage]);
+    const onDisconnected = () => {
+      console.log("Disconnected!!");
+    };
 
-  //   return (
-  //     // Your component JSX here
-  //   );s
-};
+    client.onConnect = onConnected;
+    client.onDisconnect = onDisconnected;
+
+    client.activate();
+
+    return () => {
+      client.deactivate();
+    };
+  }, []);
+
+  return <></>;
+}
 
 export default WebSocket;
