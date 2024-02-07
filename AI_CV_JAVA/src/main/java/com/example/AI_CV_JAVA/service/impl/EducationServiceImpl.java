@@ -1,7 +1,7 @@
 package com.example.AI_CV_JAVA.service.impl;
 
 import com.example.AI_CV_JAVA.Entity.Education;
-import com.example.AI_CV_JAVA.Repo.EducationDao;
+import com.example.AI_CV_JAVA.Repo.EducationRepository;
 import com.example.AI_CV_JAVA.service.interfaces.EducationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,30 +11,30 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class EducationServiceImpl implements EducationService {
-    private final EducationDao educationDao;
+    private final EducationRepository educationRepository;
 
     public Education saveEducation(Education education) {
-        return educationDao.saveAndFlush(education);
+        return educationRepository.saveAndFlush(education);
     }
 
     public List<Education> getAllEducations() {
-        return educationDao.findAll();
+        return educationRepository.findAll();
     }
 
     public Optional<Education> getEducationById(Long id) {
-        return educationDao.findById(id);
+        return educationRepository.findById(id);
     }
 
     public Education updateEducation(Long id, Education toUpdate) {
-        Optional<Education> existingEducation = educationDao.findById(id);
+        Optional<Education> existingEducation = educationRepository.findById(id);
         if (existingEducation.isPresent()) {
             toUpdate.setId(id);
-            return educationDao.save(toUpdate);
+            return educationRepository.save(toUpdate);
         }
         return null;
     }
 
     public void deleteEducation(Long id) {
-        educationDao.deleteById(id);
+        educationRepository.deleteById(id);
     }
 }
