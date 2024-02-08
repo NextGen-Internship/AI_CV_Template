@@ -8,11 +8,7 @@ import Footer from "./Footer/Footer";
 import PdfUpload from "./PdfUpload/PdfUpload";
 import PdfDownload from "./PdfDownload/PdfDownload";
 import LogOut from "./Login/Logout";
-// import Navbar from "./Navbar/Navbar";
-// import { jwtDecode } from "jwt-decode";
-// import HomePage from "./HomePage/HomePage";
 import CvTemplate from "./cv/CvTemplate";
-// import Footer from "./Footer/Footer";
 import WebSocket from "./WebSocket/Websocket";
 import {
   BrowserRouter as Router,

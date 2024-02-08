@@ -17,10 +17,10 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
 @RestController
+@RequiredArgsConstructor
 public class WebSocketController {
 
-    @Autowired
-    SimpMessagingTemplate template;
+    private final SimpMessagingTemplate template;
 
     @PostMapping("/send")
     public ResponseEntity<Void> sendMessage(@RequestBody NotificationDto notificationDto) {
