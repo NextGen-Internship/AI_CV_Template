@@ -16,7 +16,7 @@ def handle_cv(cv):
                 "content": "You are given a cv, please check for the misspellings or wrong words replace it with the "
                 "right word,please double check for Seattle ,  extract the name,"
                 "summary,"
-                "previous work ,please double check is it previous work or experience, not part of education "
+                "experience ,please double check is it previous work or experience, not part of education "
                 "experience as experience,about the experience extract the role or title as role, company or "
                 "institution as company, start year, end year separate as start_year and end_year,"
                 "and responsibilities, summary or description as description"
@@ -29,8 +29,10 @@ def handle_cv(cv):
                 "the start"
                 "year and end year separate as start_year and end_year,"
                 "and the role of the last"
-                "company in a json format,and only blankfactor gmail as gmail, don't send anything else that "
-                "is not specified"},
+                "company in a json format,and only blankfactor gmail as gmail, don't send anything else that, is not specified"
+                "Also the gmail field in the json should always be called gmail. Also make sure that if there are two emails, "
+                "also get the Blankfactor one, it's at the end and it end with @blankfactor.com."
+                },
             {"role": "user", "content": cv}
         ],
         stream=True,

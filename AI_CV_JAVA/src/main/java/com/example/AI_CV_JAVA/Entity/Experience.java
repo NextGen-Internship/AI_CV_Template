@@ -30,6 +30,6 @@ public class Experience {
     @Column(name = "end_date", nullable = true)
     private String endYear;
 
-    @Column
+    @Column(length = 1000)
     private String description;
 }
