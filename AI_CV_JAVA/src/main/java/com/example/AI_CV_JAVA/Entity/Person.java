@@ -1,7 +1,7 @@
 package com.example.AI_CV_JAVA.Entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.groups.Default;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,6 +22,7 @@ public class Person {
     private long id;
 
     @Column(name = "email", nullable = true)
+    @Email
     private String email;
 
     @Column

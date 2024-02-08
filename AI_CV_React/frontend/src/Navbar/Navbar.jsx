@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import LogOut from "../Login/Logout";
 import "./Navbar.css";
 import PdfDownload from "../PdfDownload/PdfDownload";
@@ -12,6 +13,8 @@ const Navbar = ({
   setMessages,
 }) => {
   const storedUserInfo = localStorage.getItem("userInfo");
+  //const Navbar = ({ onLogout }) => {
+  //const [user, setUser] = useState(null);
   const [firstName, setFirstName] = useState(null);
   const [picture, setPicture] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -25,6 +28,7 @@ const Navbar = ({
         const userPicture = userInfoObject?.pictureUrl;
         if (userFirstName) setFirstName(userFirstName);
         if (userPicture) setPicture(userPicture);
+        // setUser(userInfoObject);
       } catch (error) {
         console.error("Error parsing stored user info:", error.message);
       }
@@ -55,6 +59,24 @@ const Navbar = ({
           alt="Logo"
         />
         <div className="project-name">AI CV Template</div>
+        <img
+          className="logo-image-nav"
+          src="public/AI_CV_Logo.png"
+          alt="Logo"
+        />
+        <div className="project-name">AI CV Template</div>
+        <ul className="nav-links">
+          <li>
+            <Link className="link" to="/pdf-upload">
+              Upload
+            </Link>
+          </li>
+          <li>
+            <Link className="link" to="/home-page">
+              CV
+            </Link>
+          </li>
+        </ul>
       </div>
 
       <div className="navbar-right">
@@ -76,14 +98,21 @@ const Navbar = ({
             </div>
           )}
         </div>
+        {/* {user && (
+          <div className="user-info">
+            <span className="userName">{firstName}</span>
+            <img src={picture} alt="userProfile" className="userProfile" /> */}
         {user && (
           <div className="user-info">
             <span className="userName">{firstName}</span>
-            <img src={picture} alt="userProfile" className="userProfile" />
+            {picture && (
+              <img src={picture} alt="userProfile" className="userProfile" />
+            )}
             <LogOut onLogout={onLogout} />
           </div>
         )}
       </div>
+      {/* </div> */}
     </nav>
   );
 };

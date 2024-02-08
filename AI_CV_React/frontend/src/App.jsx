@@ -1,19 +1,25 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import { GoogleLogin, googleLogout } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 import axios from "axios";
-import LoginSignUp from "./Login/LoginSignUp";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import Navbar from "./Navbar/Navbar";
+import HomePage from "./HomePage/HomePage";
+import Footer from "./Footer/Footer";
 import PdfUpload from "./PdfUpload/PdfUpload";
 import PdfDownload from "./PdfDownload/PdfDownload";
 import LogOut from "./Login/Logout";
-import Navbar from "./Navbar/Navbar";
-import { jwtDecode } from "jwt-decode";
-import HomePage from "./HomePage/HomePage";
+// import Navbar from "./Navbar/Navbar";
+// import { jwtDecode } from "jwt-decode";
+// import HomePage from "./HomePage/HomePage";
 import CvTemplate from "./cv/CvTemplate";
-import Footer from "./Footer/Footer";
+// import Footer from "./Footer/Footer";
 import WebSocket from "./WebSocket/Websocket";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -21,6 +27,7 @@ function App() {
   const [user, setUser] = useState(null);
   const [messages, setMessages] = useState([]);
   const [selectedEmail, setSelectedEmail] = useState(null);
+  const [showPdfUpload, setShowPdfUpload] = useState(false);
 
   const handleOpenTemplateApp = (email) => {
     setSelectedEmail(email);
@@ -58,6 +65,7 @@ function App() {
 
   const handleUploadSuccess = () => {
     setIsUploadSuccessful(true);
+    setShowPdfUpload(false);
   };
 
   const handleLogout = () => {
@@ -79,29 +87,78 @@ function App() {
   }, [isLoggedIn]);
 
   return (
-    <>
-      {localStorage.getItem("jwtToken") ? (
-        <>
-          <Navbar
-            user={user}
-            onLogout={handleLogout}
-            messages={messages}
-            handleOpenTemplateApp={handleOpenTemplateApp}
-            setSelectedEmail={setSelectedEmail}
-            setMessages={setMessages}
-          />
-          <PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>
-          <WebSocket messages={messages} setMessages={setMessages}></WebSocket>
-          {selectedEmail && <PdfDownload email={selectedEmail} />}
-          <Footer></Footer>
-        </>
-      ) : (
-        <>
-          <HomePage setUser={setUser} setLoggedIn={setLoggedIn} />
-        </>
-      )}
-      {/* <PdfDownload email={selectedEmail} /> */}
-    </>
+    // <>
+    //   {localStorage.getItem("jwtToken") ? (
+    //     <>
+    //       <Navbar
+    //         user={user}
+    //         onLogout={handleLogout}
+    //         messages={messages}
+    //         handleOpenTemplateApp={handleOpenTemplateApp}
+    //         setSelectedEmail={setSelectedEmail}
+    //         setMessages={setMessages}
+    //       />
+    //       <PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>
+    //       <WebSocket messages={messages} setMessages={setMessages}></WebSocket>
+    //       {selectedEmail && <PdfDownload email={selectedEmail} />}
+    //       <Footer></Footer>
+    //     </>
+    //   ) : (
+    //     <>
+    //       <HomePage setUser={setUser} setLoggedIn={setLoggedIn} />
+    //     </>
+    //   )}
+    //   {/* <PdfDownload email={selectedEmail} /> */}
+    // </>
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            localStorage.getItem("jwtToken") ? (
+              showPdfUpload ? (
+                <PdfUpload onUploadSuccess={handleUploadSuccess} />
+              ) : (
+                <>
+                  <Navbar user={user} onLogout={handleLogout} />
+                  <Footer />
+                </>
+              )
+            ) : (
+              <Navigate to="/home-page" />
+            )
+          }
+        />
+        <Route
+          path="/home-page"
+          element={
+            localStorage.getItem("jwtToken") ? (
+              <>
+                <Navbar user={user} onLogout={handleLogout} />
+                <PdfDownload></PdfDownload>
+                <Footer />
+              </>
+            ) : (
+              <HomePage setUser={setUser} setLoggedIn={setLoggedIn} />
+            )
+          }
+        />
+        <Route
+          path="/pdf-upload"
+          element={
+            localStorage.getItem("jwtToken") ? (
+              <>
+                <Navbar user={user} onLogout={handleLogout} />
+                <PdfUpload onUploadSuccess={handleUploadSuccess} />
+                <Footer></Footer>
+              </>
+            ) : (
+              <Navigate to="/home-page" />
+            )
+          }
+        />
+      </Routes>
+    </Router>
   );
 }
 

@@ -148,3 +148,8 @@ button:hover {
 .dropdown-menu li:hover {
   background-color: #f0f0f0;
 }
+
+.link {
+  color: white;
+  margin: 5px;
+}

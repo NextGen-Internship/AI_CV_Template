@@ -10,9 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/pdf")
@@ -26,10 +26,9 @@ public class MultipartController {
     private final WebSocketController webSocketController;
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
-        CompletableFuture<PersonDto> personDtoFuture = null;
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("gmail") String gmail) {
         try {
-            pdfService.upload(file);
+            pdfService.upload(file, gmail);
         } catch (IOException e) {
             return ResponseEntity.badRequest().build();
         }

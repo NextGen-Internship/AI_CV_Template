@@ -1,9 +1,9 @@
 package com.example.AI_CV_JAVA.auth;
 
+import com.example.AI_CV_JAVA.Repo.UserRepository;
 import com.example.AI_CV_JAVA.security.JwtService;
 import com.example.AI_CV_JAVA.user.Role;
 import com.example.AI_CV_JAVA.user.User;
-import com.example.AI_CV_JAVA.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
