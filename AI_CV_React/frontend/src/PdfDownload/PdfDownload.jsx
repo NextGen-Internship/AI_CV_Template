@@ -5,6 +5,7 @@ import CvTemplate from "../cv/CvTemplate";
 import SearchCV from "../cv/SearchCV";
 
 const PdfDownload = () => {
+
   const [personId, setPersonId] = useState("");
   const [personData, setPersonData] = useState(null);
   const [personName, setPersonName] = useState(null);
@@ -12,7 +13,7 @@ const PdfDownload = () => {
   const [technologies, setTechnologies] = useState([]);
   const [education, setEducation] = useState([]);
   const [experiences, setExperiences] = useState([]);
-
+  const [email, setEmail] = useState(null);
   const { toPDF, targetRef } = usePDF({ filename: personName + ".pdf" });
 
   const handleInputChange = (e) => {
@@ -31,7 +32,10 @@ const PdfDownload = () => {
           },
         }
       );
-
+      console.log(response.data);
+      setPersonId(response.data.id);
+      console.log(personId);
+      setEmail(response.data.email);
       setPersonData(response.data);
       setPersonName(response.data.name);
       setPersonSummary(response.data.summary);
@@ -48,7 +52,7 @@ const PdfDownload = () => {
   }, [personId]);
 
   if (personData != null) {
-    const { name, summary, education, experiences } = personData;
+    const {id, email, name, summary, education, experiences } = personData;
   }
 
   return (
@@ -61,6 +65,8 @@ const PdfDownload = () => {
       <button onClick={() => toPDF()}>Download Pdf</button>
       <div ref={targetRef}>
         <CvTemplate
+        personId={personId}
+        personEmail={email}
           personName={personName}
           personSummary={personSummary}
           technologies={technologies}

@@ -2,6 +2,7 @@ package com.example.AI_CV_JAVA.controller;
 
 import com.example.AI_CV_JAVA.Entity.Technology;
 import com.example.AI_CV_JAVA.service.impl.TechnologyServiceImpl;
+import com.example.AI_CV_JAVA.service.interfaces.TechnologyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,12 +14,15 @@ import java.util.Optional;
 @RequestMapping("/technology")
 @RequiredArgsConstructor
 public class TechnologyController {
-    private final TechnologyServiceImpl technologyService;
+    private final TechnologyService technologyService;
+
 
     @PostMapping
-    public ResponseEntity<Technology> saveEducation(@RequestBody Technology technology) {
-        Technology savedTechnology = technologyService.saveTechnology(technology);
-        return new ResponseEntity<>(savedTechnology, HttpStatus.CREATED);
+    public ResponseEntity<Technology> saveTechnology(@RequestBody Technology newTechnology, @RequestParam("personId") long personId) {
+        if (technologyService.addTechnology(newTechnology.getName(), personId)){
+            return ResponseEntity.ok().build();
+        };
+        return ResponseEntity.badRequest().build();
     }
 
     @GetMapping

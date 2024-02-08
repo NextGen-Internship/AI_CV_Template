@@ -1,15 +1,18 @@
 import React, { useState } from "react";
-import axios from "axios"; // Import axios for making HTTP requests
+import axios from "axios";
 import "./CvTemplate.css";
 import image from "/public/logo.png";
 
 const CvTemplate = ({
+  personId,
+  personEmail,
   personName,
   personSummary,
   technologies,
   education,
   experiences,
 }) => {
+  const [editedSummary, setEditedSummary] = useState(personSummary);
   const [editableIndex, setEditableIndex] = useState(false);
   const [newTechnology, setNewTechnology] = useState("");
   const [showNewTechnologyInput, setShowNewTechnologyInput] = useState(false);
@@ -18,41 +21,64 @@ const CvTemplate = ({
     setEditableIndex(index);
   };
 
-  const handleSave = () => {
-    // Implement saving logic here
-    // For example, send an HTTP request to update the person's details
-    const updatedPerson = {
-      email: 'person@email.com', // Replace with the actual email of the person
-      // Include other fields you want to update
+  const handleSaveTechnology = () => {
+    const storedToken = localStorage.getItem("jwtToken");
+    const addTech = {
+      name: newTechnology
     };
 
-    axios.put(`/person/update/${updatedPerson.email}`, updatedPerson)
+    axios.post(
+      `http://localhost:8080/technology`,
+      addTech,
+      {
+        params: { personId },
+        headers: {
+          Authorization: `Bearer ${storedToken}`,
+        },
+      }
+    )
       .then(response => {
-        // Handle successful response
-        console.log("Person updated successfully:", response.data);
-        setEditableIndex(-1); // Reset editable index after saving
+        console.log("New technology added", response.data);
+        setEditableIndex(-1);
+        setNewTechnology("");
+        setShowNewTechnologyInput(false); // Hide the input field after adding
       })
       .catch(error => {
-        // Handle error
+        console.error("Error adding technology:", error);
+      });
+  };
+  
+  const handleSave = (updatedSummary) => {
+    const updatedPerson = {
+      id: personId,
+      email: personEmail,
+      summary: updatedSummary, 
+      technologies: technologies,
+      education: education
+    };
+    const storedToken = localStorage.getItem("jwtToken");
+    axios.put(`http://localhost:8080/person/update`, updatedPerson ,
+    {
+      headers: {
+        Authorization: `Bearer ${storedToken}`,
+      },
+    })
+      .then(response => {
+        console.log("Person updated successfully:", response.data);
+        setEditableIndex(-1); 
+      })
+      .catch(error => {
         console.error("Error updating person:", error);
       });
   };
 
   const handleParagraphClick = (index) => {
     setEditableIndex(index);
+    setShowNewTechnologyInput(false); // Hide input field when clicking on paragraphs
   };
 
   const handleNewTechnologyChange = (e) => {
     setNewTechnology(e.target.value);
-  };
-
-  const handleAddTechnology = () => {
-    // Implement logic to add new technology
-    // For example, you could update the state to include the new technology
-    // Here, I'll simply log the new technology for demonstration
-    console.log("New technology:", newTechnology);
-    setNewTechnology(""); // Clear the input field after adding the technology
-    setShowNewTechnologyInput(false); // Hide the input field after adding the technology
   };
 
   return (
@@ -72,7 +98,7 @@ const CvTemplate = ({
                 <textarea
                   className="textArea"
                   defaultValue={personSummary}
-                  onBlur={handleSave}
+                  onBlur={(e) => handleSave(e.target.value)}
                   autoFocus
                 />
               ) : (
@@ -92,16 +118,15 @@ const CvTemplate = ({
                   </React.Fragment>
                 ))}
               </i>
-              {/* Show input field for adding new technology when clicked */}
               {showNewTechnologyInput && (
                 <div>
                   <input
                     type="text"
                     value={newTechnology}
-                    onChange={handleNewTechnologyChange}
+                    onChange={(e) => setNewTechnology(e.target.value)} 
                     placeholder="Add new technology"
                   />
-                  <button onClick={handleAddTechnology}>Add</button>
+                  <button onClick={handleSaveTechnology}>Add</button>
                 </div>
               )}
             </div>
@@ -121,7 +146,7 @@ const CvTemplate = ({
             </div>
           </div>
           <div id="Experience">
-          <h3>EXPERIENCE</h3>
+            <h3>EXPERIENCE</h3>
             <div className="line"></div>
             {experiences.map((exp, index) => (
               <div className="exp" key={index}>
@@ -140,16 +165,16 @@ const CvTemplate = ({
                     autoFocus
                   />
                 ) : (
-                  <p id="description" onClick={() => handleEdit(index)}>
+                  <p id="description" onClick={() => handleParagraphClick(index)}>
                     {exp.description}
                   </p>
                 )}
               </div>
             ))}
           </div>
-          </div>
         </div>
       </div>
+    </div>
   );
 };
 

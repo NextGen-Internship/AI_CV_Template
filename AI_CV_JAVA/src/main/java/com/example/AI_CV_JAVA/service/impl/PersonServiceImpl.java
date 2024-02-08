@@ -1,6 +1,7 @@
 package com.example.AI_CV_JAVA.service.impl;
 
 import com.example.AI_CV_JAVA.Entity.Person;
+import com.example.AI_CV_JAVA.Entity.Technology;
 import com.example.AI_CV_JAVA.Repo.PersonDao;
 import com.example.AI_CV_JAVA.service.interfaces.PersonService;
 import lombok.RequiredArgsConstructor;
@@ -53,6 +54,14 @@ public class PersonServiceImpl implements PersonService {
         return false;
     }
 
+    @Override
+    public void addTechnology(Technology technology, long personId) {
+      Optional<Person> person = personDao.findById(personId);
+      if (person.isPresent()){
+          person.get().getTechnologies().add(technology);
+          personDao.save(person.get());
+      }
+    }
     public void deletePerson(Long id) {
         personDao.deleteById(id
         );

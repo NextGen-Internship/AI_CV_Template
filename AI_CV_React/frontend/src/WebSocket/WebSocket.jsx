@@ -31,10 +31,6 @@ const WebSocket = () => {
   useEffect(() => {
     console.log(`Got a new message: ${lastJsonMessage}`);
   }, [lastJsonMessage]);
-
-  //   return (
-  //     // Your component JSX here
-  //   );s
 };
 
 export default WebSocket;
