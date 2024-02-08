@@ -1,7 +1,7 @@
 package com.example.AI_CV_JAVA.controller;
 
 import com.example.AI_CV_JAVA.DTO.UserDTO;
-import com.example.AI_CV_JAVA.service.UserService;
+import com.example.AI_CV_JAVA.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1")
 public class UserController {
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
     @GetMapping("/users/{id}")
     private ResponseEntity<UserDTO> getUserDetails(@PathVariable("id") int id) {

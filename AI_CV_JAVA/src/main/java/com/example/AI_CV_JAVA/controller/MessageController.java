@@ -1,7 +1,8 @@
 package com.example.AI_CV_JAVA.controller;
 
-import com.example.AI_CV_JAVA.service.PdfConsumerService;
-import com.example.AI_CV_JAVA.service.PdfPublisherService;
+
+import com.example.AI_CV_JAVA.service.interfaces.PdfConsumerService;
+import com.example.AI_CV_JAVA.service.interfaces.PdfPublisherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

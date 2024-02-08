@@ -1,43 +1,54 @@
 package com.example.AI_CV_JAVA.service.impl;
 
 import com.example.AI_CV_JAVA.Entity.Technology;
-import com.example.AI_CV_JAVA.Repo.TechnologyDao;
 import com.example.AI_CV_JAVA.service.interfaces.PersonService;
 import com.example.AI_CV_JAVA.service.interfaces.TechnologyService;
+import com.example.AI_CV_JAVA.Repo.TechnologyRepository;
+import com.example.AI_CV_JAVA.exception.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class TechnologyServiceImpl implements TechnologyService {
-    private final TechnologyDao technologyDao;
+public class TechnologyServiceImpl {
+    private final TechnologyRepository technologyRepository;
     private final PersonService personService;
 
     public Technology saveTechnology(Technology technology) {
-        return technologyDao.saveAndFlush(technology);
+        return technologyRepository.saveAndFlush(technology);
     }
 
     public List<Technology> getAllTechnologies() {
-        return technologyDao.findAll();
+        return technologyRepository.findAll();
     }
 
     public Optional<Technology> getTechnologyById(Long id) {
-        return technologyDao.findById(id);
+        Optional<Technology> technology = technologyRepository.findById(id);
+        if (technology.isEmpty()) {
+            throw new DataNotFoundException("Technology with id " + id + " not found");
+        }
+        return technology;
     }
 
     public Technology updateTechnology(Long id, Technology toUpdateTechnology) {
-        Optional<Technology> existingTechnology = technologyDao.findById(id);
+        Optional<Technology> existingTechnology = technologyRepository.findById(id);
         if (existingTechnology.isPresent()) {
             toUpdateTechnology.setId(id);
-            return technologyDao.save(toUpdateTechnology);
+            return technologyRepository.save(toUpdateTechnology);
+        } else {
+            throw new DataNotFoundException("Technology with id " + id + " not found");
         }
-        return null;
     }
 
     public void deleteTechnology(Long id) {
-        technologyDao.deleteById(id);
+        Optional<Technology> technology = technologyRepository.findById(id);
+        if (technology.isEmpty()) {
+            throw new DataNotFoundException("Technology with id " + id + " not found");
+        }
+        technologyRepository.deleteById(id);
     }
 
     @Override

@@ -41,7 +41,7 @@ const CvTemplate = ({
         console.log("New technology added", response.data);
         setEditableIndex(-1);
         setNewTechnology("");
-        setShowNewTechnologyInput(false); // Hide the input field after adding
+        setShowNewTechnologyInput(false);
       })
       .catch(error => {
         console.error("Error adding technology:", error);
@@ -74,7 +74,7 @@ const CvTemplate = ({
 
   const handleParagraphClick = (index) => {
     setEditableIndex(index);
-    setShowNewTechnologyInput(false); // Hide input field when clicking on paragraphs
+    setShowNewTechnologyInput(false);
   };
 
   const handleNewTechnologyChange = (e) => {

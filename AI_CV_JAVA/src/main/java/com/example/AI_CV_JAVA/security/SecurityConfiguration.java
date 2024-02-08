@@ -18,7 +18,18 @@ public class SecurityConfiguration {
 
     private static final String[] WHITE_LIST_URL = {
             "/process-google-token",
-            "/pdf/upload"
+            "/pdf/upload",
+            "/ws-message",
+            "/v2/api-docs",
+            "/v3/api-docs",
+            "/v3/api-docs/**",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui/**",
+            "/webjars/**",
+            "/swagger-ui.html"
     };
 
     private final JwtAuthenticationFilter jwtAuthFilter;

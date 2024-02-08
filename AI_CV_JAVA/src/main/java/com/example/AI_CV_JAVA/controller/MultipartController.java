@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.util.Optional;
 
@@ -21,6 +22,8 @@ public class MultipartController {
     private final JwtService jwtService;
     private final PersonService personService;
     private final UserDetailsService userDetailsService;
+
+    private final WebSocketController webSocketController;
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("gmail") String gmail) {

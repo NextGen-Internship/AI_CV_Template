@@ -4,8 +4,7 @@ import axios from "axios";
 import CvTemplate from "../cv/CvTemplate";
 import SearchCV from "../cv/SearchCV";
 
-const PdfDownload = () => {
-
+const PdfDownload = ({ email }) => {
   const [personId, setPersonId] = useState("");
   const [personData, setPersonData] = useState(null);
   const [personName, setPersonName] = useState(null);
@@ -16,16 +15,11 @@ const PdfDownload = () => {
   const [email, setEmail] = useState(null);
   const { toPDF, targetRef } = usePDF({ filename: personName + ".pdf" });
 
-  const handleInputChange = (e) => {
-    setPersonId(e.target.value);
-  };
-
-  const handleFetchData = async () => {
+  const fetchByEmail = async (email) => {
     try {
       const storedToken = localStorage.getItem("jwtToken");
-
       const response = await axios.get(
-        `http://localhost:8080/pdf/${personId}`,
+        `http://localhost:8080/person/${email}`,
         {
           headers: {
             Authorization: `Bearer ${storedToken}`,
@@ -47,9 +41,23 @@ const PdfDownload = () => {
     }
   };
 
+  const handleInputChange = (e) => {
+    setPersonId(e.target.value);
+  };
+
+  const handleFetchData = () => {
+    if (email) {
+      fetchByEmail(email);
+    } else if (personId !== "") {
+      fetchByEmail(personId);
+    }
+  };
+
   useEffect(() => {
-    handleFetchData();
-  }, [personId]);
+    if (email) {
+      fetchByEmail(email);
+    }
+  }, [email]);
 
   if (personData != null) {
     const {id, email, name, summary, education, experiences } = personData;
