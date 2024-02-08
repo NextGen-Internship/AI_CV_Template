@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { usePDF } from "react-to-pdf";
 import axios from "axios";
 import CvTemplate from "../cv/CvTemplate";
-import SearchCV from "../cv/SearchCV";
+import SearchCv from "../cv/SearchCv";
+import "./PdfDownload.css";
 
 const PdfDownload = ({ email }) => {
   const [personId, setPersonId] = useState("");
@@ -13,7 +14,13 @@ const PdfDownload = ({ email }) => {
   const [education, setEducation] = useState([]);
   const [experiences, setExperiences] = useState([]);
 
-  const { toPDF, targetRef } = usePDF({ filename: personName + ".pdf" });
+  const { toPDF, targetRef } = usePDF({
+    filename: personName + ".pdf",
+    scale: 2,
+    options: {
+      format: "A4",
+    },
+  });
 
   const fetchByEmail = async (email) => {
     try {
@@ -62,20 +69,28 @@ const PdfDownload = ({ email }) => {
 
   return (
     <div id="download-div">
-      <SearchCV
-        personId={personId}
-        handleInputChange={handleInputChange}
-        handleFetchData={handleFetchData}
-      />
-      <button onClick={() => toPDF()}>Download Pdf</button>
-      <div ref={targetRef}>
-        <CvTemplate
-          personName={personName}
-          personSummary={personSummary}
-          technologies={technologies}
-          education={education}
-          experiences={experiences}
-        />
+      <div style={{ display: "flex", marginBottom: "10px" }}>
+        <div className="search-section">
+          <div className="section-label-search">Search By Email:</div>
+          <SearchCv
+            personId={personId}
+            handleInputChange={handleInputChange}
+            handleFetchData={handleFetchData}
+          />
+          <div className="section-label-download">Download PDF:</div>
+          <button className="btn-download" onClick={() => toPDF()}>
+            Download Pdf
+          </button>
+        </div>
+        <div className="cv-section" ref={targetRef}>
+          <CvTemplate
+            personName={personName}
+            personSummary={personSummary}
+            technologies={technologies}
+            education={education}
+            experiences={experiences}
+          />
+        </div>
       </div>
     </div>
   );

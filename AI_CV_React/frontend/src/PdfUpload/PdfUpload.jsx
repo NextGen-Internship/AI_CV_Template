@@ -55,7 +55,11 @@ const PdfUpload = ({ onUploadSuccess }) => {
     <div id="upload-div">
       <label id="upload-pdf">Upload PDF:</label>
       <i className="fa fa-download" aria-hidden="true"></i>
-      <label htmlFor="upload-file-input" id="upload-file-label">
+      <label
+        className="enter-gmail-label"
+        htmlFor="upload-file-input"
+        id="upload-file-label"
+      >
         {selectedFile ? (
           <>
             <iframe
@@ -63,7 +67,11 @@ const PdfUpload = ({ onUploadSuccess }) => {
               type="application/pdf"
               className="preview"
             />
-            <button onClick={handleRemove} id="remove-button">
+            <button
+              className="remove-btn"
+              onClick={handleRemove}
+              id="remove-button"
+            >
               Remove PDF
             </button>
           </>
@@ -77,16 +85,17 @@ const PdfUpload = ({ onUploadSuccess }) => {
         onChange={handleFileChange}
         id="upload-file-input"
       />
-
-      <label htmlFor="gmail-input">Enter Gmail Address:</label>
+      <label htmlFor="gmail-input" className="input-label">
+        Enter Gmail Address:
+      </label>
       <input
         type="email"
         id="gmail-input"
         value={gmail}
         onChange={handleGmailChange}
+        className="input-field"
       />
-
-      <button onClick={handleUpload} id="upload-button">
+      <button className="upload-btn" onClick={handleUpload} id="upload-button">
         Upload PDF
       </button>
 

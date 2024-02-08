@@ -14,6 +14,8 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   margin: auto;
+  margin-bottom: 50px;
+  margin-top: 50px;
   padding-right: 40px;
 }
 h1 {
@@ -47,9 +49,7 @@ ul {
 ul {
   list-style-type: none;
 }
-li {
-  text-align: left;
-}
+
 #nameAndRole {
   float: right;
   text-align: right;
@@ -63,7 +63,6 @@ li {
   margin-left: 70px;
 }
 i {
-  text-align: left;
   margin-bottom: 10px;
 }
 #all {

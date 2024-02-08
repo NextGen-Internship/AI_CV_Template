@@ -20,13 +20,10 @@ function Footer() {
             <nav>
               <ul>
                 <li>
-                  <a href="#">Upload</a>
+                  <a href="/home-page">CV Template</a>
                 </li>
                 <li>
-                  <a href="#">Download</a>
-                </li>
-                <li>
-                  <a href="#">AI Build</a>
+                  <a href="pdf-upload">Upload PDF</a>
                 </li>
               </ul>
             </nav>
@@ -39,10 +36,7 @@ function Footer() {
                   <a href="#">About us</a>
                 </li>
                 <li>
-                  <a href="#">About us</a>
-                </li>
-                <li>
-                  <a href="#">About us</a>
+                  <a href="#">Contact us</a>
                 </li>
               </ul>
             </nav>

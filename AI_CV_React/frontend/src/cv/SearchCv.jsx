@@ -1,9 +1,10 @@
 import React from "react";
+import "./SearchCv.css";
 
 const SearchCV = ({ email, handleInputChange, handleFetchData }) => {
   return (
-    <div>
-      <label htmlFor="personId">Enter Person Email:</label>
+    <div className="search-form">
+      <label htmlFor="personId">Enter Person Email: </label>
       <input
         type="text"
         email="email"
@@ -11,7 +12,9 @@ const SearchCV = ({ email, handleInputChange, handleFetchData }) => {
         value={email}
         onChange={handleInputChange}
       />
-      <button onClick={handleFetchData}>Fetch Data</button>
+      <button className="find-cv" onClick={handleFetchData}>
+        Find CV
+      </button>
     </div>
   );
 };

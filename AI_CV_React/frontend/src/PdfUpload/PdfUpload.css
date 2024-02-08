@@ -11,12 +11,18 @@
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #c5dfeb;
 }
 
 #upload-pdf {
   margin-bottom: 30px;
   font-weight: bold;
   font-size: 25px;
+}
+
+.preview {
+  width: 80%;
+  height: 500px;
 }
 
 #upload-file-input {
@@ -37,12 +43,13 @@
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  margin-top: 10px;
+  margin-top: 20px;
   width: 30%;
 }
 
 #upload-button:hover {
-  background-color: #42006c;
+  background-color: #a99eb2;
+  border-color: #856f8d;
 }
 
 .fa.fa-download {
@@ -59,4 +66,42 @@
   #upload-div {
     width: 90%;
   }
+}
+
+.input-label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+.input-field {
+  width: 50%;
+  margin: 0 auto; /* Center the input horizontally */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Optional: Add styling for focus state */
+.input-field:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.remove-btn {
+  background-color: #3c009d;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 21%;
+}
+
+.enter-gmail-label {
+  margin-bottom: 30px;
 }
