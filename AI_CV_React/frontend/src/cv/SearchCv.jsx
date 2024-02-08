@@ -1,15 +1,15 @@
 import React from "react";
 
-const SearchCV = ({ personId, handleInputChange, handleFetchData }) => {
-  console.log(personId);
+const SearchCV = ({ email, handleInputChange, handleFetchData }) => {
+  console.log(email);
   return (
     <div>
-      <label htmlFor="personId">Enter Person ID:</label>
+      <label htmlFor="personId">Enter Person Email:</label>
       <input
         type="text"
-        id="personId"
-        name="personId"
-        value={personId}
+        email="email"
+        name="email"
+        value={email}
         onChange={handleInputChange}
       />
       <button onClick={handleFetchData}>Fetch Data</button>

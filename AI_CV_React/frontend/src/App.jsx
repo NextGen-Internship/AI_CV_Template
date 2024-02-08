@@ -100,7 +100,7 @@ function App() {
           <HomePage setUser={setUser} setLoggedIn={setLoggedIn} />
         </>
       )}
-      <PdfDownload email={selectedEmail} />
+      {/* <PdfDownload email={selectedEmail} /> */}
     </>
   );
 }
