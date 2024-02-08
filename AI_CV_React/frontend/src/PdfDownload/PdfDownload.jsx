@@ -5,7 +5,7 @@ import CvTemplate from "../cv/CvTemplate";
 import SearchCV from "../cv/SearchCV";
 
 const PdfDownload = ({ email }) => {
-  const [personId, setPersonId] = useState("");
+  const [personEmail, setPersonEmail] = useState("");
   const [personData, setPersonData] = useState(null);
   const [personName, setPersonName] = useState(null);
   const [personSummary, setPersonSummary] = useState(null);
@@ -39,14 +39,14 @@ const PdfDownload = ({ email }) => {
   };
 
   const handleInputChange = (e) => {
-    setPersonId(e.target.value);
+    setPersonEmail(e.target.value);
   };
 
   const handleFetchData = () => {
     if (email) {
       fetchByEmail(email);
-    } else if (personId !== "") {
-      fetchByEmail(personId);
+    } else if (personEmail !== "") {
+      fetchByEmail(personEmail);
     }
   };
 
@@ -63,7 +63,7 @@ const PdfDownload = ({ email }) => {
   return (
     <div id="download-div">
       <SearchCV
-        personId={personId}
+        personEmail={personEmail}
         handleInputChange={handleInputChange}
         handleFetchData={handleFetchData}
       />

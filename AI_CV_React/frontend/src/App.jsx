@@ -70,6 +70,7 @@ function App() {
     localStorage.removeItem("jwtToken");
     localStorage.removeItem("userID");
     localStorage.removeItem("userInfo");
+    setSelectedEmail(null);
   };
 
   useEffect(() => {

@@ -92,7 +92,7 @@ const PdfUpload = ({ onUploadSuccess }) => {
 
       {response && (
         <div>
-          <pre>{JSON.stringify(response.data, null, 2)}</pre>
+          <pre>{response.data}</pre>
         </div>
       )}
     </div>
