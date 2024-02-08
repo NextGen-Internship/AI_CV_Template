@@ -1,7 +1,6 @@
 import React from "react";
 
 const SearchCV = ({ email, handleInputChange, handleFetchData }) => {
-  console.log(email);
   return (
     <div>
       <label htmlFor="personId">Enter Person Email:</label>

@@ -6,7 +6,6 @@ const SOCKET_URL = "ws://localhost:8080/ws-message";
 
 function WebSocket({ messages, setMessages }) {
   const [message, setMessage] = useState(null);
-  // const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     const client = new Client({
@@ -21,10 +20,8 @@ function WebSocket({ messages, setMessages }) {
       client.subscribe("/topic/message", function (msg) {
         if (msg.body) {
           var jsonBody = JSON.parse(msg.body);
-          // console.log(jsonBody);
           setMessages((prevMessages) => [...prevMessages, jsonBody]);
           setMessage(jsonBody.message);
-          // console.log(messages.length);
         }
       });
     };

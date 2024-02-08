@@ -87,29 +87,6 @@ function App() {
   }, [isLoggedIn]);
 
   return (
-    // <>
-    //   {localStorage.getItem("jwtToken") ? (
-    //     <>
-    //       <Navbar
-    //         user={user}
-    //         onLogout={handleLogout}
-    //         messages={messages}
-    //         handleOpenTemplateApp={handleOpenTemplateApp}
-    //         setSelectedEmail={setSelectedEmail}
-    //         setMessages={setMessages}
-    //       />
-    //       <PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>
-    //       <WebSocket messages={messages} setMessages={setMessages}></WebSocket>
-    //       {selectedEmail && <PdfDownload email={selectedEmail} />}
-    //       <Footer></Footer>
-    //     </>
-    //   ) : (
-    //     <>
-    //       <HomePage setUser={setUser} setLoggedIn={setLoggedIn} />
-    //     </>
-    //   )}
-    //   {/* <PdfDownload email={selectedEmail} /> */}
-    // </>
     <Router>
       <Routes>
         <Route
@@ -117,10 +94,21 @@ function App() {
           element={
             localStorage.getItem("jwtToken") ? (
               showPdfUpload ? (
-                <PdfUpload onUploadSuccess={handleUploadSuccess} />
+                <PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>
               ) : (
                 <>
-                  <Navbar user={user} onLogout={handleLogout} />
+                  <Navbar
+                    user={user}
+                    onLogout={handleLogout}
+                    messages={messages}
+                    handleOpenTemplateApp={handleOpenTemplateApp}
+                    setSelectedEmail={setSelectedEmail}
+                    setMessages={setMessages}
+                  />
+                  <WebSocket
+                    messages={messages}
+                    setMessages={setMessages}
+                  ></WebSocket>
                   <Footer />
                 </>
               )
@@ -134,8 +122,19 @@ function App() {
           element={
             localStorage.getItem("jwtToken") ? (
               <>
-                <Navbar user={user} onLogout={handleLogout} />
-                <PdfDownload></PdfDownload>
+                <Navbar
+                  user={user}
+                  onLogout={handleLogout}
+                  messages={messages}
+                  handleOpenTemplateApp={handleOpenTemplateApp}
+                  setSelectedEmail={setSelectedEmail}
+                  setMessages={setMessages}
+                />
+                <WebSocket
+                  messages={messages}
+                  setMessages={setMessages}
+                ></WebSocket>
+                <PdfDownload email={selectedEmail} />
                 <Footer />
               </>
             ) : (
@@ -148,8 +147,20 @@ function App() {
           element={
             localStorage.getItem("jwtToken") ? (
               <>
-                <Navbar user={user} onLogout={handleLogout} />
-                <PdfUpload onUploadSuccess={handleUploadSuccess} />
+                <Navbar
+                  user={user}
+                  onLogout={handleLogout}
+                  messages={messages}
+                  handleOpenTemplateApp={handleOpenTemplateApp}
+                  setSelectedEmail={setSelectedEmail}
+                  setMessages={setMessages}
+                />
+                <PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>
+                <WebSocket
+                  messages={messages}
+                  setMessages={setMessages}
+                ></WebSocket>
+                {selectedEmail && <PdfDownload email={selectedEmail} />}
                 <Footer></Footer>
               </>
             ) : (

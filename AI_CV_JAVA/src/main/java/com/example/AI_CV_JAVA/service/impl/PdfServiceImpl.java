@@ -6,7 +6,7 @@ import com.example.AI_CV_JAVA.Entity.Experience;
 import com.example.AI_CV_JAVA.Entity.Person;
 import com.example.AI_CV_JAVA.Entity.Technology;
 import com.example.AI_CV_JAVA.controller.WebSocketController;
-import com.example.AI_CV_JAVA.service.PdfPublisherService;
+import com.example.AI_CV_JAVA.service.impl.PdfPublisherServiceImpl;
 import com.example.AI_CV_JAVA.service.interfaces.PdfPublisherService;
 import com.example.AI_CV_JAVA.service.interfaces.PdfService;
 import com.example.AI_CV_JAVA.service.interfaces.PersonService;

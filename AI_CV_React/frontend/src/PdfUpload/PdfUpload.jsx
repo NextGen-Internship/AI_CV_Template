@@ -89,7 +89,6 @@ const PdfUpload = ({ onUploadSuccess }) => {
       <button onClick={handleUpload} id="upload-button">
         Upload PDF
       </button>
-      {/* <PdfDownload></PdfDownload> */}
 
       {response && (
         <div>

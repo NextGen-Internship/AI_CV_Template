@@ -11,7 +11,6 @@ const CvTemplate = ({
   experiences,
 }) => {
   return (
-    // <div>
     <div id="cv">
       <div id="nameAndRole">
         <img src={image} alt="edf" />
@@ -70,7 +69,6 @@ const CvTemplate = ({
         </div>
       </div>
     </div>
-    // </div>
   );
 };
 export default CvTemplate;

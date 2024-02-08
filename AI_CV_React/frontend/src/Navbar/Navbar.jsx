@@ -13,8 +13,6 @@ const Navbar = ({
   setMessages,
 }) => {
   const storedUserInfo = localStorage.getItem("userInfo");
-  //const Navbar = ({ onLogout }) => {
-  //const [user, setUser] = useState(null);
   const [firstName, setFirstName] = useState(null);
   const [picture, setPicture] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -28,12 +26,11 @@ const Navbar = ({
         const userPicture = userInfoObject?.pictureUrl;
         if (userFirstName) setFirstName(userFirstName);
         if (userPicture) setPicture(userPicture);
-        // setUser(userInfoObject);
       } catch (error) {
         console.error("Error parsing stored user info:", error.message);
       }
     }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     console.log("Messages updated:", messages);
@@ -45,7 +42,6 @@ const Navbar = ({
 
   const handleOpenTemplate = (email) => {
     setSelectedEmail(email);
-    console.log("Opening CV template for email:", email);
     setMessages(messages.filter((message) => message.email !== email));
     toggleDropdown();
   };
@@ -53,12 +49,6 @@ const Navbar = ({
   return (
     <nav className="navbar">
       <div className="navbar-left">
-        <img
-          className="logo-image-nav"
-          src="public/AI_CV_Logo.png"
-          alt="Logo"
-        />
-        <div className="project-name">AI CV Template</div>
         <img
           className="logo-image-nav"
           src="public/AI_CV_Logo.png"
@@ -98,10 +88,7 @@ const Navbar = ({
             </div>
           )}
         </div>
-        {/* {user && (
-          <div className="user-info">
-            <span className="userName">{firstName}</span>
-            <img src={picture} alt="userProfile" className="userProfile" /> */}
+
         {user && (
           <div className="user-info">
             <span className="userName">{firstName}</span>
@@ -112,7 +99,6 @@ const Navbar = ({
           </div>
         )}
       </div>
-      {/* </div> */}
     </nav>
   );
 };
