@@ -12,9 +12,9 @@ const PdfDownload = ({ email }) => {
   const [technologies, setTechnologies] = useState([]);
   const [education, setEducation] = useState([]);
   const [experiences, setExperiences] = useState([]);
-  const [email, setEmail] = useState(null);
+// const [email, setEmail] = useState(null);
   const { toPDF, targetRef } = usePDF({ filename: personName + ".pdf" });
-
+console.log(email)
   const fetchByEmail = async (email) => {
     try {
       const storedToken = localStorage.getItem("jwtToken");
@@ -29,7 +29,6 @@ const PdfDownload = ({ email }) => {
       console.log(response.data);
       setPersonId(response.data.id);
       console.log(personId);
-      setEmail(response.data.email);
       setPersonData(response.data);
       setPersonName(response.data.name);
       setPersonSummary(response.data.summary);

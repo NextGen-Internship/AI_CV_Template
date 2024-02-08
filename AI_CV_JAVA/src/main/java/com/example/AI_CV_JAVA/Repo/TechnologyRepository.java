@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface TechnologyDao extends JpaRepository<Technology, Long> {
+public interface TechnologyRepository extends JpaRepository<Technology, Long> {
     @Query("SELECT t FROM Technology t WHERE t.name = :name")
     Optional<Technology> findByName(@Param("name") String name);
 }

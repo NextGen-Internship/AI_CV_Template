@@ -58,12 +58,12 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public boolean updateByEmail(Person person) {
-    Optional<Person> editedPerson= personDao.findByEmail(person.getEmail());
+    Optional<Person> editedPerson= personRepository.findByEmail(person.getEmail());
     if (editedPerson.isPresent()){
         editedPerson.get().setSummary(person.getSummary());
         editedPerson.get().setTechnologies(person.getTechnologies());
         editedPerson.get().setEducation(person.getEducation());
-        personDao.save(editedPerson.get());
+        personRepository.save(editedPerson.get());
         return true;
     }
         return false;
@@ -71,10 +71,10 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void addTechnology(Technology technology, long personId) {
-      Optional<Person> person = personDao.findById(personId);
+      Optional<Person> person = personRepository.findById(personId);
       if (person.isPresent()){
           person.get().getTechnologies().add(technology);
-          personDao.save(person.get());
+          personRepository.save(person.get());
       }
     }
     public void deletePerson(Long id) {
