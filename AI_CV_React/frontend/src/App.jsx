@@ -7,13 +7,27 @@ import HomePage from "./HomePage/HomePage";
 import Footer from "./Footer/Footer";
 import PdfUpload from "./PdfUpload/PdfUpload";
 import PdfDownload from "./PdfDownload/PdfDownload";
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import LogOut from "./Login/Logout";
+import CvTemplate from "./cv/CvTemplate";
+import WebSocket from "./WebSocket/Websocket";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isUploadSuccessful, setIsUploadSuccessful] = useState(false);
   const [user, setUser] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [selectedEmail, setSelectedEmail] = useState(null);
   const [showPdfUpload, setShowPdfUpload] = useState(false);
+
+  const handleOpenTemplateApp = (email) => {
+    setSelectedEmail(email);
+  };
 
   const checkToken = async () => {
     const storedToken = localStorage.getItem("jwtToken");
@@ -47,7 +61,7 @@ function App() {
 
   const handleUploadSuccess = () => {
     setIsUploadSuccessful(true);
-    setShowPdfUpload(false); 
+    setShowPdfUpload(false);
   };
 
   const handleLogout = () => {
@@ -76,10 +90,21 @@ function App() {
           element={
             localStorage.getItem("jwtToken") ? (
               showPdfUpload ? (
-                <PdfUpload onUploadSuccess={handleUploadSuccess} />
+                <PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>
               ) : (
                 <>
-                 <Navbar user={user} onLogout={handleLogout} />
+                  <Navbar
+                    user={user}
+                    onLogout={handleLogout}
+                    messages={messages}
+                    handleOpenTemplateApp={handleOpenTemplateApp}
+                    setSelectedEmail={setSelectedEmail}
+                    setMessages={setMessages}
+                  />
+                  <WebSocket
+                    messages={messages}
+                    setMessages={setMessages}
+                  ></WebSocket>
                   <Footer />
                 </>
               )
@@ -93,8 +118,19 @@ function App() {
           element={
             localStorage.getItem("jwtToken") ? (
               <>
-               <Navbar user={user} onLogout={handleLogout} />
-               <PdfDownload></PdfDownload>
+                <Navbar
+                  user={user}
+                  onLogout={handleLogout}
+                  messages={messages}
+                  handleOpenTemplateApp={handleOpenTemplateApp}
+                  setSelectedEmail={setSelectedEmail}
+                  setMessages={setMessages}
+                />
+                <WebSocket
+                  messages={messages}
+                  setMessages={setMessages}
+                ></WebSocket>
+                <PdfDownload email={selectedEmail} />
                 <Footer />
               </>
             ) : (
@@ -103,23 +139,34 @@ function App() {
           }
         />
         <Route
-  path="/pdf-upload"
-  element={
-    localStorage.getItem("jwtToken") ? (
-      <>
-        <Navbar user={user} onLogout={handleLogout} />
-        <PdfUpload onUploadSuccess={handleUploadSuccess} />
-        <Footer></Footer>
-        
-      </>
-    ) : (
-      <Navigate to="/home-page" />
-    )
-  } />  
+          path="/pdf-upload"
+          element={
+            localStorage.getItem("jwtToken") ? (
+              <>
+                <Navbar
+                  user={user}
+                  onLogout={handleLogout}
+                  messages={messages}
+                  handleOpenTemplateApp={handleOpenTemplateApp}
+                  setSelectedEmail={setSelectedEmail}
+                  setMessages={setMessages}
+                />
+                <PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>
+                <WebSocket
+                  messages={messages}
+                  setMessages={setMessages}
+                ></WebSocket>
+                {selectedEmail && <PdfDownload email={selectedEmail} />}
+                <Footer></Footer>
+              </>
+            ) : (
+              <Navigate to="/home-page" />
+            )
+          }
+        />
       </Routes>
     </Router>
   );
 }
 
 export default App;
-

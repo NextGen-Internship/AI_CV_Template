@@ -28,7 +28,6 @@ h3 {
   width: 300px;
   float: left;
   display: flex;
- 
 }
 .first {
   width: 300px;
@@ -108,9 +107,7 @@ img {
 .line {
   height: 1.2px;
   width: 300px;
-  /* margin-top: 15px; */
   margin-bottom: 15px;
   background-color: gray;
   float: left;
 }
-

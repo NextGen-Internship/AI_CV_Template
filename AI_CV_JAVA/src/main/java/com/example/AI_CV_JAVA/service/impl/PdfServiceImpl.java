@@ -1,9 +1,12 @@
 package com.example.AI_CV_JAVA.service.impl;
 
+import com.example.AI_CV_JAVA.DTO.NotificationDto;
 import com.example.AI_CV_JAVA.Entity.Education;
 import com.example.AI_CV_JAVA.Entity.Experience;
 import com.example.AI_CV_JAVA.Entity.Person;
 import com.example.AI_CV_JAVA.Entity.Technology;
+import com.example.AI_CV_JAVA.controller.WebSocketController;
+import com.example.AI_CV_JAVA.service.impl.PdfPublisherServiceImpl;
 import com.example.AI_CV_JAVA.service.interfaces.PdfPublisherService;
 import com.example.AI_CV_JAVA.service.interfaces.PdfService;
 import com.example.AI_CV_JAVA.service.interfaces.PersonService;
@@ -25,6 +28,8 @@ import java.util.StringJoiner;
 public class PdfServiceImpl implements PdfService {
     private final PdfPublisherService producer;
     private final PersonService personService;
+    private final WebSocketController webSocketController;
+
 
     public List<Experience> mapExperiences(JsonNode experiencesNode) {
         List<Experience> experiences = new ArrayList<>();
@@ -83,6 +88,10 @@ public class PdfServiceImpl implements PdfService {
     public void readJson(String message) throws Exception {
         Person person = makePerson(message);
         personService.savePerson(person);
+        String email = person.getEmail();
+        NotificationDto notification = new NotificationDto();
+        notification.setEmail(email);
+        webSocketController.sendMessage(notification);
     }
 
     public void upload(MultipartFile file, String gmail) throws IOException {

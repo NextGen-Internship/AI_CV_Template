@@ -2,11 +2,20 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import LogOut from "../Login/Logout";
 import "./Navbar.css";
+import PdfDownload from "../PdfDownload/PdfDownload";
 
-const Navbar = ({ onLogout }) => {
-  const [user, setUser] = useState(null);
+const Navbar = ({
+  user,
+  onLogout,
+  messages,
+  handleOpenTemplateApp,
+  setSelectedEmail,
+  setMessages,
+}) => {
+  const storedUserInfo = localStorage.getItem("userInfo");
   const [firstName, setFirstName] = useState(null);
   const [picture, setPicture] = useState(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
     const storedUserInfo = localStorage.getItem("userInfo");
@@ -17,32 +26,75 @@ const Navbar = ({ onLogout }) => {
         const userPicture = userInfoObject?.pictureUrl;
         if (userFirstName) setFirstName(userFirstName);
         if (userPicture) setPicture(userPicture);
-        setUser(userInfoObject);
       } catch (error) {
         console.error("Error parsing stored user info:", error.message);
       }
     }
-  }, []);
+  }, [user]);
+
+  useEffect(() => {
+    console.log("Messages updated:", messages);
+  }, [messages]);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleOpenTemplate = (email) => {
+    setSelectedEmail(email);
+    setMessages(messages.filter((message) => message.email !== email));
+    toggleDropdown();
+  };
 
   return (
     <nav className="navbar">
       <div className="navbar-left">
-        <img className="logo-image-nav" src="public/AI_CV_Logo.png" alt="Logo" />
+        <img
+          className="logo-image-nav"
+          src="public/AI_CV_Logo.png"
+          alt="Logo"
+        />
         <div className="project-name">AI CV Template</div>
         <ul className="nav-links">
           <li>
-            <Link className="link" to="/pdf-upload">Upload</Link>
+            <Link className="link" to="/pdf-upload">
+              Upload
+            </Link>
           </li>
           <li>
-            <Link className="link" to="/home-page">CV</Link>
+            <Link className="link" to="/home-page">
+              CV
+            </Link>
           </li>
         </ul>
       </div>
+
       <div className="navbar-right">
+        <div className="notification-bell" onClick={toggleDropdown}>
+          <span className="notification-count">{messages.length}</span>{" "}
+          <i class="fa fa-bell"></i>
+          {isDropdownOpen && (
+            <div className="dropdown-menu">
+              <ul>
+                {messages.map((message, index) => (
+                  <li
+                    key={index}
+                    onClick={() => handleOpenTemplate(message.email)}
+                  >
+                    Your CV for {message.email} is ready
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+
         {user && (
           <div className="user-info">
             <span className="userName">{firstName}</span>
-            {picture && <img src={picture} alt="userProfile" className="userProfile" />}
+            {picture && (
+              <img src={picture} alt="userProfile" className="userProfile" />
+            )}
             <LogOut onLogout={onLogout} />
           </div>
         )}

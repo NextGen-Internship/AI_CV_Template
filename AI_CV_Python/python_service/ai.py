@@ -13,18 +13,24 @@ def handle_cv(cv):
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system",
-             "content": "You are given a cv, please check for the misspellings or wrong words replace it with the "
-                        "right word,please double check for Seattle ,  extract the name,"
-                        "summary,"
-                        "previous work "
-                        "experience as experience,about the experience extract the role or title as role, company or "
-                        "institution as company, start year, end year separate as start_year and end_year,"
-                        "and responsibilities, summary or description as description"
-                        "the skills or technologies as technologies, education, about the education extract the "
-                        "degree, college or institution as college and the start"
-                        "year and end year separate as start_year and end_year,"
-                        "and the role of the last"
-                        "company in a json format, don't send anything else that is not specified"},
+                "content": "You are given a cv, please check for the misspellings or wrong words replace it with the "
+                "right word,please double check for Seattle ,  extract the name,"
+                "summary,"
+                "previous work ,please double check is it previous work or experience, not part of education "
+                "experience as experience,about the experience extract the role or title as role, company or "
+                "institution as company, start year, end year separate as start_year and end_year,"
+                "and responsibilities, summary or description as description"
+                "the skills, SKILLS or technologies as technologies,the skills can includes back-end, "
+                "front-end languages, databases, message brokers, deployment technologies, source control and "
+                "build tools and etc.,please extract only technical skills, education, about the education "
+                "extract the"
+                "degree, college,courses(like Softuni, Telerik, CodeAcademy or etc.) or institution as "
+                "college and"
+                "the start"
+                "year and end year separate as start_year and end_year,"
+                "and the role of the last"
+                "company in a json format,and only blankfactor gmail as gmail, don't send anything else that "
+                "is not specified"},
             {"role": "user", "content": cv}
         ],
         stream=True,
