@@ -1,6 +1,7 @@
 package com.example.AI_CV_JAVA.service.impl;
 
 import com.example.AI_CV_JAVA.Entity.Person;
+import com.example.AI_CV_JAVA.Entity.Technology;
 import com.example.AI_CV_JAVA.Repo.PersonRepository;
 import com.example.AI_CV_JAVA.exception.DataNotFoundException;
 import com.example.AI_CV_JAVA.service.interfaces.PersonService;
@@ -55,6 +56,27 @@ public class PersonServiceImpl implements PersonService {
         personRepository.deleteById(person.get().getId());
     }
 
+    @Override
+    public boolean updateByEmail(Person person) {
+    Optional<Person> editedPerson= personRepository.findByEmail(person.getEmail());
+    if (editedPerson.isPresent()){
+        editedPerson.get().setSummary(person.getSummary());
+        editedPerson.get().setTechnologies(person.getTechnologies());
+        editedPerson.get().setEducation(person.getEducation());
+        personRepository.save(editedPerson.get());
+        return true;
+    }
+        return false;
+    }
+
+    @Override
+    public void addTechnology(Technology technology, long personId) {
+      Optional<Person> person = personRepository.findById(personId);
+      if (person.isPresent()){
+          person.get().getTechnologies().add(technology);
+          personRepository.save(person.get());
+      }
+    }
     public void deletePerson(Long id) {
         personRepository.deleteById(id);
     }

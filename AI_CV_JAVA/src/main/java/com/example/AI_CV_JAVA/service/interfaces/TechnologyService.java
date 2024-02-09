@@ -16,5 +16,7 @@ public interface TechnologyService {
     Technology updateTechnology(Long id, Technology toUpdateTechnology);
 
     void deleteTechnology(Long id);
+
+    boolean addTechnology(String name, long personId);
 }
 

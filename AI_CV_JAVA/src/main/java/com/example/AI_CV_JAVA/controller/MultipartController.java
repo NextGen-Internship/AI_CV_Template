@@ -38,7 +38,6 @@ public class MultipartController {
     @GetMapping("/{id}")
     public ResponseEntity<Person> getCVById(
             @PathVariable Long id
-
     ) {
         Optional<Person> person = personService.findById(id);
         System.out.println(person.toString());
