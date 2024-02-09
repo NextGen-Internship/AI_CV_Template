@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { usePDF } from "react-to-pdf";
 import axios from "axios";
 import CvTemplate from "../cv/CvTemplate";
@@ -6,6 +6,34 @@ import SearchCv from "../cv/SearchCv";
 import "./PdfDownload.css";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import { useReactToPrint } from "react-to-print";
+
+const ComponentToPrint = React.forwardRef(
+  (
+    {
+      personId,
+      email,
+      personName,
+      personSummary,
+      technologies,
+      education,
+      experiences,
+    },
+    ref
+  ) => (
+    <div ref={ref}>
+      <CvTemplate
+        personId={personId}
+        personEmail={email}
+        personName={personName}
+        personSummary={personSummary}
+        technologies={technologies}
+        education={education}
+        experiences={experiences}
+      />
+    </div>
+  )
+);
 
 const PdfDownload = ({ email }) => {
   const [personId, setPersonId] = useState("");
@@ -16,26 +44,11 @@ const PdfDownload = ({ email }) => {
   const [technologies, setTechnologies] = useState([]);
   const [education, setEducation] = useState([]);
   const [experiences, setExperiences] = useState([]);
+  const componentRef = useRef(null);
 
-  // const { toPDF, targetRef } = usePDF({
-  //   filename: personName + ".pdf",
-  //   scale: 2,
-  //   options: {
-  //     format: "A4",
-  //   },
-  // });
-
-  const downloadPDF = () => {
-    const capture = document.querySelector(".entire-cv");
-    html2canvas(capture).then((canvas) => {
-      const imgData = canvas.toDataURL("img/png");
-      const doc = new jsPDF("p", "mm", "a4");
-      const componentWidth = doc.internal.pageSize.getWidth();
-      const componentHeight = doc.internal.pageSize.getHeight();
-      doc.addImage(imgData, "PNG", 0, 0, componentWidth, componentHeight);
-      doc.save(personName + ".pdf");
-    });
-  };
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
 
   const fetchByEmail = async (email) => {
     try {
@@ -96,13 +109,14 @@ const PdfDownload = ({ email }) => {
             handleFetchData={handleFetchData}
           />
           <div className="section-label-download">Download PDF:</div>
-          <button className="btn-download" onClick={downloadPDF}>
+          <button className="btn-download" onClick={handlePrint}>
             Download Pdf
           </button>
         </div>
         <div className="cv-section">
           <div className="entire-cv">
-            <CvTemplate
+            <ComponentToPrint
+              ref={componentRef}
               personId={personId}
               personEmail={email}
               personName={personName}
