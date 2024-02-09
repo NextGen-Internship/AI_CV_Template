@@ -3,8 +3,8 @@ body {
   /* width: 100%; */
 }
 #cv {
-  width: 25.5cm;
-  min-height: 35.9cm;
+  /* width: 21cm; */
+  min-height: 29.7cm;
   height: 100%;
   display: flex;
   flex-direction: column;

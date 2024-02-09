@@ -52,7 +52,7 @@ const CvTemplate = ({
           </div>
         </div>
         <div id="Experience">
-          <h3>EXPERIENCE</h3>
+          <h3>Experience</h3>
           <div className="line"></div>
           {experiences.map((exp, index) => (
             <div className="exp" key={index}>

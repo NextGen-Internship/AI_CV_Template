@@ -151,7 +151,9 @@ function App() {
                   setSelectedEmail={setSelectedEmail}
                   setMessages={setMessages}
                 />
-                <PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>
+                {!selectedEmail && (
+                  <PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>
+                )}
                 <WebSocket
                   messages={messages}
                   setMessages={setMessages}
