@@ -6,6 +6,7 @@ import SearchCV from "../cv/SearchCV";
 
 const PdfDownload = ({ email }) => {
   const [personId, setPersonId] = useState("");
+  const [personEmail, setPersonEmail] = useState("");
   const [personData, setPersonData] = useState(null);
   const [personName, setPersonName] = useState(null);
   const [personSummary, setPersonSummary] = useState(null);
@@ -41,14 +42,15 @@ console.log(email)
   };
 
   const handleInputChange = (e) => {
+    setPersonEmail(e.target.value);
     setPersonId(e.target.value);
   };
 
   const handleFetchData = () => {
     if (email) {
       fetchByEmail(email);
-    } else if (personId !== "") {
-      fetchByEmail(personId);
+    } else if (personEmail !== "") {
+      fetchByEmail(personEmail);
     }
   };
 
@@ -65,7 +67,7 @@ console.log(email)
   return (
     <div id="download-div">
       <SearchCV
-        personId={personId}
+        personEmail={personId}
         handleInputChange={handleInputChange}
         handleFetchData={handleFetchData}
       />
