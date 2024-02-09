@@ -24,50 +24,47 @@ const CvTemplate = ({
   const handleSaveTechnology = () => {
     const storedToken = localStorage.getItem("jwtToken");
     const addTech = {
-      name: newTechnology
+      name: newTechnology,
     };
 
-    axios.post(
-      `http://localhost:8080/technology`,
-      addTech,
-      {
+    axios
+      .post(`http://localhost:8080/technology`, addTech, {
         params: { personId },
         headers: {
           Authorization: `Bearer ${storedToken}`,
         },
-      }
-    )
-      .then(response => {
+      })
+      .then((response) => {
         console.log("New technology added", response.data);
         setEditableIndex(-1);
         setNewTechnology("");
         setShowNewTechnologyInput(false);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error adding technology:", error);
       });
   };
-  
+
   const handleSave = (updatedSummary) => {
     const updatedPerson = {
       id: personId,
       email: personEmail,
-      summary: updatedSummary, 
+      summary: updatedSummary,
       technologies: technologies,
-      education: education
+      education: education,
     };
     const storedToken = localStorage.getItem("jwtToken");
-    axios.put(`http://localhost:8080/person/update`, updatedPerson ,
-    {
-      headers: {
-        Authorization: `Bearer ${storedToken}`,
-      },
-    })
-      .then(response => {
-        console.log("Person updated successfully:", response.data);
-        setEditableIndex(-1); 
+    axios
+      .put(`http://localhost:8080/person/update`, updatedPerson, {
+        headers: {
+          Authorization: `Bearer ${storedToken}`,
+        },
       })
-      .catch(error => {
+      .then((response) => {
+        console.log("Person updated successfully:", response.data);
+        setEditableIndex(-1);
+      })
+      .catch((error) => {
         console.error("Error updating person:", error);
       });
   };
@@ -102,12 +99,13 @@ const CvTemplate = ({
                   autoFocus
                 />
               ) : (
-                <p onClick={() => handleEdit(personSummary)}>
-                  {personSummary}
-                </p>
+                <p onClick={() => handleEdit(personSummary)}>{personSummary}</p>
               )}
             </div>
-            <div className="first" onClick={() => setShowNewTechnologyInput(true)}>
+            <div
+              className="first"
+              onClick={() => setShowNewTechnologyInput(true)}
+            >
               <h3>Technologies</h3>
               <div className="line"></div>
               <i>
@@ -123,7 +121,7 @@ const CvTemplate = ({
                   <input
                     type="text"
                     value={newTechnology}
-                    onChange={(e) => setNewTechnology(e.target.value)} 
+                    onChange={(e) => setNewTechnology(e.target.value)}
                     placeholder="Add new technology"
                   />
                   <button onClick={handleSaveTechnology}>Add</button>
@@ -146,7 +144,7 @@ const CvTemplate = ({
             </div>
           </div>
           <div id="Experience">
-            <h3>EXPERIENCE</h3>
+            <h3>Experience</h3>
             <div className="line"></div>
             {experiences.map((exp, index) => (
               <div className="exp" key={index}>
@@ -165,7 +163,10 @@ const CvTemplate = ({
                     autoFocus
                   />
                 ) : (
-                  <p id="description" onClick={() => handleParagraphClick(index)}>
+                  <p
+                    id="description"
+                    onClick={() => handleParagraphClick(index)}
+                  >
                     {exp.description}
                   </p>
                 )}

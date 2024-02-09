@@ -61,8 +61,6 @@ public class PersonServiceImpl implements PersonService {
     Optional<Person> editedPerson= personRepository.findByEmail(person.getEmail());
     if (editedPerson.isPresent()){
         editedPerson.get().setSummary(person.getSummary());
-        editedPerson.get().setTechnologies(person.getTechnologies());
-        editedPerson.get().setEducation(person.getEducation());
         personRepository.save(editedPerson.get());
         return true;
     }

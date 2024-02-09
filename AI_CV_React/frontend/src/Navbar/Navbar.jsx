@@ -36,6 +36,10 @@ const Navbar = ({
     console.log("Messages updated:", messages);
   }, [messages]);
 
+  const handlePdfUploadClick = () => {
+    setSelectedEmail(null);
+  };
+
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -56,14 +60,17 @@ const Navbar = ({
         />
         <div className="project-name">AI CV Template</div>
         <ul className="nav-links">
-          <li>
-            <Link className="link" to="/pdf-upload">
-              Upload
-            </Link>
-          </li>
+          <li></li>
           <li>
             <Link className="link" to="/home-page">
-              CV
+              Preview
+            </Link>
+            <Link
+              className="link"
+              to="/pdf-upload"
+              onClick={handlePdfUploadClick}
+            >
+              Upload
             </Link>
           </li>
         </ul>

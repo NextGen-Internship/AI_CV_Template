@@ -9,7 +9,7 @@ import PdfUpload from "./PdfUpload/PdfUpload";
 import PdfDownload from "./PdfDownload/PdfDownload";
 import LogOut from "./Login/Logout";
 import CvTemplate from "./cv/CvTemplate";
-import WebSocket from "./WebSocket/Websocket";
+import WebSocket from "./WebSocket/WebSocket";
 import {
   BrowserRouter as Router,
   Routes,
@@ -152,7 +152,9 @@ function App() {
                   setSelectedEmail={setSelectedEmail}
                   setMessages={setMessages}
                 />
-                <PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>
+                {!selectedEmail && (
+                  <PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>
+                )}
                 <WebSocket
                   messages={messages}
                   setMessages={setMessages}
