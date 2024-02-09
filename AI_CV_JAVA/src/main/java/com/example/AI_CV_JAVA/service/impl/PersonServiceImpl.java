@@ -73,8 +73,10 @@ public class PersonServiceImpl implements PersonService {
     public void addTechnology(Technology technology, long personId) {
       Optional<Person> person = personRepository.findById(personId);
       if (person.isPresent()){
-          person.get().getTechnologies().add(technology);
-          personRepository.save(person.get());
+          if (!person.get().getTechnologies().contains(technology)) { // Check if the technology is not already present
+              person.get().getTechnologies().add(technology);
+              personRepository.save(person.get());
+          }
       }
     }
     public void deletePerson(Long id) {
