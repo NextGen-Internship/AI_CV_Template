@@ -21,14 +21,14 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "email", nullable = true)
+    @Column(name = "email", nullable = true, unique = true)
     @Email
     private String email;
 
     @Column
     private String name;
 
-    @Column
+    @Column(length = 1000)
     private String summary;
 
     @Column

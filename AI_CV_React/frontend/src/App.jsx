@@ -70,6 +70,7 @@ function App() {
     localStorage.removeItem("jwtToken");
     localStorage.removeItem("userID");
     localStorage.removeItem("userInfo");
+    setSelectedEmail(null);
   };
 
   useEffect(() => {
@@ -166,6 +167,7 @@ function App() {
             )
           }
         />
+        <Route path="/" element={<Navigate to="/home-page" replace />} />
       </Routes>
     </Router>
   );

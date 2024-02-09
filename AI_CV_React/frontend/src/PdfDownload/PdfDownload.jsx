@@ -9,6 +9,7 @@ import jsPDF from "jspdf";
 
 const PdfDownload = ({ email }) => {
   const [personId, setPersonId] = useState("");
+  const [personEmail, setPersonEmail] = useState("");
   const [personData, setPersonData] = useState(null);
   const [personName, setPersonName] = useState(null);
   const [personSummary, setPersonSummary] = useState(null);
@@ -47,7 +48,9 @@ const PdfDownload = ({ email }) => {
           },
         }
       );
-
+      console.log(response.data);
+      setPersonId(response.data.id);
+      console.log(personId);
       setPersonData(response.data);
       setPersonName(response.data.name);
       setPersonSummary(response.data.summary);
@@ -60,14 +63,15 @@ const PdfDownload = ({ email }) => {
   };
 
   const handleInputChange = (e) => {
+    setPersonEmail(e.target.value);
     setPersonId(e.target.value);
   };
 
   const handleFetchData = () => {
     if (email) {
       fetchByEmail(email);
-    } else if (personId !== "") {
-      fetchByEmail(personId);
+    } else if (personEmail !== "") {
+      fetchByEmail(personEmail);
     }
   };
 
@@ -78,7 +82,7 @@ const PdfDownload = ({ email }) => {
   }, [email]);
 
   if (personData != null) {
-    const { name, summary, education, experiences } = personData;
+    const { id, email, name, summary, education, experiences } = personData;
   }
 
   return (
@@ -99,6 +103,8 @@ const PdfDownload = ({ email }) => {
         <div className="cv-section">
           <div className="entire-cv">
             <CvTemplate
+              personId={personId}
+              personEmail={email}
               personName={personName}
               personSummary={personSummary}
               technologies={technologies}
