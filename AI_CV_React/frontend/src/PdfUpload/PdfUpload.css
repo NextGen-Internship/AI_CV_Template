@@ -77,14 +77,13 @@
 
 .input-field {
   width: 50%;
-  margin: 0 auto; /* Center the input horizontally */
+  margin: 0 auto;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
 }
 
-/* Optional: Add styling for focus state */
 .input-field:focus {
   outline: none;
   border-color: #007bff;
