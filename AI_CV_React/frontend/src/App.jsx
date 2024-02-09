@@ -165,7 +165,7 @@ function App() {
             )
           }
         />
-        <Route path="*" element={<Navigate to="/home-page" replace />} />
+        <Route path="/" element={<Navigate to="/home-page" replace />} />
       </Routes>
     </Router>
   );
