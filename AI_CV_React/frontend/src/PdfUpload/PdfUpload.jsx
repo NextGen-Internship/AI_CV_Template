@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import axios from "axios";
 import "./PdfUpload.css";
 import PdfDownload from "../PdfDownload/PdfDownload";
@@ -23,6 +23,19 @@ const PdfUpload = ({ onUploadSuccess }) => {
   const handleRemove = () => {
     setSelectedFile(null);
   };
+
+  const embeddedPdf = useMemo(() => {
+    if(selectedFile){
+      const pdfUrl = URL.createObjectURL(selectedFile)
+      return <iframe
+        src={`${pdfUrl}#toolbar=0`}
+        type="application/pdf"
+        className="preview"
+      />
+    } else {
+      return null;
+    }
+  }, [selectedFile]);
 
   const handleUpload = () => {
     if (selectedFile && gmail) {
@@ -58,11 +71,12 @@ const PdfUpload = ({ onUploadSuccess }) => {
       <label htmlFor="upload-file-input" id="upload-file-label">
         {selectedFile ? (
           <>
-            <iframe
+            {/* <iframe
               src={`${URL.createObjectURL(selectedFile)}#toolbar=0`}
               type="application/pdf"
               className="preview"
-            />
+            /> */}
+            {embeddedPdf}
             <button onClick={handleRemove} id="remove-button">
               Remove PDF
             </button>
