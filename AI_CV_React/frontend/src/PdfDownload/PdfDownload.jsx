@@ -81,6 +81,19 @@ const PdfDownload = ({ email }) => {
     }
   }, [email]);
 
+  useEffect(() => {
+    if (
+      email ||
+      personEmail ||
+      personName ||
+      personSummary ||
+      education.length > 0 ||
+      experiences.length > 0
+    ) {
+      fetchByEmail(email || personEmail);
+    }
+  }, [email, personEmail, personName, personSummary, education, experiences]);
+
   if (personData != null) {
     const { id, email, name, summary, education, experiences } = personData;
   }
