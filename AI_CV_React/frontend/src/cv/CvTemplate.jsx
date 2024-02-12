@@ -99,7 +99,12 @@ const CvTemplate = ({
                   autoFocus
                 />
               ) : (
-                <p onClick={() => handleEdit(personSummary)}>{personSummary}</p>
+                <p
+                  className="cv-paragraph"
+                  onClick={() => handleEdit(personSummary)}
+                >
+                  {personSummary}
+                </p>
               )}
             </div>
             <div
@@ -165,6 +170,7 @@ const CvTemplate = ({
                 ) : (
                   <p
                     id="description"
+                    className="cv-paragraph"
                     onClick={() => handleParagraphClick(index)}
                   >
                     {exp.description}

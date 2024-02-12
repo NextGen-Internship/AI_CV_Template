@@ -93,7 +93,7 @@ const PdfUpload = ({ onUploadSuccess }) => {
         id="upload-file-input"
       />
       <label htmlFor="gmail-input" className="input-label">
-        Enter Gmail Address:
+        Enter Email Address:
       </label>
       <input
         type="email"
