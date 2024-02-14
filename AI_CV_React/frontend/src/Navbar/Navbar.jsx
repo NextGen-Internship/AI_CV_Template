@@ -49,7 +49,7 @@ const Navbar = ({
     setMessages(messages.filter((message) => message.email !== email));
     toggleDropdown();
   };
-
+  
   return (
     <nav className="navbar">
       <div className="navbar-left">
@@ -95,7 +95,6 @@ const Navbar = ({
             </div>
           )}
         </div>
- 
         {user && (
           <div className="user-info">
             <span className="userName">{firstName}</span>
