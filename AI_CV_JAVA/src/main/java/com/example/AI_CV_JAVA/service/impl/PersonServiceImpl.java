@@ -1,10 +1,15 @@
 package com.example.AI_CV_JAVA.service.impl;
 
+import com.example.AI_CV_JAVA.Entity.Activity;
+import com.example.AI_CV_JAVA.Entity.Enum.Type;
 import com.example.AI_CV_JAVA.Entity.Person;
 import com.example.AI_CV_JAVA.Entity.Technology;
 import com.example.AI_CV_JAVA.Repo.PersonRepository;
 import com.example.AI_CV_JAVA.exception.DataNotFoundException;
+import com.example.AI_CV_JAVA.service.interfaces.ActivityService;
 import com.example.AI_CV_JAVA.service.interfaces.PersonService;
+import com.example.AI_CV_JAVA.service.interfaces.UserService;
+import com.example.AI_CV_JAVA.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +20,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PersonServiceImpl implements PersonService {
     private final PersonRepository personRepository;
+    private final UserService userService;
+    private final ActivityService activityService;
 
     public void savePerson(Person person) {
         personRepository.saveAndFlush(person);
@@ -39,6 +46,11 @@ public class PersonServiceImpl implements PersonService {
         if (person.isEmpty()) {
             throw new DataNotFoundException("Person with email " + email + " not found");
         }
+        User user = userService.getCurrentUser();
+        List<Activity> activities = user.getActivities();
+        activities.add(activityService.crteateActivity(user,email, Type.Searched));
+        user.setActivities(activities);
+        userService.saveUser(user);
         return person;
     }
 

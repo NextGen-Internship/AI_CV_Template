@@ -1,11 +1,8 @@
 package com.example.AI_CV_JAVA.service.impl;
 
 import com.example.AI_CV_JAVA.DTO.NotificationDto;
-import com.example.AI_CV_JAVA.Entity.Education;
+import com.example.AI_CV_JAVA.Entity.*;
 import com.example.AI_CV_JAVA.Entity.Enum.Type;
-import com.example.AI_CV_JAVA.Entity.Experience;
-import com.example.AI_CV_JAVA.Entity.Person;
-import com.example.AI_CV_JAVA.Entity.Technology;
 import com.example.AI_CV_JAVA.controller.WebSocketController;
 import com.example.AI_CV_JAVA.service.impl.PdfPublisherServiceImpl;
 import com.example.AI_CV_JAVA.service.interfaces.*;
@@ -93,9 +90,6 @@ public class PdfServiceImpl implements PdfService {
     public void readJson(String message) throws Exception {
         Person person = makePerson(message);
         personService.savePerson(person);
-        User user = userService.getCurrentUser();
-        System.out.println(user.getId());
-        user.getActivities().add(activityService.crteateActivity(person, Type.Uploaded));
         String email = person.getEmail();
         NotificationDto notification = new NotificationDto();
         notification.setEmail(email);
@@ -107,6 +101,11 @@ public class PdfServiceImpl implements PdfService {
         PDFTextStripper pdfStripper = new PDFTextStripper();
         String text = pdfStripper.getText(document);
         String textToSend = text + "Blankfactor gmail: " + gmail;
+        User user = userService.getCurrentUser();
+        List<Activity> activities = user.getActivities();
+        activities.add(activityService.crteateActivity(user,gmail,Type.Uploaded));
+        user.setActivities(activities);
+        userService.saveUser(user);
         document.close();
         producer.sendMessage(textToSend);
     }

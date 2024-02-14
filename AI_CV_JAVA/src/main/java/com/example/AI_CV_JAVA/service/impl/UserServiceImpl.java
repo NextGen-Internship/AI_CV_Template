@@ -22,21 +22,42 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepo;
     private final ModelMapper mapper;
 
+//    @Override
+//    public Optional<User> getUserById(int id) {
+//        Optional<User> user = userRepo.findById(id);
+//        if (user.isEmpty()) {
+//            throw new DataNotFoundException("User with id " + id + " not found");
+//        }
+//        return user;
+//    }
     @Override
-    public Optional<User> getUserById(int id) {
+    public UserDTO getUserById(int id) {
         Optional<User> user = userRepo.findById(id);
         if (user.isEmpty()) {
             throw new DataNotFoundException("User with id " + id + " not found");
         }
-        return user;
-    }
+        return mapper.map(user, UserDTO.class);
+}
 
     @Override
     public User getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof User) {
-            return (User) authentication.getPrincipal();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth == null || !auth.isAuthenticated()) {
+            return null;
         }
+
+        Object principal = auth.getPrincipal();
+        if (principal instanceof User user) {
+            String email = user.getEmail();
+            return userRepo.findByEmail(email).orElse(null);
+        }
+
         return null;
+    }
+
+    @Override
+    public void saveUser(User user) {
+        userRepo.save(user);
     }
 }

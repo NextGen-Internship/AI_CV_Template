@@ -6,6 +6,7 @@ import com.example.AI_CV_JAVA.Entity.Person;
 import com.example.AI_CV_JAVA.Repo.ActivityRepository;
 import com.example.AI_CV_JAVA.service.interfaces.ActivityService;
 import com.example.AI_CV_JAVA.service.interfaces.UserService;
+import com.example.AI_CV_JAVA.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,21 +22,26 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public List<Activity> getUploadedCvs(){
-        return activityRepository.findByType(userService.getCurrentUser().getId(),Type.Uploaded);
+        User currentUser = userService.getCurrentUser();
+        List<Activity> activities = userService.getCurrentUser().getActivities();
+        return userService.getCurrentUser().getActivities().stream().filter(a->a.getType().equals(Type.Uploaded)).toList();
+
     }
 
     @Override
     public List<Activity> getSearchedCvs(){
-        return activityRepository.findByType(userService.getCurrentUser().getId(),Type.Searched);
+        List<Activity> activities = userService.getCurrentUser().getActivities();
+        return userService.getCurrentUser().getActivities().stream().filter(a->a.getType().equals(Type.Searched)).toList();
     }
 
     @Override
-    public Activity crteateActivity(Person person, Type type){
+    public Activity crteateActivity(User user,String person, Type type){
+
         Activity activity = new Activity();
-        activity.setPersonEmail(person.getEmail());
+        activity.setPersonEmail(person);
         activity.setType(type);
         activity.setCreatedDate(Instant.now());
-//        activity.setUser(userService.getUserById(id).get());
+//        activity.setUser(user);
         return activityRepository.saveAndFlush(activity);
     }
 }

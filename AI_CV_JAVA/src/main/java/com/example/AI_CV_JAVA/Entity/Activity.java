@@ -24,6 +24,7 @@ public class Activity {
     private String personEmail;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Enumerated(EnumType.STRING)

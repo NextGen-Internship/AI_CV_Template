@@ -24,7 +24,7 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     private ResponseEntity<UserDTO> getUserDetails(@PathVariable("id") int id) {
-       Optional<User> user = userService.getUserById(id);
+       UserDTO user = userService.getUserById(id);
         ModelMapper mapper = new ModelMapper();
         UserDTO userDto = new UserDTO();
         mapper.map(user, userDto);

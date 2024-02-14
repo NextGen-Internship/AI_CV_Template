@@ -35,7 +35,7 @@ public class User implements UserDetails {
     private String password;
     @Column
     private String pictureUrl;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Activity> activities;
 
     @Enumerated(EnumType.STRING)

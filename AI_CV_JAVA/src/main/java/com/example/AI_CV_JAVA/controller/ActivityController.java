@@ -21,7 +21,10 @@ public class ActivityController {
     @GetMapping("/uploaded")
     public ResponseEntity<List<Activity>> getAllUploadedActivities(){
         List<Activity> uploadedCvs = activityService.getUploadedCvs();
-        return ResponseEntity.ok(uploadedCvs);
+        for (Activity uploadedCv : uploadedCvs) {
+            System.out.println(uploadedCv.getId());
+        }
+        return new ResponseEntity<>(uploadedCvs, HttpStatus.OK);
     }
 
     @GetMapping("/searched")

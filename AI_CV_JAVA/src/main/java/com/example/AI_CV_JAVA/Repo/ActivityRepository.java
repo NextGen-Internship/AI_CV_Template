@@ -2,6 +2,7 @@ package com.example.AI_CV_JAVA.Repo;
 
 import com.example.AI_CV_JAVA.Entity.Activity;
 import com.example.AI_CV_JAVA.Entity.Enum.Type;
+import com.example.AI_CV_JAVA.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,7 +13,8 @@ import java.util.Optional;
 
 @Repository
 public interface ActivityRepository extends JpaRepository<Activity, Long> {
-    @Query("SELECT a FROM Activity a WHERE a.user.id = :user_id AND a.type = :type")
-    List<Activity> findByType(@Param("user_id") Integer userId, @Param("type") Type type);
+
+    List<Activity> findByUserAndType(User user, Type type);
+
 
 }
