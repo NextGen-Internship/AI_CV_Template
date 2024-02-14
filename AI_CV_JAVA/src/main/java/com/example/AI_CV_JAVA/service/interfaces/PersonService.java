@@ -11,7 +11,7 @@ public interface PersonService {
 
     List<Person> getAllPeople();
 
-    Optional<Person> findById(long id);
+    Person findById(long id);
 
     Optional<Person> getPersonByEmail(String email);
 

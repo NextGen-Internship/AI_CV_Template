@@ -39,10 +39,9 @@ public class MultipartController {
     public ResponseEntity<Person> getCVById(
             @PathVariable Long id
     ) {
-        Optional<Person> person = personService.findById(id);
+        Person person = personService.findById(id);
         System.out.println(person.toString());
-        return person.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-
+        return ResponseEntity.ok(person);
     }
 
 }

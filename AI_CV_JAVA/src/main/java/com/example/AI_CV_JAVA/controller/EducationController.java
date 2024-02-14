@@ -30,23 +30,15 @@ public class EducationController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Education>> getEducationById(@PathVariable Long id) {
-        try {
-            Optional<Education> education = educationService.getEducationById(id);
+    public ResponseEntity<Education> getEducationById(@PathVariable Long id) {
+            Education education = educationService.getEducationById(id);
             return new ResponseEntity<>(education, HttpStatus.OK);
-        } catch (DataNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Optional.empty());
-        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Education> updateEducation(@PathVariable Long id, @RequestBody Education toUpdate) {
-        try {
             Education updatedEducation = educationService.updateEducation(id, toUpdate);
             return new ResponseEntity<>(updatedEducation, HttpStatus.OK);
-        } catch (DataNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
     }
 
     @DeleteMapping("/{id}")

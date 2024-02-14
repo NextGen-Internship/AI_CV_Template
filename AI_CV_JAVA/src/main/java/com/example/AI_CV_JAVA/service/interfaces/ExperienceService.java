@@ -11,7 +11,7 @@ public interface ExperienceService {
 
     List<Experience> getAllExperience();
 
-    Optional<Experience> getExperienceById(Long id);
+    Experience getExperienceById(Long id);
 
     Experience updateExperience(Long id, Experience toUpdate);
 

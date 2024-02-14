@@ -25,32 +25,26 @@ public class TechnologyServiceImpl implements TechnologyService {
         return technologyRepository.findAll();
     }
 
-    public Optional<Technology> getTechnologyById(Long id) {
-        Optional<Technology> technology = technologyRepository.findById(id);
-        if (technology.isEmpty()) {
-            throw new DataNotFoundException("Technology with id " + id + " not found");
-        }
-        return technology;
+    @Override
+    public Technology getTechnologyById(Long id) {
+        return technologyRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Technology with id " + id + " not found"));
     }
 
+    @Override
     public Technology updateTechnology(Long id, Technology toUpdateTechnology) {
-        Optional<Technology> existingTechnology = technologyRepository.findById(id);
-        if (existingTechnology.isPresent()) {
-            toUpdateTechnology.setId(id);
-            return technologyRepository.save(toUpdateTechnology);
-        } else {
-            throw new DataNotFoundException("Technology with id " + id + " not found");
-        }
+        technologyRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Technology with id " + id + " not found"));
+        toUpdateTechnology.setId(id);
+        return technologyRepository.save(toUpdateTechnology);
     }
-
+    @Override
     public void deleteTechnology(Long id) {
-        Optional<Technology> technology = technologyRepository.findById(id);
-        if (technology.isEmpty()) {
-            throw new DataNotFoundException("Technology with id " + id + " not found");
-        }
+        technologyRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Technology with id " + id + " not found"));
         technologyRepository.deleteById(id);
     }
-
+    @Override
     public boolean addTechnology(String name, long personId) {
         Optional<Technology> technology = technologyRepository.findByName(name);
         if (technology.isEmpty()) {

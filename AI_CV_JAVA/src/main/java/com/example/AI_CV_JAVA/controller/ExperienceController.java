@@ -29,8 +29,8 @@ public class ExperienceController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Experience>> getExperienceById(@PathVariable Long id) {
-        Optional<Experience> experience = experienceServiceImpl.getExperienceById(id);
+    public ResponseEntity<Experience> getExperienceById(@PathVariable Long id) {
+        Experience experience = experienceServiceImpl.getExperienceById(id);
         return new ResponseEntity<>(experience, HttpStatus.OK);
     }
 

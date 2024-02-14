@@ -11,7 +11,7 @@ public interface EducationService {
 
     List<Education> getAllEducations();
 
-    Optional<Education> getEducationById(Long id);
+    Education getEducationById(Long id);
 
     Education updateEducation(Long id, Education toUpdate);
 

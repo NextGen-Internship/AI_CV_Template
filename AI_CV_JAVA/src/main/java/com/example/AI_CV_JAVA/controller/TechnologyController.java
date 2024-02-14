@@ -33,8 +33,8 @@ public class TechnologyController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Technology>> getTechnologyById(@PathVariable Long id) {
-        Optional<Technology> technology = technologyService.getTechnologyById(id);
+    public ResponseEntity<Technology> getTechnologyById(@PathVariable Long id) {
+        Technology technology = technologyService.getTechnologyById(id);
         return new ResponseEntity<>(technology, HttpStatus.OK);
     }
 
