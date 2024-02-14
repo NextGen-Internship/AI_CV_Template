@@ -26,7 +26,6 @@ const Navbar = ({
         const userFirstName = userInfoObject?.firstname;
         const userPicture = userInfoObject?.pictureUrl;
         if (userFirstName) setFirstName(userFirstName);
-        console.log(userInfoObject?.firstName);
         if (userPicture) setPicture(userPicture);
       } catch (error) {
         console.error("Error parsing stored user info:", error.message);
