@@ -75,10 +75,10 @@ public List<Technology> mapTechnologies(JsonNode technologiesNode) {
     List<Technology> technologies = new ArrayList<>();
     for (JsonNode technologyNode : technologiesNode) {
         String technologyName = technologyNode.asText();
-        Optional<Technology> existingTechnologyOptional = technologyService.findTechnology(technologyName);
+        Technology existingTechnology = technologyService.findTechnology(technologyName);
         Technology technology;
-        if (existingTechnologyOptional.isPresent()) {
-            technology = existingTechnologyOptional.get();
+        if (existingTechnology != null) {
+            technology = existingTechnology;
         } else {
             technology = new Technology();
             technology.setName(technologyName);

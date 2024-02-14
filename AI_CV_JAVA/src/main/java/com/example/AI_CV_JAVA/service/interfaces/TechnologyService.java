@@ -18,6 +18,6 @@ public interface TechnologyService {
 
     boolean addTechnology(String name, long personId);
 
-    Optional<Technology> findTechnology(String name);
+    Technology findTechnology(String name);
 }
 

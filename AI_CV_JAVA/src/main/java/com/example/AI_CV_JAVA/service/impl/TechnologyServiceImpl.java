@@ -60,8 +60,9 @@ public class TechnologyServiceImpl implements TechnologyService {
         }
 
     @Override
-    public Optional<Technology> findTechnology(String name) {
-        return technologyRepository.findByName(name);
+    public Technology findTechnology(String name) {
+       return technologyRepository.findByName(name)
+                .orElseThrow(() -> new DataNotFoundException("Technology with id " + name + " not found"));
     }
 }
 
