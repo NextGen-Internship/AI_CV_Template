@@ -106,11 +106,13 @@ function App() {
                     messages={messages}
                     setMessages={setMessages}
                   ></WebSocket>
+                  <PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>
                   <Footer />
                 </>
               )
             ) : (
-              <Navigate to="/home-page" />
+              <HomePage setUser={setUser} setLoggedIn={setLoggedIn} />
+              // <Navigate to="/home-page" />
             )
           }
         />
