@@ -133,8 +133,7 @@ function App() {
                   setMessages={setMessages}
                 ></WebSocket>
                 <PdfDownload email={selectedEmail} />
-                <SearchHistory></SearchHistory>
-                <UploadHistory></UploadHistory>
+
                 <Footer />
               </>
             ) : (
