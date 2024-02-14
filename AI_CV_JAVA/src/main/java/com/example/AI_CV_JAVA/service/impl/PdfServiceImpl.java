@@ -93,7 +93,6 @@ public List<Technology> mapTechnologies(JsonNode technologiesNode) {
     return technologies;
 }
 
-
     public void readJson(String message) throws Exception {
         Person person = makePerson(message);
         personService.savePerson(person);
