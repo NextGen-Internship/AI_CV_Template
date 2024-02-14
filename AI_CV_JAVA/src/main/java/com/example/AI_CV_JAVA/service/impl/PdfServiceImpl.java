@@ -82,10 +82,8 @@ public List<Technology> mapTechnologies(JsonNode technologiesNode) {
         if (existingTechnologyOptional.isPresent()) {
             technology = existingTechnologyOptional.get();
         } else {
-            // Create a new Technology object
             technology = new Technology();
             technology.setName(technologyName);
-            // Persist the new Technology object if needed
             technology = technologyService.saveTechnology(technology);
         }
         technologies.add(technology);
