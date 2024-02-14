@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import LogOut from "../Login/Logout";
 import "./Navbar.css";
 import PdfDownload from "../PdfDownload/PdfDownload";
+import DonationButton from "../Donation/DonationButton";
+
 
 const Navbar = ({
   user,
@@ -17,6 +19,7 @@ const Navbar = ({
   const [picture, setPicture] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+  
   useEffect(() => {
     const storedUserInfo = localStorage.getItem("userInfo");
     if (storedUserInfo) {
@@ -25,6 +28,7 @@ const Navbar = ({
         const userFirstName = userInfoObject?.firstname;
         const userPicture = userInfoObject?.pictureUrl;
         if (userFirstName) setFirstName(userFirstName);
+        console.log(userInfoObject?.firstName);
         if (userPicture) setPicture(userPicture);
       } catch (error) {
         console.error("Error parsing stored user info:", error.message);
@@ -72,10 +76,11 @@ const Navbar = ({
             >
               Upload
             </Link>
+            <DonationButton></DonationButton>
           </li>
         </ul>
       </div>
-
+      
       <div className="navbar-right">
         <div className="notification-bell" onClick={toggleDropdown}>
           <span className="notification-count">{messages.length}</span>{" "}
@@ -95,7 +100,7 @@ const Navbar = ({
             </div>
           )}
         </div>
-
+ 
         {user && (
           <div className="user-info">
             <span className="userName">{firstName}</span>
