@@ -78,7 +78,9 @@ const Navbar = ({
 
       <div className="navbar-right">
         <div className="notification-bell" onClick={toggleDropdown}>
-          <span className="notification-count">{messages.length}</span>{" "}
+          {messages.length > 0 && (
+            <span className="notification-count">{messages.length}</span>
+          )}
           <i class="fa fa-bell"></i>
           {isDropdownOpen && (
             <div className="dropdown-menu">
