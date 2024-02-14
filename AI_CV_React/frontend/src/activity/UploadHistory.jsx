@@ -7,26 +7,26 @@ const UploadHistory = () => {
   const [error, setError] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const storedToken = localStorage.getItem("jwtToken"); 
+  const storedToken = localStorage.getItem("jwtToken");
 
-    const fetchUploadHistory = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:8080/activity/uploaded",
-          {
-            headers: {
-              Authorization: `Bearer ${storedToken}`,
-            },
-          }
-        );
-        setUploadHistory(JSON.stringify(response.data)); 
-        console.log("fetch upload" + JSON.stringify(response.data))
-      } catch (error) {
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchUploadHistory = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8080/activity/uploaded",
+        {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+          },
+        }
+      );
+      setUploadHistory(JSON.stringify(response.data));
+      console.log("fetch upload" + JSON.stringify(response.data));
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleItemClick = (item) => {
     setSelectedItem(item === selectedItem ? null : item);
@@ -34,9 +34,7 @@ const UploadHistory = () => {
 
   return (
     <div>
-     
-     <p onClick={fetchUploadHistory}>Upload History</p>
-
+      <p onClick={fetchUploadHistory}>Upload History</p>
     </div>
   );
 };

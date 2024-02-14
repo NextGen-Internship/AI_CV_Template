@@ -1,6 +1,6 @@
-import React from 'react';
-import './LoginSignUp.css';
-import GoogleLoginButton from './GoogleLoginButton.jsx'; 
+import React from "react";
+import "./LoginSignUp.css";
+import GoogleLoginButton from "./GoogleLoginButton.jsx";
 
 const LoginSignUp = ({ onGoogleLogin }) => {
   return (

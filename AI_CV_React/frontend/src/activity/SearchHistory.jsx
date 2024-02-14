@@ -7,32 +7,30 @@ const SearchHistory = () => {
   const [error, setError] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const storedToken = localStorage.getItem("jwtToken"); 
+  const storedToken = localStorage.getItem("jwtToken");
 
-    const fetchSearchHistory = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:8080/activity/searched",
-          {
-            headers: {
-              Authorization: `Bearer ${storedToken}`,
-            },
-          }
-        );
-        setSearhHistory(JSON.stringify(response.data)); 
-        console.log("fetch search" + JSON.stringify(response.data))
-      } catch (error) {
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchSearchHistory = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8080/activity/searched",
+        {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+          },
+        }
+      );
+      setSearhHistory(JSON.stringify(response.data));
+      console.log("fetch search" + JSON.stringify(response.data));
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div>
-     
-     <p onClick={fetchSearchHistory}>Search History</p>
-
+      <p onClick={fetchSearchHistory}>Search History</p>
     </div>
   );
 };
