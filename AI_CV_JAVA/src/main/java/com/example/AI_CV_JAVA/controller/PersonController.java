@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController
@@ -25,16 +24,16 @@ public class PersonController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Boolean> updatePersonByEmail(@RequestBody Person person){
-        if (personService.updateByEmail(person)){
+    public ResponseEntity<Boolean> updatePersonByEmail(@RequestBody Person person) {
+        if (personService.updateByEmail(person)) {
             return ResponseEntity.ok().build();
-        };
+        }
         return ResponseEntity.badRequest().build();
     }
 
     @GetMapping("/{email}")
-    public ResponseEntity<Optional<Person>> getPersonByEmail(@PathVariable String email) {
-        Optional<Person> person = personService.getPersonByEmail(email);
+    public ResponseEntity<Person> getPersonByEmail(@PathVariable String email) {
+        Person person = personService.getPersonByEmail(email);
 
         return new ResponseEntity<>(person, HttpStatus.OK);
     }

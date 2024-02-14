@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -38,17 +37,16 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public Optional<Person> getPersonByEmail(String email) {
-        return Optional.ofNullable(personRepository.findByEmail(email)
-                        .orElseThrow(() -> new DataNotFoundException("Person with email " + email + " not found")))
-                .map(person -> {
-                    User user = userService.getCurrentUser();
-                    List<Activity> activities = user.getActivities();
-                    activities.add(activityService.crteateActivity(user, email, Type.Searched));
-                    user.setActivities(activities);
-                    userService.saveUser(user);
-                    return person;
-                });
+    public Person getPersonByEmail(String email) {
+        Person person = personRepository.findByEmail(email)
+                .orElseThrow(() -> new DataNotFoundException("Person with email " + email + " not found"));
+
+        User user = userService.getCurrentUser();
+        List<Activity> activities = user.getActivities();
+        activities.add(activityService.crteateActivity(user, email, Type.Searched));
+        user.setActivities(activities);
+        userService.saveUser(user);
+        return person;
     }
 
     @Override
@@ -74,14 +72,15 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void addTechnology(Technology technology, long personId) {
-      Person person = personRepository.findById(personId)
-              .orElseThrow(() -> new DataNotFoundException("Person with person " + personId + " not found"));
+        Person person = personRepository.findById(personId)
+                .orElseThrow(() -> new DataNotFoundException("Person with id " + personId + " not found"));
 
-          if (!person.getTechnologies().contains(technology)) {
-              person.getTechnologies().add(technology);
-              personRepository.save(person);
-          }
+        if (!person.getTechnologies().contains(technology)) {
+            person.getTechnologies().add(technology);
+            personRepository.save(person);
+        }
     }
+
     public void deletePerson(Long id) {
         personRepository.deleteById(id);
     }

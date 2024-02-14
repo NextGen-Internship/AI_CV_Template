@@ -1,9 +1,9 @@
 package com.example.AI_CV_JAVA.service.impl;
 
 import com.example.AI_CV_JAVA.Entity.Technology;
-import com.example.AI_CV_JAVA.service.interfaces.PersonService;
 import com.example.AI_CV_JAVA.Repo.TechnologyRepository;
 import com.example.AI_CV_JAVA.exception.DataNotFoundException;
+import com.example.AI_CV_JAVA.service.interfaces.PersonService;
 import com.example.AI_CV_JAVA.service.interfaces.TechnologyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -38,12 +38,14 @@ public class TechnologyServiceImpl implements TechnologyService {
         toUpdateTechnology.setId(id);
         return technologyRepository.save(toUpdateTechnology);
     }
+
     @Override
     public void deleteTechnology(Long id) {
         technologyRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Technology with id " + id + " not found"));
         technologyRepository.deleteById(id);
     }
+
     @Override
     public boolean addTechnology(String name, long personId) {
         Optional<Technology> technology = technologyRepository.findByName(name);
@@ -51,12 +53,12 @@ public class TechnologyServiceImpl implements TechnologyService {
             Technology technology1 = new Technology();
             technology1.setName(name);
             personService.addTechnology(technologyRepository.saveAndFlush(technology1), personId);
-        }else {
+        } else {
             personService.addTechnology(technology.get(), personId);
         }
         return true;
-        }
     }
+}
 
 
 

@@ -3,7 +3,6 @@ package com.example.AI_CV_JAVA.service.interfaces;
 import com.example.AI_CV_JAVA.Entity.Technology;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface TechnologyService {
 

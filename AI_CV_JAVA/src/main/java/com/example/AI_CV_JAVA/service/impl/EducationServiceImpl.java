@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +37,6 @@ public class EducationServiceImpl implements EducationService {
     public void deleteEducation(Long id) {
         educationRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Education with id " + id + " not found"));
-            educationRepository.deleteById(id);
+        educationRepository.deleteById(id);
     }
 }

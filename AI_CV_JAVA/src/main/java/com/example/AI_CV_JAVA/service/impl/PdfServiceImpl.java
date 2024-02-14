@@ -4,7 +4,6 @@ import com.example.AI_CV_JAVA.DTO.NotificationDto;
 import com.example.AI_CV_JAVA.Entity.*;
 import com.example.AI_CV_JAVA.Entity.Enum.Type;
 import com.example.AI_CV_JAVA.controller.WebSocketController;
-import com.example.AI_CV_JAVA.service.impl.PdfPublisherServiceImpl;
 import com.example.AI_CV_JAVA.service.interfaces.*;
 import com.example.AI_CV_JAVA.user.User;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -12,16 +11,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringJoiner;
 
 @Service
 @RequiredArgsConstructor
@@ -103,7 +98,7 @@ public class PdfServiceImpl implements PdfService {
         String textToSend = text + "Blankfactor gmail: " + gmail;
         User user = userService.getCurrentUser();
         List<Activity> activities = user.getActivities();
-        activities.add(activityService.crteateActivity(user,gmail,Type.Uploaded));
+        activities.add(activityService.crteateActivity(user, gmail, Type.Uploaded));
         user.setActivities(activities);
         userService.saveUser(user);
         document.close();

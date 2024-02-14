@@ -1,6 +1,5 @@
 package com.example.AI_CV_JAVA.controller;
 
-import com.example.AI_CV_JAVA.DTO.PersonDto;
 import com.example.AI_CV_JAVA.Entity.Person;
 import com.example.AI_CV_JAVA.security.JwtService;
 import com.example.AI_CV_JAVA.service.impl.PdfServiceImpl;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/pdf")

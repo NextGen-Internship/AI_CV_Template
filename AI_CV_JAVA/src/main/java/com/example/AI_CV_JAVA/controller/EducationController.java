@@ -1,7 +1,6 @@
 package com.example.AI_CV_JAVA.controller;
 
 import com.example.AI_CV_JAVA.Entity.Education;
-import com.example.AI_CV_JAVA.exception.DataNotFoundException;
 import com.example.AI_CV_JAVA.service.interfaces.EducationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -9,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("education")
@@ -31,14 +29,14 @@ public class EducationController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Education> getEducationById(@PathVariable Long id) {
-            Education education = educationService.getEducationById(id);
-            return new ResponseEntity<>(education, HttpStatus.OK);
+        Education education = educationService.getEducationById(id);
+        return new ResponseEntity<>(education, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Education> updateEducation(@PathVariable Long id, @RequestBody Education toUpdate) {
-            Education updatedEducation = educationService.updateEducation(id, toUpdate);
-            return new ResponseEntity<>(updatedEducation, HttpStatus.OK);
+        Education updatedEducation = educationService.updateEducation(id, toUpdate);
+        return new ResponseEntity<>(updatedEducation, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
