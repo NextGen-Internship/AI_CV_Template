@@ -5,7 +5,6 @@ import "./Navbar.css";
 import PdfDownload from "../PdfDownload/PdfDownload";
 import DonationButton from "../Donation/DonationButton";
 
-
 const Navbar = ({
   user,
   onLogout,
@@ -19,7 +18,6 @@ const Navbar = ({
   const [picture, setPicture] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  
   useEffect(() => {
     const storedUserInfo = localStorage.getItem("userInfo");
     if (storedUserInfo) {
@@ -37,7 +35,6 @@ const Navbar = ({
   }, [user]);
 
   useEffect(() => {
-    console.log("Messages updated:", messages);
   }, [messages]);
 
   const handlePdfUploadClick = () => {
@@ -80,7 +77,6 @@ const Navbar = ({
           </li>
         </ul>
       </div>
-      
       <div className="navbar-right">
         <div className="notification-bell" onClick={toggleDropdown}>
           <span className="notification-count">{messages.length}</span>{" "}
