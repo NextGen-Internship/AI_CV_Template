@@ -31,7 +31,7 @@ public class Person {
     private String summary;
 
     @Column
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     private List<Technology> technologies;
 
     @Column

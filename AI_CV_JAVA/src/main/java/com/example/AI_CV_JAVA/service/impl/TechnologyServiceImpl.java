@@ -62,7 +62,12 @@ public class TechnologyServiceImpl implements TechnologyService {
         }
         return true;
         }
+
+    @Override
+    public Optional<Technology> findTechnology(String name) {
+        return technologyRepository.findByName(name);
     }
+}
 
 
 
