@@ -9,6 +9,8 @@ const PdfUpload = ({ onUploadSuccess }) => {
   const [gmail, setGmail] = useState("");
   const [uploadSuccessful, setIsUploadSuccessful] = useState(true);
   const [response, setResponse] = useState(null);
+  const [validEmail, setValidEmail] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -40,7 +42,9 @@ const PdfUpload = ({ onUploadSuccess }) => {
   }, [selectedFile]);
 
   const handleUpload = () => {
-    if (selectedFile && gmail) {
+    const isValidEmail = validateEmail(gmail);
+    setValidEmail(isValidEmail);
+    if (selectedFile && gmail && isValidEmail) {
       const formData = new FormData();
       const storedToken = localStorage.getItem("jwtToken");
       formData.append("file", selectedFile);
@@ -57,13 +61,19 @@ const PdfUpload = ({ onUploadSuccess }) => {
           setSelectedFile(null);
           setGmail("");
           setResponse(response);
+          setErrorMessage(null);
         })
         .catch((error) => {
           console.error("Error uploading file:", error);
         });
     } else {
-      console.log("Please select a file and enter a Gmail address.");
+      setErrorMessage("Please select a file and enter a valid Gmail address.");
     }
+  };
+
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
   };
 
   return (
@@ -105,6 +115,7 @@ const PdfUpload = ({ onUploadSuccess }) => {
       <button className="upload-btn" onClick={handleUpload} id="upload-button">
         Upload PDF
       </button>
+      {errorMessage && <div className="error-message">{errorMessage}</div>}
 
       {response && (
         <div>
