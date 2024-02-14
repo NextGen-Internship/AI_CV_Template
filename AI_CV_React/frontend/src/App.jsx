@@ -83,39 +83,12 @@ function App() {
     checkToken();
   }, [isLoggedIn]);
 
+  console.log(selectedEmail);
+
   return (
     <Router>
       <Routes>
-        <Route
-          path="/"
-          element={
-            localStorage.getItem("jwtToken") ? (
-              showPdfUpload ? (
-                <PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>
-              ) : (
-                <>
-                  <Navbar
-                    user={user}
-                    onLogout={handleLogout}
-                    messages={messages}
-                    handleOpenTemplateApp={handleOpenTemplateApp}
-                    setSelectedEmail={setSelectedEmail}
-                    setMessages={setMessages}
-                  />
-                  <WebSocket
-                    messages={messages}
-                    setMessages={setMessages}
-                  ></WebSocket>
-                  <PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>
-                  <Footer />
-                </>
-              )
-            ) : (
-              <HomePage setUser={setUser} setLoggedIn={setLoggedIn} />
-              // <Navigate to="/home-page" />
-            )
-          }
-        />
+        <Route path="/" element={<Navigate to="/home-page" replace />} />
         <Route
           path="/home-page"
           element={
