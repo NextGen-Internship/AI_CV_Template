@@ -22,7 +22,6 @@ public class Person {
     private long id;
 
     @Column(name = "email", nullable = true, unique = true)
-    @Email
     private String email;
 
     @Column

@@ -1,5 +1,6 @@
 package com.example.AI_CV_JAVA.user;
 
+import com.example.AI_CV_JAVA.Entity.Activity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,13 +22,21 @@ import java.util.List;
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private Integer id;
+    @Column
     private String firstname;
+    @Column
     private String lastname;
+    @Column
     private String email;
+    @Column
     private String password;
+    @Column
     private String pictureUrl;
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Activity> activities;
 
     @Enumerated(EnumType.STRING)
     @Builder.Default

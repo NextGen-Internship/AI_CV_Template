@@ -35,6 +35,7 @@ public class PersonController {
     @GetMapping("/{email}")
     public ResponseEntity<Optional<Person>> getPersonByEmail(@PathVariable String email) {
         Optional<Person> person = personService.getPersonByEmail(email);
+
         return new ResponseEntity<>(person, HttpStatus.OK);
     }
 
