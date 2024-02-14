@@ -77,10 +77,18 @@ const PdfDownload = ({ email }) => {
 
   const handleInputChange = (e) => {
     setPersonEmail(e.target.value);
-    setPersonId(e.target.value);
+    // setPersonId(e.target.value);
   };
 
-  const handleFetchData = () => {
+  // const handleFetchData = () => {
+  //   if (email) {
+  //     fetchByEmail(email);
+  //   } else if (personEmail !== "") {
+  //     fetchByEmail(personEmail);
+  //   }
+  // };
+
+  const handleButtonClick = () => {
     if (email) {
       fetchByEmail(email);
     } else if (personEmail !== "") {
@@ -117,9 +125,9 @@ const PdfDownload = ({ email }) => {
         <div className="search-section">
           <div className="section-label-search">Find CV & Download</div>
           <SearchCv
-            personId={personId}
+            email={personEmail}
             handleInputChange={handleInputChange}
-            handleFetchData={handleFetchData}
+            handleFetchData={handleButtonClick}
           />
           <div className="section-label-download">Download PDF:</div>
           <button className="btn-download" onClick={handlePrint}>

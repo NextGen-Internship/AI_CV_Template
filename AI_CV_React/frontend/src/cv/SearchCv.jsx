@@ -7,6 +7,8 @@ const SearchCV = ({ email, handleInputChange, handleFetchData }) => {
   const validateEmail = (inputEmail) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+    console.log(emailRegex.test(inputEmail));
+
     if (inputEmail === "") {
       setEmailError("Email is required");
     } else if (!emailRegex.test(inputEmail)) {
