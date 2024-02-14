@@ -6,7 +6,6 @@ const UploadHistory = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
-
   const storedToken = localStorage.getItem("jwtToken"); 
 
     const fetchUploadHistory = async () => {
@@ -20,7 +19,6 @@ const UploadHistory = () => {
           }
         );
         setUploadHistory(JSON.stringify(response.data)); 
-        console.log("fetch upload" + JSON.stringify(response.data))
       } catch (error) {
         setError(error);
       } finally {
@@ -33,10 +31,8 @@ const UploadHistory = () => {
   };
 
   return (
-    <div>
-     
+    <div>     
      <p onClick={fetchUploadHistory}>Upload History</p>
-
     </div>
   );
 };
