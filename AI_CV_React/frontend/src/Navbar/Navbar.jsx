@@ -33,9 +33,7 @@ const Navbar = ({
     }
   }, [user]);
 
-  useEffect(() => {
-    console.log("Messages updated:", messages);
-  }, [messages]);
+  useEffect(() => {}, [messages]);
 
   const handlePdfUploadClick = () => {
     setSelectedEmail(null);
@@ -77,7 +75,6 @@ const Navbar = ({
           </li>
         </ul>
       </div>
-
       <div className="navbar-right">
         <div className="notification-bell" onClick={toggleDropdown}>
           <span className="notification-count">{messages.length}</span>{" "}
@@ -97,7 +94,6 @@ const Navbar = ({
             </div>
           )}
         </div>
-
         {user && (
           <div className="user-info">
             <span className="userName">{firstName}</span>

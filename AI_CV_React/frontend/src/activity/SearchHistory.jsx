@@ -20,7 +20,6 @@ const SearchHistory = () => {
         }
       );
       setSearhHistory(JSON.stringify(response.data));
-      console.log("fetch search" + JSON.stringify(response.data));
     } catch (error) {
       setError(error);
     } finally {
