@@ -4,7 +4,6 @@ import com.example.AI_CV_JAVA.DTO.NotificationDto;
 import com.example.AI_CV_JAVA.Entity.*;
 import com.example.AI_CV_JAVA.Entity.Enum.Type;
 import com.example.AI_CV_JAVA.controller.WebSocketController;
-import com.example.AI_CV_JAVA.service.impl.PdfPublisherServiceImpl;
 import com.example.AI_CV_JAVA.service.interfaces.*;
 import com.example.AI_CV_JAVA.user.User;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -12,16 +11,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringJoiner;
+import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +27,7 @@ public class PdfServiceImpl implements PdfService {
     private final WebSocketController webSocketController;
     private final ActivityService activityService;
     private final UserService userService;
+    private final TechnologyService technologyService;
 
 
     public List<Experience> mapExperiences(JsonNode experiencesNode) {
@@ -76,16 +73,23 @@ public class PdfServiceImpl implements PdfService {
         }
         return educations;
     }
-
-    public List<Technology> mapTechnologies(JsonNode technologiesNode) {
-        List<Technology> technologies = new ArrayList<>();
-        for (JsonNode technologyNode : technologiesNode) {
-            Technology technology = new Technology();
-            technology.setName(technologyNode.asText());
-            technologies.add(technology);
+public List<Technology> mapTechnologies(JsonNode technologiesNode) {
+    List<Technology> technologies = new ArrayList<>();
+    for (JsonNode technologyNode : technologiesNode) {
+        String technologyName = technologyNode.asText();
+        Optional<Technology> existingTechnologyOptional = technologyService.findTechnology(technologyName);
+        Technology technology;
+        if (existingTechnologyOptional.isPresent()) {
+            technology = existingTechnologyOptional.get();
+        } else {
+            technology = new Technology();
+            technology.setName(technologyName);
+            technology = technologyService.saveTechnology(technology);
         }
-        return technologies;
+        technologies.add(technology);
     }
+    return technologies;
+}
 
     public void readJson(String message) throws Exception {
         Person person = makePerson(message);
