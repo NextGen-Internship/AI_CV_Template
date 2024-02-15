@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -75,11 +76,12 @@ public List<Technology> mapTechnologies(JsonNode technologiesNode) {
     List<Technology> technologies = new ArrayList<>();
     for (JsonNode technologyNode : technologiesNode) {
         String technologyName = technologyNode.asText();
-        Technology existingTechnology = technologyService.findTechnology(technologyName);
+        Optional<Technology> existingTechnologyOptional = technologyService.findTechnology(technologyName);
+
         Technology technology;
-        if (existingTechnology != null) {
-            technology = existingTechnology;
-        } else {
+        if(existingTechnologyOptional.isPresent()) {
+            technology = existingTechnologyOptional.get();
+        }else{
             technology = new Technology();
             technology.setName(technologyName);
             technology = technologyService.saveTechnology(technology);

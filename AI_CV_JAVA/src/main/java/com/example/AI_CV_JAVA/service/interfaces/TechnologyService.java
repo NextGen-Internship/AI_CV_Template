@@ -3,6 +3,7 @@ package com.example.AI_CV_JAVA.service.interfaces;
 import com.example.AI_CV_JAVA.Entity.Technology;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TechnologyService {
 
@@ -18,6 +19,6 @@ public interface TechnologyService {
 
     boolean addTechnology(String name, long personId);
 
-    Technology findTechnology(String name);
+    Optional<Technology> findTechnology(String name);
 }
 
