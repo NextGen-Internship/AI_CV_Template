@@ -4,8 +4,6 @@ import axios from "axios";
 import CvTemplate from "../cv/CvTemplate";
 import SearchCv from "../cv/SearchCv";
 import "./PdfDownload.css";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
 import { useReactToPrint } from "react-to-print";
 
 const ComponentToPrint = React.forwardRef(
@@ -44,11 +42,27 @@ const PdfDownload = ({ email }) => {
   const [technologies, setTechnologies] = useState([]);
   const [education, setEducation] = useState([]);
   const [experiences, setExperiences] = useState([]);
+  const [emailError, setEmailError] = useState("");
   const componentRef = useRef(null);
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
+
+  const validateEmail = (inputEmail) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (inputEmail === "") {
+      setEmailError("Email is required");
+      return false;
+    } else if (!emailRegex.test(inputEmail)) {
+      setEmailError("Enter a valid email address");
+      return false;
+    } else {
+      setEmailError("");
+      return true;
+    }
+  };
 
   const fetchByEmail = async (email) => {
     try {
@@ -77,21 +91,12 @@ const PdfDownload = ({ email }) => {
 
   const handleInputChange = (e) => {
     setPersonEmail(e.target.value);
-    // setPersonId(e.target.value);
+    setPersonId(e.target.value);
   };
 
-  // const handleFetchData = () => {
-  //   if (email) {
-  //     fetchByEmail(email);
-  //   } else if (personEmail !== "") {
-  //     fetchByEmail(personEmail);
-  //   }
-  // };
-
   const handleButtonClick = () => {
-    if (email) {
-      fetchByEmail(email);
-    } else if (personEmail !== "") {
+    const isValid = validateEmail(personEmail);
+    if (isValid) {
       fetchByEmail(personEmail);
     }
   };
@@ -101,19 +106,6 @@ const PdfDownload = ({ email }) => {
       fetchByEmail(email);
     }
   }, [email]);
-
-  useEffect(() => {
-    if (
-      email ||
-      personEmail ||
-      personName ||
-      personSummary ||
-      education.length > 0 ||
-      experiences.length > 0
-    ) {
-      fetchByEmail(email || personEmail);
-    }
-  }, [email, personEmail, personName, personSummary, education, experiences]);
 
   if (personData != null) {
     const { id, email, name, summary, education, experiences } = personData;
@@ -129,6 +121,7 @@ const PdfDownload = ({ email }) => {
             handleInputChange={handleInputChange}
             handleFetchData={handleButtonClick}
           />
+          {emailError && <p className="error-message">{emailError}</p>}
           <div className="section-label-download">Download PDF:</div>
           <button className="btn-download" onClick={handlePrint}>
             Download Pdf
