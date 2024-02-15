@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,30 +22,21 @@ public class EducationServiceImpl implements EducationService {
         return educationRepository.findAll();
     }
 
-    public Optional<Education> getEducationById(Long id) {
-        Optional<Education> education = educationRepository.findById(id);
-        if (education.isEmpty()) {
-            throw new DataNotFoundException("Education with id " + id + " not found");
-        }
-        return education;
+    public Education getEducationById(Long id) {
+        return educationRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Education with id " + id + " not found"));
     }
 
     public Education updateEducation(Long id, Education toUpdate) {
-        Optional<Education> existingEducation = educationRepository.findById(id);
-        if (existingEducation.isPresent()) {
-            toUpdate.setId(id);
-            return educationRepository.save(toUpdate);
-        } else {
-            throw new DataNotFoundException("Education with id " + id + " not found");
-        }
+        educationRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Education with id " + id + " not found"));
+        toUpdate.setId(id);
+        return educationRepository.save(toUpdate);
     }
 
     public void deleteEducation(Long id) {
-        Optional<Education> existingEducation = educationRepository.findById(id);
-        if (existingEducation.isPresent()) {
-            educationRepository.deleteById(id);
-        } else {
-            throw new DataNotFoundException("Education with id " + id + " not found");
-        }
+        educationRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Education with id " + id + " not found"));
+        educationRepository.deleteById(id);
     }
 }

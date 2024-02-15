@@ -3,7 +3,6 @@ package com.example.AI_CV_JAVA.service.interfaces;
 import com.example.AI_CV_JAVA.Entity.Education;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface EducationService {
 
@@ -11,7 +10,7 @@ public interface EducationService {
 
     List<Education> getAllEducations();
 
-    Optional<Education> getEducationById(Long id);
+    Education getEducationById(Long id);
 
     Education updateEducation(Long id, Education toUpdate);
 
