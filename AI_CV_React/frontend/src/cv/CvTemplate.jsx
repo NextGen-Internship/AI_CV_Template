@@ -24,21 +24,17 @@ const CvTemplate = ({
   }, [personSummary]);
 
   useEffect(() => {
-    // Create a deep copy of experiences
     const copiedExperiences = experiences.map((exp) => ({ ...exp }));
-
-    // Set the copied experiences to personExperiences state
     setPersonExperiences(copiedExperiences);
   }, [experiences]);
 
-  // Function to update summary
   const handleSummaryChange = (newSummary) => {
     setSummary(newSummary);
   };
 
   const handleEdit = (index) => {
     setEditableIndex(index);
-    setIsParagraphClicked(true); // Set to true when paragraph is clicked
+    setIsParagraphClicked(true);
   };
 
   const handleSaveTechnology = () => {
@@ -70,24 +66,17 @@ const CvTemplate = ({
     console.log("Field:", field);
     console.log("Updated value:", updatedValue);
 
-    // Create a new copy of the personExperiences array
     const updatedPersonExperiences = [...personExperiences];
-    // Update the specific experience within the new copy
     updatedPersonExperiences[index] = {
       ...updatedPersonExperiences[index],
       description: updatedValue,
     };
 
     console.log("Updated experiences:", updatedPersonExperiences);
-
-    // Update the state with the new copy of personExperiences
     setPersonExperiences(updatedPersonExperiences);
-
     console.log("Person experiences after update:", personExperiences);
-
-    // Reset editable index
     setEditableIndex(-1);
-    setIsParagraphClicked(true); // Set to true when paragraph is clicked
+    setIsParagraphClicked(true);
   };
 
   const handleSave = (updatedSummary, updatedPersonExperiences) => {
@@ -110,7 +99,7 @@ const CvTemplate = ({
       .then((response) => {
         console.log("Person updated successfully:", response.data);
         setEditableIndex(-1);
-        setIsParagraphClicked(false); // Reset to false after save
+        setIsParagraphClicked(false);
       })
       .catch((error) => {
         console.error("Error updating person:", error);
@@ -120,7 +109,7 @@ const CvTemplate = ({
   const handleParagraphClick = (index) => {
     setEditableIndex(index);
     setShowNewTechnologyInput(false);
-    setIsParagraphClicked(true); // Set to true when paragraph is clicked
+    setIsParagraphClicked(true);
   };
 
   const handleNewTechnologyChange = (e) => {

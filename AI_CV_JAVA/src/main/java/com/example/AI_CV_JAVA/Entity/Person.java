@@ -35,7 +35,7 @@ public class Person {
     private List<Technology> technologies;
 
     @Column
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Experience> experience;
 
     @Column

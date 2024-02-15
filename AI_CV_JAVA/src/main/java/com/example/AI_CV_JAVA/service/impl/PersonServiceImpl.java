@@ -2,7 +2,6 @@ package com.example.AI_CV_JAVA.service.impl;
 
 import com.example.AI_CV_JAVA.Entity.Activity;
 import com.example.AI_CV_JAVA.Entity.Enum.Type;
-import com.example.AI_CV_JAVA.Entity.Experience;
 import com.example.AI_CV_JAVA.Entity.Person;
 import com.example.AI_CV_JAVA.Entity.Technology;
 import com.example.AI_CV_JAVA.Repo.PersonRepository;
@@ -91,7 +90,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public boolean emailExists(String email){
+    public boolean emailExists(String email) {
         return personRepository.existsByEmail(email);
     }
 }
