@@ -55,7 +55,25 @@ ul {
   display: block;
   transition: all 0.3s ease;
 }
+
 .footer-col ul li a:hover {
+  color: #ffffff;
+  padding-left: 8px;
+}
+
+.footer-link {
+  font-size: 16px;
+  text-transform: capitalize;
+  margin-top: 10px;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 300;
+  color: #bbbbbb;
+  display: block;
+  transition: all 0.3s ease;
+}
+
+.footer-link:hover {
   color: #ffffff;
   padding-left: 8px;
 }
