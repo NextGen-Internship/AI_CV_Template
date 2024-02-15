@@ -62,10 +62,6 @@ const CvTemplate = ({
   };
 
   const handleSaveExperience = (field, updatedValue, index) => {
-    console.log("Updating experience:", index);
-    console.log("Field:", field);
-    console.log("Updated value:", updatedValue);
-
     const updatedPersonExperiences = [...personExperiences];
     updatedPersonExperiences[index] = {
       ...updatedPersonExperiences[index],
@@ -80,7 +76,6 @@ const CvTemplate = ({
   };
 
   const handleSave = (updatedSummary, updatedPersonExperiences) => {
-    console.log(personExperiences);
     const updatedPerson = {
       id: personId,
       email: personEmail,
