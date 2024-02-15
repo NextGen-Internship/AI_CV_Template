@@ -47,7 +47,6 @@ const PdfDownload = ({ email }) => {
   const [emailError, setEmailError] = useState("");
   const [activeTab, setActiveTab] = useState(0);
   const componentRef = useRef(null);
-  const [errorMessage, setErrorMessage] = useState("");
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -88,7 +87,6 @@ const PdfDownload = ({ email }) => {
         setEmailError("");
       }
     } catch (error) {
-      console.error("Error checking if email exists:", error);
       setEmailError("An error occurred while checking email existence");
       return;
     }
@@ -111,7 +109,6 @@ const PdfDownload = ({ email }) => {
       setEducation(response.data.education);
       setTechnologies(response.data.technologies);
     } catch (error) {
-      console.error("Error fetching person data:", error);
       setErrorMessage("An error occurred while fetching person data");
     }
   };
@@ -120,7 +117,7 @@ const PdfDownload = ({ email }) => {
     try {
       fetchByEmail(item.personEmail);
     } catch (error) {
-      console.error("Error fetching CV template:", error);
+      setErrorMessage("Error fetching CV template:", error);
     }
   };
 
