@@ -9,7 +9,7 @@ body {
   flex-direction: column;
   text-align: center;
   border: 1px solid rgb(192, 182, 182);
-  background-image: url("/public/background.png");
+  background-image: url("/public/image.png");
   background-repeat: no-repeat;
   background-size: cover;
   margin: auto;
@@ -115,9 +115,19 @@ img {
   border: none;
 }
 
-@media all {
-  .page-break {
-    display: none;
+@page {
+  margin-top: 20mm;
+  -webkit-print-color-adjust: exact;
+}
+
+@page :first {
+  margin-top: 0mm;
+}
+
+@media print {
+  #cv {
+    background-image: none;
+    border: none;
   }
 }
 
@@ -126,33 +136,33 @@ img {
   body {
     height: initial !important;
     overflow: initial !important;
-    -webkit-print-color-adjust: exact;
-    background-image: url("/public/background.png");
-    background-size: cover;
+    -webkit-print-color-adjust: exact !important;
+    background-image: url("/public/image.png") !important ;
+    background-repeat: repeat;
+    color-adjust: exact !important;
+    margin-top: 0;
   }
-}
 
-@media print {
   .page-break {
     display: block;
     page-break-before: auto;
   }
-}
 
-@page {
-  size: auto;
-  background-image: url("/public/background.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-@media print {
   p,
   ul,
-  h1,
   h3,
   h4,
   i {
     font-size: 12px;
+  }
+
+  .exp {
+    page-break-inside: avoid;
+  }
+
+  #Experience {
+    display: flex;
+    flex-direction: column;
+    margin-left: 70px;
   }
 }

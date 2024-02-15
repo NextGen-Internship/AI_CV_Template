@@ -80,7 +80,7 @@ const CvTemplate = ({
 
   return (
     <div>
-      <div id="cv">
+      <div id="cv" className="cv">
         <div id="nameAndRole">
           <img src={image} alt="edf" />
           <h1>{personName}</h1>

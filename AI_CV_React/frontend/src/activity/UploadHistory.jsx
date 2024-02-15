@@ -28,11 +28,6 @@ const UploadHistory = ({ onSearchItemClicked }) => {
     }
   };
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return new Date(date + "Z").toLocaleString();
-  };
-
   const handleItemClick = (item) => {
     onSearchItemClicked(item);
   };
@@ -53,7 +48,8 @@ const UploadHistory = ({ onSearchItemClicked }) => {
             onClick={() => handleItemClick(item)}
           >
             <p>
-              CV: {item.personEmail} - Date: {formatDate(item.createdDate)}
+              CV: {item.personEmail} - Date:{" "}
+              {new Date(item.createdDate).toLocaleString()}
             </p>
           </div>
         ))}
