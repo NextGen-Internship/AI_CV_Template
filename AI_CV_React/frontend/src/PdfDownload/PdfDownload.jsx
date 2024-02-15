@@ -70,7 +70,8 @@ const PdfDownload = ({ email }) => {
 
   const fetchByEmail = async (email) => {
     const storedToken = localStorage.getItem("jwtToken");
-    if (email) {
+
+    try {
       const emailExistsResponse = await axios.get(
         `http://localhost:8080/person/emailExists/${email}`,
         {
@@ -81,10 +82,17 @@ const PdfDownload = ({ email }) => {
       );
 
       if (!emailExistsResponse.data) {
-        setErrorMessage("Person with this email doesn't exist");
+        setEmailError("Person with this email doesn't exist");
         return;
+      } else {
+        setEmailError("");
       }
+    } catch (error) {
+      console.error("Error checking if email exists:", error);
+      setEmailError("An error occurred while checking email existence");
+      return;
     }
+
     try {
       const response = await axios.get(
         `http://localhost:8080/person/${email}`,
@@ -94,6 +102,7 @@ const PdfDownload = ({ email }) => {
           },
         }
       );
+
       setPersonId(response.data.id);
       setPersonData(response.data);
       setPersonName(response.data.name);
@@ -103,6 +112,7 @@ const PdfDownload = ({ email }) => {
       setTechnologies(response.data.technologies);
     } catch (error) {
       console.error("Error fetching person data:", error);
+      setErrorMessage("An error occurred while fetching person data");
     }
   };
 
@@ -155,7 +165,6 @@ const PdfDownload = ({ email }) => {
             handleFetchData={handleButtonClick}
           />
           {emailError && <p className="error-message">{emailError}</p>}
-          {errorMessage && <div className="error-message">{errorMessage}</div>}
           <div className="section-label-download">Download PDF:</div>
           <button className="btn-download" onClick={handlePrint}>
             Download Pdf
