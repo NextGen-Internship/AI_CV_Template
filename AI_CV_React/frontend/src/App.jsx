@@ -91,27 +91,9 @@ function App() {
           path="/"
           element={
             localStorage.getItem("jwtToken") ? (
-              showPdfUpload ? (
-                <PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>
-              ) : (
-                <>
-                  <Navbar
-                    user={user}
-                    onLogout={handleLogout}
-                    messages={messages}
-                    handleOpenTemplateApp={handleOpenTemplateApp}
-                    setSelectedEmail={setSelectedEmail}
-                    setMessages={setMessages}
-                  />
-                  <WebSocket
-                    messages={messages}
-                    setMessages={setMessages}
-                  ></WebSocket>
-                  <Footer />
-                </>
-              )
+              <Navigate to="/home-page" replace />
             ) : (
-              <Navigate to="/home-page" />
+              <HomePage setUser={setUser} setLoggedIn={setLoggedIn} />
             )
           }
         />
@@ -133,8 +115,7 @@ function App() {
                   setMessages={setMessages}
                 ></WebSocket>
                 <PdfDownload email={selectedEmail} />
-                <SearchHistory></SearchHistory>
-                <UploadHistory></UploadHistory>
+
                 <Footer />
               </>
             ) : (

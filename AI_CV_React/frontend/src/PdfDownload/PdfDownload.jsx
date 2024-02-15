@@ -7,6 +7,8 @@ import "./PdfDownload.css";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { useReactToPrint } from "react-to-print";
+import SearchHistory from "../activity/SearchHistory";
+import UploadHistory from "../activity/UploadHistory";
 
 const ComponentToPrint = React.forwardRef(
   (
@@ -44,15 +46,32 @@ const PdfDownload = ({ email }) => {
   const [technologies, setTechnologies] = useState([]);
   const [education, setEducation] = useState([]);
   const [experiences, setExperiences] = useState([]);
+  const [activeTab, setActiveTab] = useState(0);
   const componentRef = useRef(null);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
 
   const fetchByEmail = async (email) => {
+    const storedToken = localStorage.getItem("jwtToken");
+    if (email) {
+      const emailExistsResponse = await axios.get(
+        `http://localhost:8080/person/emailExists/${email}`,
+        {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+          },
+        }
+      );
+
+      if (!emailExistsResponse.data) {
+        setErrorMessage("Person with this email doesn't exist");
+        return;
+      }
+    }
     try {
-      const storedToken = localStorage.getItem("jwtToken");
       const response = await axios.get(
         `http://localhost:8080/person/${email}`,
         {
@@ -61,9 +80,7 @@ const PdfDownload = ({ email }) => {
           },
         }
       );
-      console.log(response.data);
       setPersonId(response.data.id);
-      console.log(personId);
       setPersonData(response.data);
       setPersonName(response.data.name);
       setPersonSummary(response.data.summary);
@@ -73,6 +90,18 @@ const PdfDownload = ({ email }) => {
     } catch (error) {
       console.error("Error fetching person data:", error);
     }
+  };
+
+  const fetchCVTemplate = async (item) => {
+    try {
+      fetchByEmail(item.personEmail);
+    } catch (error) {
+      console.error("Error fetching CV template:", error);
+    }
+  };
+
+  const handleSearchItemClicked = (item) => {
+    fetchCVTemplate(item);
   };
 
   const handleInputChange = (e) => {
@@ -94,6 +123,10 @@ const PdfDownload = ({ email }) => {
     }
   }, [email]);
 
+  const handleTabClick = (index) => {
+    setActiveTab(index);
+  };
+
   if (personData != null) {
     const { id, email, name, summary, education, experiences } = personData;
   }
@@ -108,10 +141,43 @@ const PdfDownload = ({ email }) => {
             handleInputChange={handleInputChange}
             handleFetchData={handleFetchData}
           />
+          {errorMessage && <div className="error-message">{errorMessage}</div>}
           <div className="section-label-download">Download PDF:</div>
           <button className="btn-download" onClick={handlePrint}>
             Download Pdf
           </button>
+          <div className="tabs-container">
+            <div className="tabs">
+              <span
+                className={activeTab === 0 ? "tab active" : "tab"}
+                onClick={() => handleTabClick(0)}
+              >
+                Upload History
+              </span>
+              <span
+                className={activeTab === 1 ? "tab active" : "tab"}
+                onClick={() => handleTabClick(1)}
+              >
+                Search History
+              </span>
+            </div>
+            <div className="tab-content">
+              {activeTab === 0 && (
+                <div className="content">
+                  <UploadHistory
+                    onSearchItemClicked={handleSearchItemClicked}
+                  ></UploadHistory>
+                </div>
+              )}
+              {activeTab === 1 && (
+                <div className="content">
+                  <SearchHistory
+                    onSearchItemClicked={handleSearchItemClicked}
+                  ></SearchHistory>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
         <div className="cv-section">
           <div className="entire-cv">

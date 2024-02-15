@@ -4,16 +4,15 @@ import com.example.AI_CV_JAVA.Entity.Person;
 import com.example.AI_CV_JAVA.Entity.Technology;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface PersonService {
     void savePerson(Person person);
 
     List<Person> getAllPeople();
 
-    Optional<Person> findById(long id);
+    Person findById(long id);
 
-    Optional<Person> getPersonByEmail(String email);
+    Person getPersonByEmail(String email);
 
     void deleteById(long id);
 
@@ -22,6 +21,8 @@ public interface PersonService {
     boolean updateById(Person person);
 
     void addTechnology(Technology technology, long personId);
+
+    boolean emailExists(String email);
 }
 
 

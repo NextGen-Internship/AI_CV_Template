@@ -1,52 +1,3 @@
-/* #download-div {
-  display: flex;
-  flex-direction: column;
-  margin-top: 50px;
-  width: 80%;
-  max-width: 1000px;
-  background: #fff;
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  overflow-y: auto;
-  height: 100%;
-}
-
-#download-pdf {
-  margin-bottom: 5px;
-  font-weight: bold;
-  font-size: 25px;
-}
-
-.preview {
-  height: 300px;
-  margin: 30px;
-  width: 90%;
-}
-
-#download-button {
-  background-color: #3c009d;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  margin-top: 10px;
-  width: 30%;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-#download-button:hover {
-  background-color: #42006c;
-}
-
-.pdf-container {
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
-} */
-
 .btn-download {
   background-color: #3c009d;
   color: white;
@@ -95,4 +46,38 @@
 .section-label-download {
   margin-top: 80px;
   font-weight: bold;
+}
+
+.tabs-container {
+  font-family: Arial, sans-serif;
+  margin-top: 40px;
+}
+
+.tabs {
+  display: flex;
+}
+
+.tab {
+  cursor: pointer;
+  padding: 10px 20px;
+  transition: color 0.3s ease;
+}
+
+.tab.active {
+  color: #42006c;
+}
+
+.tab-content {
+  margin-top: 10px;
+}
+
+.content {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-top: none;
+}
+
+.error-message {
+  color: red;
 }

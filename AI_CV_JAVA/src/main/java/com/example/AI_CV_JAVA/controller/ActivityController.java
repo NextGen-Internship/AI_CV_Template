@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +18,7 @@ public class ActivityController {
     private final ActivityService activityService;
 
     @GetMapping("/uploaded")
-    public ResponseEntity<List<Activity>> getAllUploadedActivities(){
+    public ResponseEntity<List<Activity>> getAllUploadedActivities() {
         List<Activity> uploadedCvs = activityService.getUploadedCvs();
         for (Activity uploadedCv : uploadedCvs) {
             System.out.println(uploadedCv.getId());
@@ -28,7 +27,7 @@ public class ActivityController {
     }
 
     @GetMapping("/searched")
-    public ResponseEntity<List<Activity>> getAllSearchedActivities(){
+    public ResponseEntity<List<Activity>> getAllSearchedActivities() {
         List<Activity> searchedCvs = activityService.getSearchedCvs();
         return new ResponseEntity<>(searchedCvs, HttpStatus.OK);
     }

@@ -3,7 +3,6 @@ package com.example.AI_CV_JAVA.service.interfaces;
 import com.example.AI_CV_JAVA.Entity.Experience;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ExperienceService {
 
@@ -11,7 +10,7 @@ public interface ExperienceService {
 
     List<Experience> getAllExperience();
 
-    Optional<Experience> getExperienceById(Long id);
+    Experience getExperienceById(Long id);
 
     Experience updateExperience(Long id, Experience toUpdate);
 

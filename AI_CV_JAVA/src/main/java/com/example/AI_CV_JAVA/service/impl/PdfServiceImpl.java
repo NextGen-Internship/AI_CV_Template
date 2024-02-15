@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
 @RequiredArgsConstructor
 public class PdfServiceImpl implements PdfService {
@@ -78,10 +77,11 @@ public List<Technology> mapTechnologies(JsonNode technologiesNode) {
     for (JsonNode technologyNode : technologiesNode) {
         String technologyName = technologyNode.asText();
         Optional<Technology> existingTechnologyOptional = technologyService.findTechnology(technologyName);
+
         Technology technology;
-        if (existingTechnologyOptional.isPresent()) {
+        if(existingTechnologyOptional.isPresent()) {
             technology = existingTechnologyOptional.get();
-        } else {
+        }else{
             technology = new Technology();
             technology.setName(technologyName);
             technology = technologyService.saveTechnology(technology);
@@ -107,7 +107,7 @@ public List<Technology> mapTechnologies(JsonNode technologiesNode) {
         String textToSend = text + "Blankfactor gmail: " + gmail;
         User user = userService.getCurrentUser();
         List<Activity> activities = user.getActivities();
-        activities.add(activityService.crteateActivity(user,gmail,Type.Uploaded));
+        activities.add(activityService.crteateActivity(user, gmail, Type.Uploaded));
         user.setActivities(activities);
         userService.saveUser(user);
         document.close();

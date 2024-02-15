@@ -9,6 +9,8 @@ const PdfUpload = ({ onUploadSuccess }) => {
   const [gmail, setGmail] = useState("");
   const [uploadSuccessful, setIsUploadSuccessful] = useState(true);
   const [response, setResponse] = useState(null);
+  const [validEmail, setValidEmail] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -39,10 +41,27 @@ const PdfUpload = ({ onUploadSuccess }) => {
     }
   }, [selectedFile]);
 
-  const handleUpload = () => {
-    if (selectedFile && gmail) {
+  const handleUpload = async () => {
+    const storedToken = localStorage.getItem("jwtToken");
+    const isValidEmail = validateEmail(gmail);
+    setValidEmail(isValidEmail);
+    if (selectedFile && gmail && isValidEmail) {
+      const emailExistsResponse = await axios.get(
+        `http://localhost:8080/person/emailExists/${gmail}`,
+        {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+          },
+        }
+      );
+
+      if (emailExistsResponse.data) {
+        setErrorMessage("Email already exists in the database.");
+        return;
+      }
+
       const formData = new FormData();
-      const storedToken = localStorage.getItem("jwtToken");
+
       formData.append("file", selectedFile);
       formData.append("gmail", gmail);
 
@@ -57,13 +76,19 @@ const PdfUpload = ({ onUploadSuccess }) => {
           setSelectedFile(null);
           setGmail("");
           setResponse(response);
+          setErrorMessage(null);
         })
         .catch((error) => {
           console.error("Error uploading file:", error);
         });
     } else {
-      console.log("Please select a file and enter a Gmail address.");
+      setErrorMessage("Please select a file and enter a valid Gmail address.");
     }
+  };
+
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
   };
 
   return (
@@ -93,7 +118,7 @@ const PdfUpload = ({ onUploadSuccess }) => {
         id="upload-file-input"
       />
       <label htmlFor="gmail-input" className="input-label">
-        Enter Gmail Address:
+        Enter Email Address:
       </label>
       <input
         type="email"
@@ -105,6 +130,7 @@ const PdfUpload = ({ onUploadSuccess }) => {
       <button className="upload-btn" onClick={handleUpload} id="upload-button">
         Upload PDF
       </button>
+      {errorMessage && <div className="error-message">{errorMessage}</div>}
 
       {response && (
         <div>

@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,23 +32,19 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public Optional<Person> findById(long id) {
-        Optional<Person> person = personRepository.findById(id);
-        if (person.isEmpty()) {
-            throw new DataNotFoundException("Person with id " + id + " not found");
-        }
-        return person;
+    public Person findById(long id) {
+        return personRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Person with id " + id + " not found"));
     }
 
     @Override
-    public Optional<Person> getPersonByEmail(String email) {
-        Optional<Person> person = personRepository.findByEmail(email);
-        if (person.isEmpty()) {
-            throw new DataNotFoundException("Person with email " + email + " not found");
-        }
+    public Person getPersonByEmail(String email) {
+        Person person = personRepository.findByEmail(email)
+                .orElseThrow(() -> new DataNotFoundException("Person with email " + email + " not found"));
+
         User user = userService.getCurrentUser();
         List<Activity> activities = user.getActivities();
-        activities.add(activityService.crteateActivity(user,email, Type.Searched));
+        activities.add(activityService.crteateActivity(user, email, Type.Searched));
         user.setActivities(activities);
         userService.saveUser(user);
         return person;
@@ -62,11 +57,9 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void deleteByEmail(String email) {
-        Optional<Person> person = personRepository.findByEmail(email);
-        if (person.isEmpty()) {
-            throw new DataNotFoundException("Person with email " + email + " not found");
-        }
-        personRepository.deleteById(person.get().getId());
+        Person person = personRepository.findByEmail(email)
+                .orElseThrow(() -> new DataNotFoundException("Person with email " + email + " not found"));
+        personRepository.deleteById(person.getId());
     }
 
     @Override
@@ -82,21 +75,25 @@ public class PersonServiceImpl implements PersonService {
         personRepository.save(editedPerson.get());
         return true;
     }
-        return false;
-    }
 
     @Override
     public void addTechnology(Technology technology, long personId) {
-      Optional<Person> person = personRepository.findById(personId);
-      if (person.isPresent()){
-          if (!person.get().getTechnologies().contains(technology)) { // Check if the technology is not already present
-              person.get().getTechnologies().add(technology);
-              personRepository.save(person.get());
-          }
-      }
+        Person person = personRepository.findById(personId)
+                .orElseThrow(() -> new DataNotFoundException("Person with id " + personId + " not found"));
+
+        if (!person.getTechnologies().contains(technology)) {
+            person.getTechnologies().add(technology);
+            personRepository.save(person);
+        }
     }
+
     public void deletePerson(Long id) {
         personRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean emailExists(String email){
+        return personRepository.existsByEmail(email);
     }
 }
 

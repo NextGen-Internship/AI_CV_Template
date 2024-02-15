@@ -1,6 +1,5 @@
 package com.example.AI_CV_JAVA.controller;
 
-import com.example.AI_CV_JAVA.DTO.PersonDto;
 import com.example.AI_CV_JAVA.Entity.Person;
 import com.example.AI_CV_JAVA.security.JwtService;
 import com.example.AI_CV_JAVA.service.impl.PdfServiceImpl;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/pdf")
@@ -39,10 +37,9 @@ public class MultipartController {
     public ResponseEntity<Person> getCVById(
             @PathVariable Long id
     ) {
-        Optional<Person> person = personService.findById(id);
+        Person person = personService.findById(id);
         System.out.println(person.toString());
-        return person.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-
+        return ResponseEntity.ok(person);
     }
 
 }

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "./UploadHistory.css";
 
-const UploadHistory = () => {
+const UploadHistory = ({ onSearchItemClicked }) => {
   const [uploadHistory, setUploadHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -18,7 +19,8 @@ const UploadHistory = () => {
           },
         }
       );
-      setUploadHistory(JSON.stringify(response.data));
+      const lastTenItems = response.data.slice(-11).reverse();
+      setUploadHistory(lastTenItems);
     } catch (error) {
       setError(error);
     } finally {
@@ -26,13 +28,36 @@ const UploadHistory = () => {
     }
   };
 
-  const handleItemClick = (item) => {
-    setSelectedItem(item === selectedItem ? null : item);
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return new Date(date + "Z").toLocaleString();
   };
+
+  const handleItemClick = (item) => {
+    onSearchItemClicked(item);
+  };
+
+  useEffect(() => {
+    fetchUploadHistory();
+  }, []);
 
   return (
     <div>
-      <p onClick={fetchUploadHistory}>Upload History</p>
+      {loading && <p>Loading...</p>}
+      {error && <p>Error: {error.message}</p>}
+      <div className="upload-history">
+        {uploadHistory.map((item) => (
+          <div
+            key={item.id}
+            className="upload-item"
+            onClick={() => handleItemClick(item)}
+          >
+            <p>
+              CV: {item.personEmail} - Date: {formatDate(item.createdDate)}
+            </p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

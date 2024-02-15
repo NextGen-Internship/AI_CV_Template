@@ -1,0 +1,8 @@
+.search-history {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-item {
+  margin-bottom: 0px;
+}

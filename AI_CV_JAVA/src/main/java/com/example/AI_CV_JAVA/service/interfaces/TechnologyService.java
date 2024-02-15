@@ -11,7 +11,7 @@ public interface TechnologyService {
 
     List<Technology> getAllTechnologies();
 
-    Optional<Technology> getTechnologyById(Long id);
+    Technology getTechnologyById(Long id);
 
     Technology updateTechnology(Long id, Technology toUpdateTechnology);
 

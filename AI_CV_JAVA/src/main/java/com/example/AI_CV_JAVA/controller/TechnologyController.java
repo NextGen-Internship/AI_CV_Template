@@ -1,7 +1,6 @@
 package com.example.AI_CV_JAVA.controller;
 
 import com.example.AI_CV_JAVA.Entity.Technology;
-import com.example.AI_CV_JAVA.service.impl.TechnologyServiceImpl;
 import com.example.AI_CV_JAVA.service.interfaces.TechnologyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -9,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/technology")
@@ -20,9 +18,9 @@ public class TechnologyController {
 
     @PostMapping
     public ResponseEntity<Technology> saveTechnology(@RequestBody Technology newTechnology, @RequestParam("personId") long personId) {
-        if (technologyService.addTechnology(newTechnology.getName(), personId)){
+        if (technologyService.addTechnology(newTechnology.getName(), personId)) {
             return ResponseEntity.ok().build();
-        };
+        }
         return ResponseEntity.badRequest().build();
     }
 
@@ -33,8 +31,8 @@ public class TechnologyController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Technology>> getTechnologyById(@PathVariable Long id) {
-        Optional<Technology> technology = technologyService.getTechnologyById(id);
+    public ResponseEntity<Technology> getTechnologyById(@PathVariable Long id) {
+        Technology technology = technologyService.getTechnologyById(id);
         return new ResponseEntity<>(technology, HttpStatus.OK);
     }
 
