@@ -39,7 +39,7 @@ const SearchHistory = ({ onSearchItemClicked }) => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return new Date(date + "Z").toLocaleDateString();
+    return new Date(date + "Z").toLocaleString();
   };
 
   return (

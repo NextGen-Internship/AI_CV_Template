@@ -48,14 +48,30 @@ const PdfDownload = ({ email }) => {
   const [experiences, setExperiences] = useState([]);
   const [activeTab, setActiveTab] = useState(0);
   const componentRef = useRef(null);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
 
   const fetchByEmail = async (email) => {
+    const storedToken = localStorage.getItem("jwtToken");
+    if (email) {
+      const emailExistsResponse = await axios.get(
+        `http://localhost:8080/person/emailExists/${email}`,
+        {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+          },
+        }
+      );
+
+      if (!emailExistsResponse.data) {
+        setErrorMessage("Person with this email doesn't exist");
+        return;
+      }
+    }
     try {
-      const storedToken = localStorage.getItem("jwtToken");
       const response = await axios.get(
         `http://localhost:8080/person/${email}`,
         {
@@ -125,6 +141,7 @@ const PdfDownload = ({ email }) => {
             handleInputChange={handleInputChange}
             handleFetchData={handleFetchData}
           />
+          {errorMessage && <div className="error-message">{errorMessage}</div>}
           <div className="section-label-download">Download PDF:</div>
           <button className="btn-download" onClick={handlePrint}>
             Download Pdf
