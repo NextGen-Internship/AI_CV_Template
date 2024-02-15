@@ -47,3 +47,37 @@
   margin-top: 80px;
   font-weight: bold;
 }
+
+.tabs-container {
+  font-family: Arial, sans-serif;
+  margin-top: 40px;
+}
+
+.tabs {
+  display: flex;
+}
+
+.tab {
+  cursor: pointer;
+  padding: 10px 20px;
+  transition: color 0.3s ease;
+}
+
+.tab.active {
+  color: #42006c;
+}
+
+.tab-content {
+  margin-top: 10px;
+}
+
+.content {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-top: none;
+}
+
+.error-message {
+  color: red;
+}
