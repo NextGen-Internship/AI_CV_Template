@@ -33,21 +33,13 @@ const SearchHistory = ({ onSearchItemClicked }) => {
     fetchSearchHistory();
   }, []);
 
-  const formatDateToEET = (dateString) => {
-    const date = new Date(dateString);
-    const options = {
-      timeZone: "Europe/Sofia",
-      year: "numeric",
-      month: "numeric",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-    };
-    return new Intl.DateTimeFormat("en-US", options).format(date);
-  };
-
   const handleItemClick = (item) => {
     onSearchItemClicked(item);
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return new Date(date + "Z").toLocaleDateString();
   };
 
   return (
@@ -62,7 +54,8 @@ const SearchHistory = ({ onSearchItemClicked }) => {
             onClick={() => handleItemClick(item)}
           >
             <p>
-              CV: {item.personEmail} - Date: {formatDateToEET(item.createdDate)}
+              CV: {item.personEmail} - Date:
+              {formatDate(item.createdDate)}
             </p>
           </div>
         ))}

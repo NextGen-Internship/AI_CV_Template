@@ -28,17 +28,9 @@ const UploadHistory = ({ onSearchItemClicked }) => {
     }
   };
 
-  const formatDateToEET = (dateString) => {
+  const formatDate = (dateString) => {
     const date = new Date(dateString);
-    const options = {
-      timeZone: "Europe/Sofia",
-      year: "numeric",
-      month: "numeric",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-    };
-    return new Intl.DateTimeFormat("en-US", options).format(date);
+    return new Date(date + "Z").toLocaleDateString();
   };
 
   const handleItemClick = (item) => {
@@ -61,7 +53,7 @@ const UploadHistory = ({ onSearchItemClicked }) => {
             onClick={() => handleItemClick(item)}
           >
             <p>
-              CV: {item.personEmail} - Date: {formatDateToEET(item.createdDate)}
+              CV: {item.personEmail} - Date: {formatDate(item.createdDate)}
             </p>
           </div>
         ))}
