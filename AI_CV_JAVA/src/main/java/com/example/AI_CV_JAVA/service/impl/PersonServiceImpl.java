@@ -80,5 +80,10 @@ public class PersonServiceImpl implements PersonService {
     public void deletePerson(Long id) {
         personRepository.deleteById(id);
     }
+
+    @Override
+    public boolean emailExists(String email){
+        return personRepository.existsByEmail(email);
+    }
 }
 

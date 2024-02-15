@@ -41,12 +41,27 @@ const PdfUpload = ({ onUploadSuccess }) => {
     }
   }, [selectedFile]);
 
-  const handleUpload = () => {
+  const handleUpload = async () => {
+    const storedToken = localStorage.getItem("jwtToken");
     const isValidEmail = validateEmail(gmail);
     setValidEmail(isValidEmail);
     if (selectedFile && gmail && isValidEmail) {
+      const emailExistsResponse = await axios.get(
+        `http://localhost:8080/person/emailExists/${gmail}`,
+        {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+          },
+        }
+      );
+
+      if (emailExistsResponse.data) {
+        setErrorMessage("Email already exists in the database.");
+        return;
+      }
+
       const formData = new FormData();
-      const storedToken = localStorage.getItem("jwtToken");
+
       formData.append("file", selectedFile);
       formData.append("gmail", gmail);
 

@@ -61,9 +61,7 @@ const PdfDownload = ({ email }) => {
           },
         }
       );
-      console.log(response.data);
       setPersonId(response.data.id);
-      console.log(personId);
       setPersonData(response.data);
       setPersonName(response.data.name);
       setPersonSummary(response.data.summary);

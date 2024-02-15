@@ -88,7 +88,16 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Navigate to="/home-page" replace />} />
+        <Route
+          path="/"
+          element={
+            localStorage.getItem("jwtToken") ? (
+              <Navigate to="/home-page" replace />
+            ) : (
+              <HomePage setUser={setUser} setLoggedIn={setLoggedIn} />
+            )
+          }
+        />
         <Route
           path="/home-page"
           element={

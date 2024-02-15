@@ -22,6 +22,8 @@ public interface PersonService {
     boolean updateByEmail(Person person);
 
     void addTechnology(Technology technology, long personId);
+
+    boolean emailExists(String email);
 }
 
 
