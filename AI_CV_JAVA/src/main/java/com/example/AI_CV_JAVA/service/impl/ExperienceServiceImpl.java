@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,30 +22,21 @@ public class ExperienceServiceImpl implements ExperienceService {
         return experienceRepository.findAll();
     }
 
-    public Optional<Experience> getExperienceById(Long id) {
-        Optional<Experience> experience = experienceRepository.findById(id);
-        if (experience.isEmpty()) {
-            throw new DataNotFoundException("Experience with id " + id + " not found");
-        }
-        return experience;
+    public Experience getExperienceById(Long id) {
+        return experienceRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Experience with id " + id + " not found"));
     }
 
     public Experience updateExperience(Long id, Experience toUpdate) {
-        Optional<Experience> experience = experienceRepository.findById(id);
-        if (experience.isPresent()) {
-            toUpdate.setId(id);
-            return experienceRepository.save(toUpdate);
-        } else {
-            throw new DataNotFoundException("Experience with id " + id + " not found");
-        }
+        experienceRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Experience with id " + id + " not found"));
+        toUpdate.setId(id);
+        return experienceRepository.save(toUpdate);
     }
 
     public void deleteExperience(Long id) {
-        Optional<Experience> experience = experienceRepository.findById(id);
-        if (experience.isPresent()) {
-            experienceRepository.deleteById(id);
-        } else {
-            throw new DataNotFoundException("Experience with id " + id + " not found");
-        }
+        experienceRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Experience with id " + id + " not found"));
+        experienceRepository.deleteById(id);
     }
 }

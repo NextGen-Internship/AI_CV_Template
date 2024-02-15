@@ -10,12 +10,14 @@ import PdfDownload from "./PdfDownload/PdfDownload";
 import LogOut from "./Login/Logout";
 import CvTemplate from "./cv/CvTemplate";
 import WebSocket from "./WebSocket/WebSocket";
+import SearchHistory from "./activity/SearchHistory";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
 } from "react-router-dom";
+import UploadHistory from "./activity/UploadHistory";
 
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -44,7 +46,6 @@ function App() {
               },
             }
           );
-
           setUser(response.data);
           localStorage.setItem("userInfo", JSON.stringify(response.data));
           setLoggedIn(true);
@@ -90,27 +91,9 @@ function App() {
           path="/"
           element={
             localStorage.getItem("jwtToken") ? (
-              showPdfUpload ? (
-                <PdfUpload onUploadSuccess={handleUploadSuccess}></PdfUpload>
-              ) : (
-                <>
-                  <Navbar
-                    user={user}
-                    onLogout={handleLogout}
-                    messages={messages}
-                    handleOpenTemplateApp={handleOpenTemplateApp}
-                    setSelectedEmail={setSelectedEmail}
-                    setMessages={setMessages}
-                  />
-                  <WebSocket
-                    messages={messages}
-                    setMessages={setMessages}
-                  ></WebSocket>
-                  <Footer />
-                </>
-              )
+              <Navigate to="/home-page" replace />
             ) : (
-              <Navigate to="/home-page" />
+              <HomePage setUser={setUser} setLoggedIn={setLoggedIn} />
             )
           }
         />
@@ -132,6 +115,7 @@ function App() {
                   setMessages={setMessages}
                 ></WebSocket>
                 <PdfDownload email={selectedEmail} />
+
                 <Footer />
               </>
             ) : (

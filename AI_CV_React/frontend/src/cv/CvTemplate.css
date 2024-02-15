@@ -4,6 +4,7 @@ body {
 #cv {
   min-height: 29.7cm;
   height: 100%;
+  width: 21cm;
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -143,4 +144,15 @@ img {
   background-image: url("/public/background.png");
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+@media print {
+  p,
+  ul,
+  h1,
+  h3,
+  h4,
+  i {
+    font-size: 12px;
+  }
 }
