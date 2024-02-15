@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./CvTemplate.css";
 import image from "/public/logo.png";
@@ -99,7 +99,12 @@ const CvTemplate = ({
                   autoFocus
                 />
               ) : (
-                <p onClick={() => handleEdit(personSummary)}>{personSummary}</p>
+                <p
+                  className="cv-paragraph"
+                  onClick={() => handleEdit(personSummary)}
+                >
+                  {personSummary}
+                </p>
               )}
             </div>
             <div
@@ -165,6 +170,7 @@ const CvTemplate = ({
                 ) : (
                   <p
                     id="description"
+                    className="cv-paragraph"
                     onClick={() => handleParagraphClick(index)}
                   >
                     {exp.description}
