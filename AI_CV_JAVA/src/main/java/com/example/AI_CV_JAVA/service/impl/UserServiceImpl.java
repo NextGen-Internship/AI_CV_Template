@@ -7,10 +7,12 @@ import com.example.AI_CV_JAVA.service.interfaces.UserService;
 import com.example.AI_CV_JAVA.user.User;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Primary;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
+@Primary
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -20,10 +22,31 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserById(int id) {
-        Optional<User> user = userRepo.findById(id);
-        if (user.isEmpty()) {
-            throw new DataNotFoundException("User with id " + id + " not found");
-        }
+        User user = userRepo.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("User with id " + id + " not found"));
+
         return mapper.map(user, UserDTO.class);
+    }
+
+    @Override
+    public User getCurrentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth == null || !auth.isAuthenticated()) {
+            return null;
+        }
+
+        Object principal = auth.getPrincipal();
+        if (principal instanceof User user) {
+            String email = user.getEmail();
+            return userRepo.findByEmail(email).orElse(null);
+        }
+
+        return null;
+    }
+
+    @Override
+    public void saveUser(User user) {
+        userRepo.save(user);
     }
 }

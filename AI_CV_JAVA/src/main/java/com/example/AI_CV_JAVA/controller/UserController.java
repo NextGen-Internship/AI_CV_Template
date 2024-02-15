@@ -3,6 +3,7 @@ package com.example.AI_CV_JAVA.controller;
 import com.example.AI_CV_JAVA.DTO.UserDTO;
 import com.example.AI_CV_JAVA.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,9 @@ public class UserController {
     @GetMapping("/users/{id}")
     private ResponseEntity<UserDTO> getUserDetails(@PathVariable("id") int id) {
         UserDTO user = userService.getUserById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(user);
+        ModelMapper mapper = new ModelMapper();
+        UserDTO userDto = new UserDTO();
+        mapper.map(user, userDto);
+        return ResponseEntity.status(HttpStatus.OK).body(userDto);
     }
 }

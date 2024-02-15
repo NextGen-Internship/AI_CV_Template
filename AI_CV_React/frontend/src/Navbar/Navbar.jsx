@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import LogOut from "../Login/Logout";
 import "./Navbar.css";
 import PdfDownload from "../PdfDownload/PdfDownload";
+import DonationButton from "../Donation/DonationButton";
 
 const Navbar = ({
   user,
@@ -32,9 +33,7 @@ const Navbar = ({
     }
   }, [user]);
 
-  useEffect(() => {
-    console.log("Messages updated:", messages);
-  }, [messages]);
+  useEffect(() => {}, [messages]);
 
   const handlePdfUploadClick = () => {
     setSelectedEmail(null);
@@ -72,10 +71,10 @@ const Navbar = ({
             >
               Upload
             </Link>
+            <DonationButton></DonationButton>
           </li>
         </ul>
       </div>
-
       <div className="navbar-right">
         <div className="notification-bell" onClick={toggleDropdown}>
           {messages.length > 0 && (
@@ -97,7 +96,6 @@ const Navbar = ({
             </div>
           )}
         </div>
-
         {user && (
           <div className="user-info">
             <span className="userName">{firstName}</span>
