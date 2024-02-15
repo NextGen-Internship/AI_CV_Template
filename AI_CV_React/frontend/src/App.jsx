@@ -83,8 +83,6 @@ function App() {
     checkToken();
   }, [isLoggedIn]);
 
-  console.log(selectedEmail);
-
   return (
     <Router>
       <Routes>
