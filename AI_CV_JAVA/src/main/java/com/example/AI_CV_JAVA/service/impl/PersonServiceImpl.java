@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -64,16 +65,14 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public boolean updateById(Person person) {
-    Optional<Person> editedPerson= personRepository.findById(person.getId());
-    if (editedPerson.isPresent()){
-        editedPerson.get().setSummary(person.getSummary());
-        editedPerson.get().setExperience(person.getExperience());
-        System.out.println("Experiences");
-        for (Experience experience : person.getExperience()) {
-            System.out.println(experience.getId());
+        Optional<Person> editedPerson = personRepository.findById(person.getId());
+        if (editedPerson.isPresent()) {
+            editedPerson.get().setSummary(person.getSummary());
+            editedPerson.get().setExperience(person.getExperience());
+            personRepository.save(editedPerson.get());
+            return true;
         }
-        personRepository.save(editedPerson.get());
-        return true;
+        return false;
     }
 
     @Override
