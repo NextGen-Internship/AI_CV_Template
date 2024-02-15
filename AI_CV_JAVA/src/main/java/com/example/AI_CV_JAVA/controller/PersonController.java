@@ -44,4 +44,10 @@ public class PersonController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/emailExists/{email}")
+    public ResponseEntity<Boolean> checkEmailExists(@PathVariable String email) {
+        boolean exists = personService.emailExists(email);
+        return ResponseEntity.ok(exists);
+    }
+
 }
