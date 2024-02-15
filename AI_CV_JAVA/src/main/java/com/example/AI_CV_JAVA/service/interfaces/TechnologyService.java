@@ -11,12 +11,14 @@ public interface TechnologyService {
 
     List<Technology> getAllTechnologies();
 
-    Optional<Technology> getTechnologyById(Long id);
+    Technology getTechnologyById(Long id);
 
     Technology updateTechnology(Long id, Technology toUpdateTechnology);
 
     void deleteTechnology(Long id);
 
     boolean addTechnology(String name, long personId);
+
+    Optional<Technology> findTechnology(String name);
 }
 

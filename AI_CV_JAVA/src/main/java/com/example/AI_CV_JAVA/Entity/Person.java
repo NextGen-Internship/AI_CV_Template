@@ -1,11 +1,11 @@
 package com.example.AI_CV_JAVA.Entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.util.List;
 
 @Builder
@@ -31,7 +31,7 @@ public class Person {
     private String summary;
 
     @Column
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     private List<Technology> technologies;
 
     @Column
