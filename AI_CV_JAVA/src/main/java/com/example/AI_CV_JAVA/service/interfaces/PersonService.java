@@ -19,7 +19,7 @@ public interface PersonService {
 
     void deleteByEmail(String email);
 
-    boolean updateByEmail(Person person);
+    boolean updateById(Person person);
 
     void addTechnology(Technology technology, long personId);
 }

@@ -2,6 +2,7 @@ package com.example.AI_CV_JAVA.service.impl;
 
 import com.example.AI_CV_JAVA.Entity.Activity;
 import com.example.AI_CV_JAVA.Entity.Enum.Type;
+import com.example.AI_CV_JAVA.Entity.Experience;
 import com.example.AI_CV_JAVA.Entity.Person;
 import com.example.AI_CV_JAVA.Entity.Technology;
 import com.example.AI_CV_JAVA.Repo.PersonRepository;
@@ -69,10 +70,15 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public boolean updateByEmail(Person person) {
-    Optional<Person> editedPerson= personRepository.findByEmail(person.getEmail());
+    public boolean updateById(Person person) {
+    Optional<Person> editedPerson= personRepository.findById(person.getId());
     if (editedPerson.isPresent()){
         editedPerson.get().setSummary(person.getSummary());
+        editedPerson.get().setExperience(person.getExperience());
+        System.out.println("Experiences");
+        for (Experience experience : person.getExperience()) {
+            System.out.println(experience.getId());
+        }
         personRepository.save(editedPerson.get());
         return true;
     }

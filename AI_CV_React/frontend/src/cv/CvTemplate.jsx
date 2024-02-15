@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./CvTemplate.css";
 import image from "/public/logo.png";
@@ -12,13 +12,33 @@ const CvTemplate = ({
   education,
   experiences,
 }) => {
-  const [editedSummary, setEditedSummary] = useState(personSummary);
   const [editableIndex, setEditableIndex] = useState(false);
   const [newTechnology, setNewTechnology] = useState("");
   const [showNewTechnologyInput, setShowNewTechnologyInput] = useState(false);
+  const [summary, setSummary] = useState("");
+  const [personExperiences, setPersonExperiences] = useState([]);
+  const [isParagraphClicked, setIsParagraphClicked] = useState(false);
+
+  useEffect(() => {
+    setSummary(personSummary);
+  }, [personSummary]);
+
+  useEffect(() => {
+    // Create a deep copy of experiences
+    const copiedExperiences = experiences.map((exp) => ({ ...exp }));
+
+    // Set the copied experiences to personExperiences state
+    setPersonExperiences(copiedExperiences);
+  }, [experiences]);
+
+  // Function to update summary
+  const handleSummaryChange = (newSummary) => {
+    setSummary(newSummary);
+  };
 
   const handleEdit = (index) => {
     setEditableIndex(index);
+    setIsParagraphClicked(true); // Set to true when paragraph is clicked
   };
 
   const handleSaveTechnology = () => {
@@ -45,13 +65,40 @@ const CvTemplate = ({
       });
   };
 
-  const handleSave = (updatedSummary) => {
+  const handleSaveExperience = (field, updatedValue, index) => {
+    console.log("Updating experience:", index);
+    console.log("Field:", field);
+    console.log("Updated value:", updatedValue);
+
+    // Create a new copy of the personExperiences array
+    const updatedPersonExperiences = [...personExperiences];
+    // Update the specific experience within the new copy
+    updatedPersonExperiences[index] = {
+      ...updatedPersonExperiences[index],
+      description: updatedValue,
+    };
+
+    console.log("Updated experiences:", updatedPersonExperiences);
+
+    // Update the state with the new copy of personExperiences
+    setPersonExperiences(updatedPersonExperiences);
+
+    console.log("Person experiences after update:", personExperiences);
+
+    // Reset editable index
+    setEditableIndex(-1);
+    setIsParagraphClicked(true); // Set to true when paragraph is clicked
+  };
+
+  const handleSave = (updatedSummary, updatedPersonExperiences) => {
+    console.log(personExperiences);
     const updatedPerson = {
       id: personId,
       email: personEmail,
       summary: updatedSummary,
       technologies: technologies,
       education: education,
+      experience: updatedPersonExperiences,
     };
     const storedToken = localStorage.getItem("jwtToken");
     axios
@@ -63,6 +110,7 @@ const CvTemplate = ({
       .then((response) => {
         console.log("Person updated successfully:", response.data);
         setEditableIndex(-1);
+        setIsParagraphClicked(false); // Reset to false after save
       })
       .catch((error) => {
         console.error("Error updating person:", error);
@@ -72,6 +120,7 @@ const CvTemplate = ({
   const handleParagraphClick = (index) => {
     setEditableIndex(index);
     setShowNewTechnologyInput(false);
+    setIsParagraphClicked(true); // Set to true when paragraph is clicked
   };
 
   const handleNewTechnologyChange = (e) => {
@@ -94,12 +143,15 @@ const CvTemplate = ({
               {editableIndex === personSummary ? (
                 <textarea
                   className="textArea"
-                  defaultValue={personSummary}
-                  onBlur={(e) => handleSave(e.target.value)}
+                  defaultValue={summary}
+                  rows={10}
+                  onBlur={(e) => {
+                    handleSummaryChange(e.target.value);
+                  }}
                   autoFocus
                 />
               ) : (
-                <p onClick={() => handleEdit(personSummary)}>{personSummary}</p>
+                <p onClick={() => handleEdit(personSummary)}>{summary}</p>
               )}
             </div>
             <div
@@ -121,7 +173,7 @@ const CvTemplate = ({
                   <input
                     type="text"
                     value={newTechnology}
-                    onChange={(e) => setNewTechnology(e.target.value)}
+                    onChange={handleNewTechnologyChange}
                     placeholder="Add new technology"
                   />
                   <button onClick={handleSaveTechnology}>Add</button>
@@ -146,7 +198,7 @@ const CvTemplate = ({
           <div id="Experience">
             <h3>Experience</h3>
             <div className="line"></div>
-            {experiences.map((exp, index) => (
+            {personExperiences.map((exp, index) => (
               <div className="exp" key={index}>
                 <h4 id="role">{exp.role}</h4>
                 <div id="CR">
@@ -159,7 +211,14 @@ const CvTemplate = ({
                   <textarea
                     className="textArea"
                     defaultValue={exp.description}
-                    onBlur={handleSave}
+                    rows={10}
+                    onBlur={(e) =>
+                      handleSaveExperience(
+                        exp.description,
+                        e.target.value,
+                        index
+                      )
+                    }
                     autoFocus
                   />
                 ) : (
@@ -174,6 +233,11 @@ const CvTemplate = ({
             ))}
           </div>
         </div>
+        {isParagraphClicked && (
+          <button onClick={() => handleSave(summary, personExperiences)}>
+            Save changes
+          </button>
+        )}
       </div>
     </div>
   );

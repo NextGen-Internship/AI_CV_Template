@@ -26,7 +26,7 @@ public class PersonController {
 
     @PutMapping("/update")
     public ResponseEntity<Boolean> updatePersonByEmail(@RequestBody Person person){
-        if (personService.updateByEmail(person)){
+        if (personService.updateById(person)){
             return ResponseEntity.ok().build();
         };
         return ResponseEntity.badRequest().build();
