@@ -62,7 +62,7 @@ const Navbar = ({
           <li></li>
           <li>
             <Link className="link" to="/home-page">
-              Preview
+              Home
             </Link>
             <Link
               className="link"
