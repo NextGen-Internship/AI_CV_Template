@@ -92,7 +92,6 @@ const CvTemplate = ({
         },
       })
       .then((response) => {
-        console.log("Person updated successfully:", response.data);
         setEditableIndex(-1);
         setIsParagraphClicked(false);
       })

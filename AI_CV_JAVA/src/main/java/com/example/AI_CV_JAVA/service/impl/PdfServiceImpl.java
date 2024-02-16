@@ -4,12 +4,10 @@ import com.example.AI_CV_JAVA.DTO.NotificationDto;
 import com.example.AI_CV_JAVA.Entity.*;
 import com.example.AI_CV_JAVA.Entity.Enum.Type;
 import com.example.AI_CV_JAVA.controller.WebSocketController;
-import com.example.AI_CV_JAVA.exception.DataNotFoundException;
 import com.example.AI_CV_JAVA.service.interfaces.*;
 import com.example.AI_CV_JAVA.user.User;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
@@ -83,9 +81,9 @@ public class PdfServiceImpl implements PdfService {
             Optional<Technology> existingTechnologyOptional = technologyService.findTechnology(technologyName);
 
             Technology technology;
-            if(existingTechnologyOptional.isPresent()) {
+            if (existingTechnologyOptional.isPresent()) {
                 technology = existingTechnologyOptional.get();
-            }else{
+            } else {
                 technology = new Technology();
                 technology.setName(technologyName);
                 technology = technologyService.saveTechnology(technology);
@@ -94,6 +92,7 @@ public class PdfServiceImpl implements PdfService {
         }
         return technologies;
     }
+
     public void readJson(String message) throws Exception {
         Person person = makePerson(message);
         personService.savePerson(person);
