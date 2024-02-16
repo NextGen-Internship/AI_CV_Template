@@ -4,10 +4,12 @@ import com.example.AI_CV_JAVA.DTO.NotificationDto;
 import com.example.AI_CV_JAVA.Entity.*;
 import com.example.AI_CV_JAVA.Entity.Enum.Type;
 import com.example.AI_CV_JAVA.controller.WebSocketController;
+import com.example.AI_CV_JAVA.exception.DataNotFoundException;
 import com.example.AI_CV_JAVA.service.interfaces.*;
 import com.example.AI_CV_JAVA.user.User;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
@@ -78,16 +80,9 @@ public class PdfServiceImpl implements PdfService {
         List<Technology> technologies = new ArrayList<>();
         for (JsonNode technologyNode : technologiesNode) {
             String technologyName = technologyNode.asText();
-            Optional<Technology> existingTechnologyOptional = technologyService.findTechnology(technologyName);
-
-            Technology technology;
-            if (existingTechnologyOptional.isPresent()) {
-                technology = existingTechnologyOptional.get();
-            } else {
-                technology = new Technology();
-                technology.setName(technologyName);
-                technology = technologyService.saveTechnology(technology);
-            }
+            Technology technology  = technologyService.findTechnology(technologyName).orElseThrow(() -> new DataNotFoundException("technology with name " + technologyName + "not found"));
+            technology.setName(technologyName);
+            technologyService.saveTechnology(technology);
             technologies.add(technology);
         }
         return technologies;

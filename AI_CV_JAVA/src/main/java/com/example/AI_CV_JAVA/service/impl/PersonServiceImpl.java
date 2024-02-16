@@ -64,14 +64,11 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public boolean updateById(Person person) {
-        Optional<Person> editedPerson = personRepository.findById(person.getId());
-        if (editedPerson.isPresent()) {
-            editedPerson.get().setSummary(person.getSummary());
-            editedPerson.get().setExperience(person.getExperience());
-            personRepository.save(editedPerson.get());
+       Person editedPerson =  personRepository.findById(person.getId()).orElseThrow(() -> new DataNotFoundException("Person with id " + person.getId() + "not found"));
+            editedPerson.setSummary(person.getSummary());
+            editedPerson.setExperience(person.getExperience());
+            personRepository.save(editedPerson);
             return true;
-        }
-        return false;
     }
 
     @Override
