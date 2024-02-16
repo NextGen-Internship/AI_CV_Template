@@ -80,14 +80,20 @@ public class PdfServiceImpl implements PdfService {
         List<Technology> technologies = new ArrayList<>();
         for (JsonNode technologyNode : technologiesNode) {
             String technologyName = technologyNode.asText();
-            Technology technology  = technologyService.findTechnology(technologyName).orElseThrow(() -> new DataNotFoundException("technology with name " + technologyName + "not found"));
-            technology.setName(technologyName);
-            technologyService.saveTechnology(technology);
+            Optional<Technology> existingTechnologyOptional = technologyService.findTechnology(technologyName);
+
+            Technology technology;
+            if(existingTechnologyOptional.isPresent()) {
+                technology = existingTechnologyOptional.get();
+            }else{
+                technology = new Technology();
+                technology.setName(technologyName);
+                technology = technologyService.saveTechnology(technology);
+            }
             technologies.add(technology);
         }
         return technologies;
     }
-
     public void readJson(String message) throws Exception {
         Person person = makePerson(message);
         personService.savePerson(person);
