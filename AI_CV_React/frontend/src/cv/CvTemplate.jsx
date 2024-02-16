@@ -208,6 +208,7 @@ const CvTemplate = ({
                 ) : (
                   <p
                     id="description"
+                    className="cv-paragraph"
                     onClick={() => handleParagraphClick(index)}
                   >
                     {exp.description}

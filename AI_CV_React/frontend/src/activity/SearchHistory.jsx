@@ -37,11 +37,6 @@ const SearchHistory = ({ onSearchItemClicked }) => {
     onSearchItemClicked(item);
   };
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return new Date(date + "Z").toLocaleString();
-  };
-
   return (
     <div>
       {loading && <p>Loading...</p>}
@@ -55,7 +50,7 @@ const SearchHistory = ({ onSearchItemClicked }) => {
           >
             <p>
               CV: {item.personEmail} - Date:
-              {formatDate(item.createdDate)}
+              {new Date(item.createdDate).toLocaleString()}
             </p>
           </div>
         ))}

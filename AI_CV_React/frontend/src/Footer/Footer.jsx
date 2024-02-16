@@ -2,6 +2,7 @@ import React from "react";
 import "./Footer.css";
 import { faFacebook, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 
 function Footer() {
   return (
@@ -19,12 +20,12 @@ function Footer() {
             <h4>Home</h4>
             <nav>
               <ul>
-                <li>
-                  <a href="/home-page">CV Template</a>
-                </li>
-                <li>
-                  <a href="pdf-upload">Upload PDF</a>
-                </li>
+                <Link className="footer-link" to="/home-page">
+                  Home Preview
+                </Link>
+                <Link className="footer-link" to="/pdf-upload">
+                  Upload Pdf
+                </Link>
               </ul>
             </nav>
           </div>

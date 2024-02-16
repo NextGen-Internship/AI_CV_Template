@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./SearchCv.css";
 
 const SearchCV = ({ email, handleInputChange, handleFetchData }) => {
@@ -10,11 +10,11 @@ const SearchCV = ({ email, handleInputChange, handleFetchData }) => {
       <input
         className="input-email"
         type="text"
-        email="email"
         name="email"
         value={email}
         onChange={handleInputChange}
       />
+
       <button className="find-cv" onClick={handleFetchData}>
         Find CV
       </button>
