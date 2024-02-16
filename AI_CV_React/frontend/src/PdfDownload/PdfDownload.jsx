@@ -12,12 +12,14 @@ const ComponentToPrint = React.forwardRef(
   (
     {
       personId,
+      personEmail,
       email,
       personName,
       personSummary,
       technologies,
       education,
       experiences,
+      onAddTechnology,
     },
     ref
   ) => (
@@ -30,6 +32,7 @@ const ComponentToPrint = React.forwardRef(
         technologies={technologies}
         education={education}
         experiences={experiences}
+        onAddTechnology={onAddTechnology}
       />
     </div>
   )
@@ -52,6 +55,10 @@ const PdfDownload = ({ email }) => {
     content: () => componentRef.current,
   });
 
+  const handleAddTechnology = async (email) => {
+    await fetchByEmail(email);
+  };
+
   const validateEmail = (inputEmail) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -70,26 +77,26 @@ const PdfDownload = ({ email }) => {
   const fetchByEmail = async (email) => {
     const storedToken = localStorage.getItem("jwtToken");
 
-    try {
-      const emailExistsResponse = await axios.get(
-        `http://localhost:8080/person/emailExists/${email}`,
-        {
-          headers: {
-            Authorization: `Bearer ${storedToken}`,
-          },
-        }
-      );
+    // try {
+    //   const emailExistsResponse = await axios.get(
+    //     `http://localhost:8080/person/emailExists/${email}`,
+    //     {
+    //       headers: {
+    //         Authorization: `Bearer ${storedToken}`,
+    //       },
+    //     }
+    //   );
 
-      if (!emailExistsResponse.data) {
-        setEmailError("Person with this email doesn't exist");
-        return;
-      } else {
-        setEmailError("");
-      }
-    } catch (error) {
-      setEmailError("An error occurred while checking email existence");
-      return;
-    }
+    //   if (!emailExistsResponse.data) {
+    //     setEmailError("Person with this email doesn't exist");
+    //     return;
+    //   } else {
+    //     setEmailError("");
+    //   }
+    // } catch (error) {
+    //   setEmailError("An error occurred while checking email existence");
+    //   return;
+    // }
 
     try {
       const response = await axios.get(
@@ -131,9 +138,9 @@ const PdfDownload = ({ email }) => {
   };
 
   const handleButtonClick = () => {
-    const isValid = validateEmail(personEmail);
+    const isValid = validateEmail(personId);
     if (isValid) {
-      fetchByEmail(personEmail);
+      fetchByEmail(personId);
     }
   };
 
@@ -210,6 +217,7 @@ const PdfDownload = ({ email }) => {
               technologies={technologies}
               education={education}
               experiences={experiences}
+              onAddTechnology={handleAddTechnology}
             />
           </div>
         </div>
