@@ -1,7 +1,17 @@
 import React, { useState } from "react";
 import "./SearchCv.css";
 
-const SearchCV = ({ email, handleInputChange, handleFetchData }) => {
+const SearchCV = ({
+  email,
+  handleInputChange,
+  handleFetchData,
+  clearInput,
+}) => {
+  // const handleClick = () => {
+  //   handleFetchData();
+  //   clearInput();
+  // };
+
   return (
     <div className="search-form">
       <label className="label-input-mail" htmlFor="personId">

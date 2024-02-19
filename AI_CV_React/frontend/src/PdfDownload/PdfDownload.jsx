@@ -26,7 +26,7 @@ const ComponentToPrint = React.forwardRef(
     <div ref={ref}>
       <CvTemplate
         personId={personId}
-        personEmail={email}
+        personEmail={personEmail}
         personName={personName}
         personSummary={personSummary}
         technologies={technologies}
@@ -41,6 +41,7 @@ const ComponentToPrint = React.forwardRef(
 const PdfDownload = ({ email }) => {
   const [personId, setPersonId] = useState("");
   const [personEmail, setPersonEmail] = useState("");
+  const [personEmailSave, setPersonEmailSave] = useState("");
   const [personData, setPersonData] = useState(null);
   const [personName, setPersonName] = useState(null);
   const [personSummary, setPersonSummary] = useState(null);
@@ -49,14 +50,23 @@ const PdfDownload = ({ email }) => {
   const [experiences, setExperiences] = useState([]);
   const [emailError, setEmailError] = useState("");
   const [activeTab, setActiveTab] = useState(0);
+  const [selectedItem, setSelectedItem] = useState(null);
   const componentRef = useRef(null);
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
 
-  const handleAddTechnology = async (email) => {
-    await fetchByEmail(email);
+  const handleAddTechnology = () => {
+    if (selectedItem != null) {
+      fetchCVTemplate(selectedItem);
+      setSelectedItem(null);
+    } else {
+      const isValid = validateEmail(personEmailSave);
+      if (isValid) {
+        fetchByEmail(personEmailSave);
+      }
+    }
   };
 
   const validateEmail = (inputEmail) => {
@@ -77,27 +87,26 @@ const PdfDownload = ({ email }) => {
   const fetchByEmail = async (email) => {
     const storedToken = localStorage.getItem("jwtToken");
 
-    // try {
-    //   const emailExistsResponse = await axios.get(
-    //     `http://localhost:8080/person/emailExists/${email}`,
-    //     {
-    //       headers: {
-    //         Authorization: `Bearer ${storedToken}`,
-    //       },
-    //     }
-    //   );
+    try {
+      const emailExistsResponse = await axios.get(
+        `http://localhost:8080/person/emailExists/${email}`,
+        {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+          },
+        }
+      );
 
-    //   if (!emailExistsResponse.data) {
-    //     setEmailError("Person with this email doesn't exist");
-    //     return;
-    //   } else {
-    //     setEmailError("");
-    //   }
-    // } catch (error) {
-    //   setEmailError("An error occurred while checking email existence");
-    //   return;
-    // }
-
+      if (!emailExistsResponse.data) {
+        setEmailError("Person with this email doesn't exist");
+        return;
+      } else {
+        setEmailError("");
+      }
+    } catch (error) {
+      setEmailError("An error occurred while checking email existence");
+      return;
+    }
     try {
       const response = await axios.get(
         `http://localhost:8080/person/${email}`,
@@ -107,20 +116,24 @@ const PdfDownload = ({ email }) => {
           },
         }
       );
-
       setPersonId(response.data.id);
+      setPersonEmail(response.data.email);
+      setPersonEmailSave(personEmail);
       setPersonData(response.data);
       setPersonName(response.data.name);
       setPersonSummary(response.data.summary);
       setExperiences(response.data.experience);
       setEducation(response.data.education);
       setTechnologies(response.data.technologies);
+      clearInput();
     } catch (error) {
-      setErrorMessage("An error occurred while fetching person data");
+      //setErrorMessage("An error occurred while fetching person data");
     }
   };
 
   const fetchCVTemplate = async (item) => {
+    console.log("person email: " + item.personEmail);
+
     try {
       fetchByEmail(item.personEmail);
     } catch (error) {
@@ -129,12 +142,14 @@ const PdfDownload = ({ email }) => {
   };
 
   const handleSearchItemClicked = (item) => {
+    setSelectedItem(item);
     fetchCVTemplate(item);
   };
 
   const handleInputChange = (e) => {
     setPersonEmail(e.target.value);
     setPersonId(e.target.value);
+    console.log(personId);
   };
 
   const handleButtonClick = () => {
@@ -142,6 +157,10 @@ const PdfDownload = ({ email }) => {
     if (isValid) {
       fetchByEmail(personId);
     }
+  };
+
+  const clearInput = () => {
+    setPersonEmail("");
   };
 
   useEffect(() => {
@@ -167,6 +186,7 @@ const PdfDownload = ({ email }) => {
             email={personEmail}
             handleInputChange={handleInputChange}
             handleFetchData={handleButtonClick}
+            clearInput={clearInput}
           />
           {emailError && <p className="error-message">{emailError}</p>}
           <div className="section-label-download">Download PDF:</div>
@@ -211,7 +231,7 @@ const PdfDownload = ({ email }) => {
             <ComponentToPrint
               ref={componentRef}
               personId={personId}
-              personEmail={email}
+              personEmail={personEmail}
               personName={personName}
               personSummary={personSummary}
               technologies={technologies}

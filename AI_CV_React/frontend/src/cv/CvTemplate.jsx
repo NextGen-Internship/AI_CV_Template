@@ -40,11 +40,11 @@ const CvTemplate = ({
         setEditableIndex(-1);
         setNewTechnology("");
         setShowNewTechnologyInput(false);
+        onAddTechnology(personEmail);
       })
       .catch((error) => {
-        console.error("Error adding technology:", error);
+        console.error("Error a  dding technology:", error);
       });
-    onAddTechnology(personEmail);
   };
 
   const handleSave = (updatedSummary) => {
