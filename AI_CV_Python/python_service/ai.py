@@ -29,7 +29,8 @@ def handle_cv(cv):
                 "the start"
                 "year and end year separate as start_year and end_year,"
                 "and the role of the last"
-                "company in a json format,and only blankfactor gmail as gmail, don't send anything else that, is not specified"
+                "company in a json format,"
+                "and a seperate node with only blankfactor gmail as gmail, don't send anything else that, is not specified"
                 "Also the gmail field in the json should always be called gmail. Also make sure that if there are two emails, "
                 "also get the Blankfactor one, it's at the end and it end with @blankfactor.com."
                 },

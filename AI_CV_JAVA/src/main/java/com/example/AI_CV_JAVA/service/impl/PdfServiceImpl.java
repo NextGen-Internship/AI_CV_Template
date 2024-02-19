@@ -63,12 +63,21 @@ public class PdfServiceImpl implements PdfService {
 
     public List<Education> mapEducation(JsonNode education) {
         List<Education> educations = new ArrayList<>();
-        for (JsonNode jsonNode : education) {
+        if (education.isArray()) {
+            for (JsonNode jsonNode : education) {
+                Education education1 = new Education();
+                education1.setDegree(jsonNode.path("degree").asText());
+                education1.setCollege(jsonNode.path("college").asText());
+                education1.setStartYear(jsonNode.path("start_year").asText());
+                education1.setEndYear(jsonNode.path("end_year").asText());
+                educations.add(education1);
+            }
+        }else{
             Education education1 = new Education();
-            education1.setDegree(jsonNode.path("degree").asText());
-            education1.setCollege(jsonNode.path("college").asText());
-            education1.setStartYear(jsonNode.path("start_year").asText());
-            education1.setEndYear(jsonNode.path("end_year").asText());
+            education1.setDegree(education.path("degree").asText());
+            education1.setCollege(education.path("college").asText());
+            education1.setStartYear(education.path("start_year").asText());
+            education1.setEndYear(education.path("end_year").asText());
             educations.add(education1);
         }
         return educations;
