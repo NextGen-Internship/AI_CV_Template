@@ -4,8 +4,6 @@ import axios from "axios";
 import CvTemplate from "../cv/CvTemplate";
 import SearchCv from "../cv/SearchCv";
 import "./PdfDownload.css";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
 import { useReactToPrint } from "react-to-print";
 import SearchHistory from "../activity/SearchHistory";
 import UploadHistory from "../activity/UploadHistory";
@@ -46,17 +44,33 @@ const PdfDownload = ({ email }) => {
   const [technologies, setTechnologies] = useState([]);
   const [education, setEducation] = useState([]);
   const [experiences, setExperiences] = useState([]);
+  const [emailError, setEmailError] = useState("");
   const [activeTab, setActiveTab] = useState(0);
   const componentRef = useRef(null);
-  const [errorMessage, setErrorMessage] = useState("");
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
 
+  const validateEmail = (inputEmail) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (inputEmail === "") {
+      setEmailError("Email is required");
+      return false;
+    } else if (!emailRegex.test(inputEmail)) {
+      setEmailError("Enter a valid email address");
+      return false;
+    } else {
+      setEmailError("");
+      return true;
+    }
+  };
+
   const fetchByEmail = async (email) => {
     const storedToken = localStorage.getItem("jwtToken");
-    if (email) {
+
+    try {
       const emailExistsResponse = await axios.get(
         `http://localhost:8080/person/emailExists/${email}`,
         {
@@ -67,10 +81,16 @@ const PdfDownload = ({ email }) => {
       );
 
       if (!emailExistsResponse.data) {
-        setErrorMessage("Person with this email doesn't exist");
+        setEmailError("Person with this email doesn't exist");
         return;
+      } else {
+        setEmailError("");
       }
+    } catch (error) {
+      setEmailError("An error occurred while checking email existence");
+      return;
     }
+
     try {
       const response = await axios.get(
         `http://localhost:8080/person/${email}`,
@@ -80,6 +100,7 @@ const PdfDownload = ({ email }) => {
           },
         }
       );
+
       setPersonId(response.data.id);
       setPersonData(response.data);
       setPersonName(response.data.name);
@@ -88,7 +109,7 @@ const PdfDownload = ({ email }) => {
       setEducation(response.data.education);
       setTechnologies(response.data.technologies);
     } catch (error) {
-      console.error("Error fetching person data:", error);
+      setErrorMessage("An error occurred while fetching person data");
     }
   };
 
@@ -96,7 +117,7 @@ const PdfDownload = ({ email }) => {
     try {
       fetchByEmail(item.personEmail);
     } catch (error) {
-      console.error("Error fetching CV template:", error);
+      setErrorMessage("Error fetching CV template:", error);
     }
   };
 
@@ -109,10 +130,9 @@ const PdfDownload = ({ email }) => {
     setPersonId(e.target.value);
   };
 
-  const handleFetchData = () => {
-    if (email) {
-      fetchByEmail(email);
-    } else if (personEmail !== "") {
+  const handleButtonClick = () => {
+    const isValid = validateEmail(personEmail);
+    if (isValid) {
       fetchByEmail(personEmail);
     }
   };
@@ -137,11 +157,11 @@ const PdfDownload = ({ email }) => {
         <div className="search-section">
           <div className="section-label-search">Find CV & Download</div>
           <SearchCv
-            personId={personId}
+            email={personEmail}
             handleInputChange={handleInputChange}
-            handleFetchData={handleFetchData}
+            handleFetchData={handleButtonClick}
           />
-          {errorMessage && <div className="error-message">{errorMessage}</div>}
+          {emailError && <p className="error-message">{emailError}</p>}
           <div className="section-label-download">Download PDF:</div>
           <button className="btn-download" onClick={handlePrint}>
             Download Pdf

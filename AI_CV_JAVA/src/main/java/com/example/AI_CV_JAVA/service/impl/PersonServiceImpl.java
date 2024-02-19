@@ -62,10 +62,10 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public boolean updateByEmail(Person person) {
-        Person editedPerson = personRepository.findByEmail(person.getEmail())
-                .orElseThrow(() -> new DataNotFoundException("Person with email " + person.getEmail() + " not found"));
+    public boolean updateById(Person person) {
+        Person editedPerson = personRepository.findById(person.getId()).orElseThrow(() -> new DataNotFoundException("Person with id " + person.getId() + "not found"));
         editedPerson.setSummary(person.getSummary());
+        editedPerson.setExperience(person.getExperience());
         personRepository.save(editedPerson);
         return true;
     }
@@ -86,7 +86,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public boolean emailExists(String email){
+    public boolean emailExists(String email) {
         return personRepository.existsByEmail(email);
     }
 }
