@@ -151,7 +151,11 @@ const CvTemplate = ({
               <h3>Experience</h3>
               <div className="line"></div>
               {experiences.map((exp, index) => (
-                <div className="exp" key={index}>
+                <div
+                  className="exp"
+                  key={index}
+                  style={{ paddingTop: index === 0 ? 0 : "5mm" }}
+                >
                   <h4 id="role">{exp.role}</h4>
                   <div id="CR">
                     <h4 id="company">{exp.companyName}</h4>
@@ -181,7 +185,6 @@ const CvTemplate = ({
         </div>
       </div>
     </div>
-    // </div>
   );
 };
 
