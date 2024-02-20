@@ -65,6 +65,8 @@ const PdfDownload = ({ email }) => {
       const isValid = validateEmail(personEmailSave);
       if (isValid) {
         fetchByEmail(personEmailSave);
+      } else {
+        clearCvTemplate();
       }
     }
   };
@@ -127,17 +129,15 @@ const PdfDownload = ({ email }) => {
       setTechnologies(response.data.technologies);
       clearInput();
     } catch (error) {
-      //setErrorMessage("An error occurred while fetching person data");
+      setEmailError("An error occurred while fetching person data");
     }
   };
 
   const fetchCVTemplate = async (item) => {
-    console.log("person email: " + item.personEmail);
-
     try {
       fetchByEmail(item.personEmail);
     } catch (error) {
-      setErrorMessage("Error fetching CV template:", error);
+      setEmailError("Error fetching CV template:", error);
     }
   };
 
@@ -149,13 +149,23 @@ const PdfDownload = ({ email }) => {
   const handleInputChange = (e) => {
     setPersonEmail(e.target.value);
     setPersonId(e.target.value);
-    console.log(personId);
+  };
+
+  const clearCvTemplate = () => {
+    setPersonData(null);
+    setPersonName(null);
+    setPersonSummary(null);
+    setTechnologies([]);
+    setEducation([]);
+    setExperiences([]);
   };
 
   const handleButtonClick = () => {
     const isValid = validateEmail(personId);
     if (isValid) {
       fetchByEmail(personId);
+    } else {
+      clearCvTemplate();
     }
   };
 
