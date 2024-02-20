@@ -65,8 +65,6 @@ const PdfDownload = ({ email }) => {
       const isValid = validateEmail(personEmailSave);
       if (isValid) {
         fetchByEmail(personEmailSave);
-      } else {
-        clearCvTemplate();
       }
     }
   };
