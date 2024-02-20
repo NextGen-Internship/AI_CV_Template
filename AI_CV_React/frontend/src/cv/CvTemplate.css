@@ -7,14 +7,17 @@ body {
   width: 21cm;
   display: flex;
   flex-direction: column;
-  text-align: center;
+  text-align: left;
   border: 1px solid rgb(192, 182, 182);
-  background-image: url("/public/background.png");
+  background-image: url("/public/image.png");
   background-repeat: no-repeat;
   background-size: cover;
   margin: auto;
   margin-bottom: 50px;
   padding-right: 40px;
+  justify-content: left;
+  align-items: left;
+  text-align: left;
 }
 h1 {
   margin-bottom: 10px;
@@ -57,7 +60,6 @@ ul {
 #Experience {
   display: flex;
   flex-direction: column;
-
   margin-left: 70px;
 }
 i {
@@ -113,11 +115,28 @@ img {
   height: 100%;
   background-color: transparent;
   border: none;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
 }
 
-@media all {
-  .page-break {
-    display: none;
+@media print {
+  @page {
+    padding-top: 20mm;
+    #cv {
+      padding-top: 100mm;
+    }
+  }
+
+  @page :first {
+    margin-top: 0mm;
+  }
+}
+
+@media print {
+  #cv {
+    z-index: 1;
+    background-image: none;
+    border: none;
   }
 }
 
@@ -126,33 +145,86 @@ img {
   body {
     height: initial !important;
     overflow: initial !important;
-    -webkit-print-color-adjust: exact;
-    background-image: url("/public/background.png");
-    background-size: cover;
+    -webkit-print-color-adjust: exact !important;
+    background-repeat: repeat;
+    color-adjust: exact !important;
   }
-}
 
-@media print {
   .page-break {
     display: block;
     page-break-before: auto;
+    padding-top: 20mm;
   }
-}
 
-@page {
-  size: auto;
-  background-image: url("/public/background.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-}
+  .page-break-content {
+    border-top: 20mm solid transparent;
+  }
 
-@media print {
+  .page-break-content::before {
+    content: "";
+    display: block;
+    height: 20mm;
+  }
+
+  #header-space {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 20mm;
+  }
+
   p,
   ul,
-  h1,
   h3,
   h4,
   i {
     font-size: 12px;
+  }
+
+  p {
+    padding-bottom: 3mm;
+  }
+
+  .exp {
+    page-break-inside: avoid;
+    padding-top: 5mm;
+  }
+
+  .exp:first-child {
+    padding-top: 0mm;
+  }
+
+  #description {
+    margin-top: 0mm;
+    text-align: left;
+    justify-content: left;
+    float: left;
+  }
+
+  #Experience {
+    display: flex;
+    flex-direction: column;
+    margin-left: 70px;
+  }
+}
+@media print {
+  .pdf-container {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+@media print {
+  .background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("/public/image.png");
+    background-size: contain;
+    background-repeat: repeat-y;
+    z-index: -1;
   }
 }

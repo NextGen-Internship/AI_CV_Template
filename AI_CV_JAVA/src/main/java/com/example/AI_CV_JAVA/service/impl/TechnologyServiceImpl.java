@@ -57,7 +57,7 @@ public class TechnologyServiceImpl implements TechnologyService {
             personService.addTechnology(technology.get(), personId);
         }
         return true;
-        }
+    }
 
     @Override
     public Optional<Technology> findTechnology(String name) {
