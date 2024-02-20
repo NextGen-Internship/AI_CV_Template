@@ -19,15 +19,22 @@ const CvTemplate = ({
   const [summary, setSummary] = useState("");
   const [personExperiences, setPersonExperiences] = useState([]);
   const [isParagraphClicked, setIsParagraphClicked] = useState(false);
+  const [educationForm, setEducationForm] = useState({
+    degree: "",
+    college: "",
+    startYear: "",
+    endYear: "",
+  });
+  const [isStartYearVisible, setIsStartYearVisible] = useState(false);
+  const [isEndYearVisible, setIsEndYearVisible] = useState(false);
+  const [isEducationFormVisible, setIsEducationFormVisible] = useState(false);
+  useEffect(() => {
+    setPersonExperiences([...experiences]);
+  }, [experiences]);
 
   useEffect(() => {
     setSummary(personSummary);
   }, [personSummary]);
-
-  useEffect(() => {
-    const copiedExperiences = experiences.map((exp) => ({ ...exp }));
-    setPersonExperiences(copiedExperiences);
-  }, [experiences]);
 
   const handleSummaryChange = (newSummary) => {
     setSummary(newSummary);
@@ -40,6 +47,7 @@ const CvTemplate = ({
 
   const handleSaveTechnology = () => {
     const storedToken = localStorage.getItem("jwtToken");
+    console.log("newt" + newTechnology);
     const addTech = {
       name: newTechnology,
     };
@@ -52,8 +60,7 @@ const CvTemplate = ({
         },
       })
       .then((response) => {
-        console.log("New technology added", response.data);
-        setEditableIndex(-1);
+        console.log(response.data);
         setNewTechnology("");
         setShowNewTechnologyInput(false);
         onAddTechnology(personEmail);
@@ -62,29 +69,27 @@ const CvTemplate = ({
         console.error("Error a  dding technology:", error);
       });
   };
+  const handleCancel = (e) => {
+    setShowNewTechnologyInput(false);
+    e.stopPropagation();
+  };
 
   const handleSaveExperience = (field, updatedValue, index) => {
-    const updatedPersonExperiences = [...personExperiences];
-    updatedPersonExperiences[index] = {
-      ...updatedPersonExperiences[index],
-      description: updatedValue,
-    };
-
-    console.log("Updated experiences:", updatedPersonExperiences);
-    setPersonExperiences(updatedPersonExperiences);
-    console.log("Person experiences after update:", personExperiences);
+    const updatedExperiences = [...personExperiences];
+    updatedExperiences[index][field] = updatedValue;
+    setPersonExperiences(updatedExperiences);
     setEditableIndex(-1);
     setIsParagraphClicked(true);
   };
 
-  const handleSave = (updatedSummary, updatedPersonExperiences) => {
+  const handleSave = () => {
     const updatedPerson = {
       id: personId,
       email: personEmail,
-      summary: updatedSummary,
+      summary: summary,
       technologies: technologies,
       education: education,
-      experience: updatedPersonExperiences,
+      experience: personExperiences,
     };
     const storedToken = localStorage.getItem("jwtToken");
     axios
@@ -112,6 +117,51 @@ const CvTemplate = ({
     setNewTechnology(e.target.value);
   };
 
+  const handleEducationFormChange = (e) => {
+    const { name, value } = e.target;
+    setEducationForm((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleAddEducation = () => {
+    const storedToken = localStorage.getItem("jwtToken");
+    axios
+      .post(`http://localhost:8080/education`, educationForm, {
+        params: { personId },
+        headers: {
+          Authorization: `Bearer ${storedToken}`,
+        },
+      })
+      .then((response) => {
+        setEducationForm({
+          degree: "",
+          college: "",
+          startYear: "",
+          endYear: "",
+        });
+        setIsEducationFormVisible(false);
+      })
+      .catch((error) => {
+        console.error("Error adding education:", error);
+      });
+  };
+
+  const handleCancelEducation = (e) => {
+    e.stopPropagation();
+    setIsEducationFormVisible(false);
+  };
+
+  const generateYears = (startYear) => {
+    const currentYear = new Date().getFullYear();
+    const years = [];
+    for (let year = startYear; year <= currentYear; year++) {
+      years.push(year);
+    }
+    return years;
+  };
+
   return (
     <div>
       <div className="pdf-container">
@@ -130,14 +180,16 @@ const CvTemplate = ({
                 {editableIndex === personSummary ? (
                   <textarea
                     className="textArea"
-                    defaultValue={personSummary}
-                    onBlur={(e) => handleSave(e.target.value)}
+                    defaultValue={summary}
+                    rows={10}
+                    onBlur={(e) => {
+                      handleSummaryChange(e.target.value);
+                      handleParagraphClick(false);
+                    }}
                     autoFocus
                   />
                 ) : (
-                  <p onClick={() => handleEdit(personSummary)}>
-                    {personSummary}
-                  </p>
+                  <p onClick={() => handleEdit(personSummary)}>{summary}</p>
                 )}
               </div>
               <div
@@ -155,18 +207,36 @@ const CvTemplate = ({
                   ))}
                 </i>
                 {showNewTechnologyInput && (
-                  <div>
+                  <div id="tech">
                     <input
+                      id="plAddTech"
                       type="text"
                       value={newTechnology}
-                      onChange={(e) => setNewTechnology(e.target.value)}
+                      onChange={handleNewTechnologyChange}
                       placeholder="Add new technology"
+                      // onBlur={(e) => handleCancel(e)}
                     />
-                    <button onClick={handleSaveTechnology}>Add</button>
+                    <img
+                      id="cancel"
+                      src={"public/cancel.webp"}
+                      alt="cancel"
+                      onClick={(e) => handleCancel(e)}
+                    />
+                    <img
+                      id="addTech"
+                      src="public/check-mark-icon-green-0.png"
+                      alt="bb"
+                      onClick={handleSaveTechnology}
+                    />
                   </div>
                 )}
               </div>
-              <div className="first">
+              <div
+                className="first"
+                onClick={() =>
+                  setIsEducationFormVisible(!isEducationFormVisible)
+                }
+              >
                 <h3>Education</h3>
                 <div className="line"></div>
                 <ul>
@@ -174,11 +244,115 @@ const CvTemplate = ({
                     <li key={index}>
                       <i>
                         {edu.degree} - {edu.college}, {edu.startYear} -{" "}
-                        {edu.endYear}
+                        {edu.endYear ? edu.endYear : "Present"}
                       </i>
                     </li>
                   ))}
                 </ul>
+                {isEducationFormVisible && (
+                  <div id="educationForm" onClick={(e) => e.stopPropagation()}>
+                    <div id="inputs">
+                      <input
+                        type="text"
+                        placeholder="Degree"
+                        name="degree"
+                        value={educationForm.degree}
+                        onChange={handleEducationFormChange}
+                      />
+                      <input
+                        type="text"
+                        placeholder="College"
+                        name="college"
+                        value={educationForm.college}
+                        onChange={handleEducationFormChange}
+                      />
+                    </div>
+                    <div id="years">
+                      <div className="year-select-wrapper">
+                        <div
+                          className={`select-wrapper ${
+                            isStartYearVisible ? "open" : ""
+                          }`}
+                          onClick={() =>
+                            setIsStartYearVisible(!isStartYearVisible)
+                          }
+                        >
+                          <input
+                            type="text"
+                            placeholder="Start Year"
+                            name="startYear"
+                            value={educationForm.startYear}
+                            onChange={handleEducationFormChange}
+                            readOnly
+                          />
+                          <ul className="options">
+                            {generateYears(1920).map((year) => (
+                              <li
+                                key={year}
+                                onClick={(e) => {
+                                  handleEducationFormChange({
+                                    target: { name: "startYear", value: year },
+                                  });
+                                  setIsStartYearVisible(false);
+                                }}
+                              >
+                                {year}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                      <div className="year-select-wrapper">
+                        <div
+                          className={`select-wrapper ${
+                            isEndYearVisible ? "open" : ""
+                          }`}
+                          onClick={() => setIsEndYearVisible(!isEndYearVisible)}
+                        >
+                          <input
+                            type="text"
+                            placeholder="End Year"
+                            name="endYear"
+                            value={educationForm.endYear}
+                            onChange={handleEducationFormChange}
+                            readOnly
+                          />
+                          <ul className="options">
+                            {generateYears(
+                              parseInt(educationForm.startYear) || 1920
+                            ).map((year) => (
+                              <li
+                                key={year}
+                                onClick={() => {
+                                  handleEducationFormChange({
+                                    target: { name: "endYear", value: year },
+                                  });
+                                  setIsEndYearVisible(false);
+                                }}
+                              >
+                                {year}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="choice">
+                      <img
+                        id="cancelEd"
+                        src={"public/cancel.webp"}
+                        alt="cancel"
+                        onClick={(e) => handleCancelEducation(e)}
+                      />
+                      <img
+                        id="addEd"
+                        src="public/check-mark-icon-green-0.png"
+                        alt="bb"
+                        onClick={handleAddEducation}
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
             <div id="Experience">
@@ -201,7 +375,14 @@ const CvTemplate = ({
                     <textarea
                       className="textArea"
                       defaultValue={exp.description}
-                      onBlur={handleSave}
+                      onBlur={(e) =>
+                        handleSaveExperience(
+                          "description",
+                          e.target.value,
+                          index
+                        )
+                      }
+                      rows={10}
                       autoFocus
                     />
                   ) : (
@@ -216,12 +397,10 @@ const CvTemplate = ({
               ))}
             </div>
           </div>
+          {isParagraphClicked && (
+            <button onClick={handleSave}>Save changes</button>
+          )}
         </div>
-        {isParagraphClicked && (
-          <button onClick={() => handleSave(summary, personExperiences)}>
-            Save changes
-          </button>
-        )}
       </div>
     </div>
   );

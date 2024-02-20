@@ -1,6 +1,7 @@
 package com.example.AI_CV_JAVA.service.impl;
 
 import com.example.AI_CV_JAVA.Entity.Activity;
+import com.example.AI_CV_JAVA.Entity.Education;
 import com.example.AI_CV_JAVA.Entity.Enum.Type;
 import com.example.AI_CV_JAVA.Entity.Person;
 import com.example.AI_CV_JAVA.Entity.Technology;
@@ -88,6 +89,15 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public boolean emailExists(String email) {
         return personRepository.existsByEmail(email);
+    }
+
+    @Override
+    public Education addEducation(Education education, long personId) {
+        Person person = personRepository.findById(personId)
+                .orElseThrow(() -> new DataNotFoundException("Person with id " + personId + " not found"));
+        person.getEducation().add(education);
+        personRepository.save(person);
+        return education;
     }
 }
 

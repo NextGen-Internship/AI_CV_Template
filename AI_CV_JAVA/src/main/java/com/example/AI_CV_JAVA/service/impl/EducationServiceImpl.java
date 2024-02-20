@@ -4,6 +4,7 @@ import com.example.AI_CV_JAVA.Entity.Education;
 import com.example.AI_CV_JAVA.Repo.EducationRepository;
 import com.example.AI_CV_JAVA.exception.DataNotFoundException;
 import com.example.AI_CV_JAVA.service.interfaces.EducationService;
+import com.example.AI_CV_JAVA.service.interfaces.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +14,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EducationServiceImpl implements EducationService {
     private final EducationRepository educationRepository;
+    private final PersonService personService;
 
-    public Education saveEducation(Education education) {
-        return educationRepository.saveAndFlush(education);
+    public Education saveEducation(Education education, long personId) {
+        educationRepository.saveAndFlush(education);
+        return personService.addEducation( educationRepository.saveAndFlush(education), personId);
     }
 
     public List<Education> getAllEducations() {
