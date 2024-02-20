@@ -170,18 +170,25 @@ img {
     background-repeat: repeat;
     color-adjust: exact !important;
   }
+  p,
+  ul,
+  h3,
+  h4,
+  i {
+    font-size: 12px;
+  }
 }
 input {
   height: 40px;
   border-radius: 10px;
   background: transparent;
 }
-
+/* 
 .page-break {
   display: block;
   page-break-before: auto;
   padding-top: 20mm;
-}
+} */
 
 .year-select-wrapper {
   position: relative;
@@ -225,51 +232,43 @@ input {
   height: 20mm;
 }
 
-#header-space {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 20mm;
-}
-
-p,
-ul,
-h3,
-h4,
-i {
-  font-size: 12px;
-}
-
-p {
-  padding-bottom: 3mm;
-}
-
-.exp {
-  page-break-inside: avoid;
-  padding-top: 5mm;
-}
-
-.exp:first-child {
-  padding-top: 0mm;
-}
-
-#description {
-  margin-top: 0mm;
-  text-align: left;
-  justify-content: left;
-  float: left;
-}
-
-#Experience {
-  display: flex;
-  flex-direction: column;
-  margin-left: 70px;
-}
 @media print {
   .pdf-container {
     position: relative;
     z-index: 1;
+  }
+  #header-space {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 20mm;
+  }
+
+  p {
+    padding-bottom: 3mm;
+  }
+
+  .exp {
+    page-break-inside: avoid;
+    padding-top: 5mm;
+  }
+
+  .exp:first-child {
+    padding-top: 0mm;
+  }
+
+  #description {
+    margin-top: 0mm;
+    text-align: left;
+    justify-content: left;
+    float: left;
+  }
+
+  #Experience {
+    display: flex;
+    flex-direction: column;
+    margin-left: 70px;
   }
 }
 
