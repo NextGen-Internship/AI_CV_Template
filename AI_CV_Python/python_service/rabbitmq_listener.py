@@ -10,13 +10,22 @@ from python_service import app
 def convert_message(message):
     return message.decode('utf-8', errors='ignore')
 
+def getBlankfactorEmail(text):
+    index = text.find("Blankfactor gmail: ")
+
+    if index != -1:  
+        email = text[index + len("Blankfactor gmail: "):].strip()
+
+    return email
+
 
 def on_message_received(ch, method, properties, body):
     ch.basic_ack(delivery_tag=method.delivery_tag)
     to_string = convert_message(body)
     app.logger.info("Received message: %s", to_string) 
     print("Received message:", to_string)
-    handle_cv(to_string)
+    email =  getBlankfactorEmail(to_string).strip()
+    handle_cv(to_string, email)
 
 
 def listen_for_message_rabbitmq():

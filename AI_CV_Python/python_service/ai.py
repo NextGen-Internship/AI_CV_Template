@@ -6,7 +6,7 @@ import json
 from dotenv import load_dotenv
 
 
-def handle_cv(cv):
+def handle_cv(cv, email):
     app.secret_key = os.getenv('OPENAI_API_KEY')
     client = OpenAI(api_key=app.secret_key)
     completion = client.chat.completions.create(
@@ -45,6 +45,17 @@ def handle_cv(cv):
         if chunk.choices[0].delta.content is not None:
             print(chunk.choices[0].delta.content, end="")
             processed_data += chunk.choices[0].delta.content
+
+    
+    try:
+        data_json = json.loads(processed_data)       
+        email_from_prompt = data_json['gmail'] 
+        if email != email_from_prompt.strip():
+            data_json['gmail'] = email
+            processed_data = json.dumps(data_json)
+    except json.decoder.JSONDecodeError as e:
+        print("Error decoding JSON:", e)        
+    
 
     try:
         processed_data_json = json.loads(processed_data)
