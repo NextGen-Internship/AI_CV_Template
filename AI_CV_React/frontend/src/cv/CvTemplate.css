@@ -183,12 +183,12 @@ input {
   border-radius: 10px;
   background: transparent;
 }
-/* 
+
 .page-break {
   display: block;
   page-break-before: auto;
   padding-top: 20mm;
-} */
+}
 
 .year-select-wrapper {
   position: relative;

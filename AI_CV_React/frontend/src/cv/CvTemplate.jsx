@@ -46,6 +46,7 @@ const CvTemplate = ({
 
   const handleSaveTechnology = () => {
     const storedToken = localStorage.getItem("jwtToken");
+    console.log("newt" + newTechnology);
     const addTech = {
       name: newTechnology,
     };
@@ -58,6 +59,7 @@ const CvTemplate = ({
         },
       })
       .then((response) => {
+        console.log(response.data);
         setNewTechnology("");
         setShowNewTechnologyInput(false);
       })
@@ -210,7 +212,7 @@ const CvTemplate = ({
                       value={newTechnology}
                       onChange={handleNewTechnologyChange}
                       placeholder="Add new technology"
-                      onBlur={handleCancel}
+                      // onBlur={(e) => handleCancel(e)}
                     />
                     <img
                       id="cancel"
