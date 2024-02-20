@@ -5,4 +5,30 @@
 
 .search-item {
   margin-bottom: 0px;
+  cursor: pointer;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+th,
+td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+.selected-row {
+  background-color: #c2eeff;
+}
+
+.upload-history-table {
+  border-radius: 10px;
 }
