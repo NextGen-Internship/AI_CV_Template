@@ -16,8 +16,8 @@ public class EducationController {
     private final EducationService educationService;
 
     @PostMapping
-    public ResponseEntity<Education> saveEducation(@RequestBody Education education) {
-        Education savedEducation = educationService.saveEducation(education);
+    public ResponseEntity<Education> saveEducation(@RequestBody Education education, @RequestParam Long personId) {
+        Education savedEducation = educationService.saveEducation(education, personId);
         return new ResponseEntity<>(savedEducation, HttpStatus.CREATED);
     }
 

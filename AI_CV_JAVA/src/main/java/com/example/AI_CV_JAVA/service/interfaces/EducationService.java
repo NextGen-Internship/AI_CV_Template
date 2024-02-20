@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface EducationService {
 
-    Education saveEducation(Education education);
+    Education saveEducation(Education education, long personId);
 
     List<Education> getAllEducations();
 
