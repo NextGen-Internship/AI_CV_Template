@@ -66,7 +66,7 @@ const CvTemplate = ({
         onAddTechnology(personEmail);
       })
       .catch((error) => {
-        console.error("Error a  dding technology:", error);
+        console.error("Error adding technology:", error);
       });
   };
   const handleCancel = (e) => {

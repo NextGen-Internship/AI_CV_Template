@@ -7,11 +7,6 @@ const SearchCV = ({
   handleFetchData,
   clearInput,
 }) => {
-  // const handleClick = () => {
-  //   handleFetchData();
-  //   clearInput();
-  // };
-
   return (
     <div className="search-form">
       <label className="label-input-mail" htmlFor="personId">
