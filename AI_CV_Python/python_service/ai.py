@@ -46,5 +46,9 @@ def handle_cv(cv):
             print(chunk.choices[0].delta.content, end="")
             processed_data += chunk.choices[0].delta.content
 
-    processed_data_json = json.loads(processed_data)
+    try:
+        processed_data_json = json.loads(processed_data)
+    except json.decoder.JSONDecodeError as e:
+        print("Error decoding JSON:", e)
+
     publish_message_to_rabbitmq(processed_data_json)

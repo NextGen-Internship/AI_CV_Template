@@ -8,7 +8,7 @@ from python_service import app
 
 
 def convert_message(message):
-    return message.decode('utf-8')
+    return message.decode('utf-8', errors='ignore')
 
 
 def on_message_received(ch, method, properties, body):
