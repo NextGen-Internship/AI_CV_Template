@@ -251,18 +251,16 @@ const CvTemplate = ({
                       onChange={handleNewTechnologyChange}
                       placeholder="Add new technology"
                     />
-                    <img
-                      id="cancel"
-                      src={"public/cancel.webp"}
-                      alt="cancel"
-                      onClick={(e) => handleCancel(e)}
-                    />
-                    <img
-                      id="addTech"
-                      src="public/check-mark-icon-green-0.png"
-                      alt="bb"
+
+                    <div
+                      className="save-icon-small"
                       onClick={handleSaveTechnology}
-                    />
+                    >
+                      <i class="fa fa-check"></i>
+                    </div>
+                    <div className="cancel-icon-small" onClick={handleCancel}>
+                      <i class="fa fa-times"></i>
+                    </div>
                   </div>
                 )}
               </div>
@@ -293,6 +291,7 @@ const CvTemplate = ({
                         name="degree"
                         value={educationForm.degree}
                         onChange={handleEducationFormChange}
+                        className="inputField"
                       />
                       <input
                         type="text"
@@ -300,9 +299,10 @@ const CvTemplate = ({
                         name="college"
                         value={educationForm.college}
                         onChange={handleEducationFormChange}
+                        className="inputField"
                       />
                     </div>
-                    <div id="years">
+                    <div id="years" className="form-group">
                       <div className="year-select-wrapper">
                         <div
                           className={`select-wrapper ${
@@ -318,10 +318,11 @@ const CvTemplate = ({
                             name="startYear"
                             value={educationForm.startYear}
                             onChange={handleEducationFormChange}
+                            className="inputField"
                             readOnly
                           />
                           <ul className="options">
-                            {generateYears(1920).map((year) => (
+                            {generateYears(1960).map((year) => (
                               <li
                                 key={year}
                                 onClick={(e) => {
@@ -350,11 +351,12 @@ const CvTemplate = ({
                             name="endYear"
                             value={educationForm.endYear}
                             onChange={handleEducationFormChange}
+                            className="inputField"
                             readOnly
                           />
                           <ul className="options">
                             {generateYears(
-                              parseInt(educationForm.startYear) || 1920
+                              parseInt(educationForm.startYear) || 1960
                             ).map((year) => (
                               <li
                                 key={year}
@@ -373,18 +375,15 @@ const CvTemplate = ({
                       </div>
                     </div>
                     <div id="choice">
-                      <img
-                        id="cancelEd"
-                        src={"public/cancel.webp"}
-                        alt="cancel"
-                        onClick={(e) => handleCancelEducation(e)}
-                      />
-                      <img
-                        id="addEd"
-                        src="public/check-mark-icon-green-0.png"
-                        alt="bb"
-                        onClick={handleAddEducation}
-                      />
+                      <div className="save-icon" onClick={handleAddEducation}>
+                        <i class="fa fa-check">Save</i>
+                      </div>
+                      <div
+                        className="cancel-icon"
+                        onClick={handleCancelEducation}
+                      >
+                        <i class="fa fa-times">Cancle</i>
+                      </div>
                     </div>
                   </div>
                 )}
