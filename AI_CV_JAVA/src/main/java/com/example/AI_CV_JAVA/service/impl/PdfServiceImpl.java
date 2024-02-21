@@ -65,20 +65,20 @@ public class PdfServiceImpl implements PdfService {
         List<Education> educations = new ArrayList<>();
         if (education.isArray()) {
             for (JsonNode jsonNode : education) {
-                Education education1 = new Education();
-                education1.setDegree(jsonNode.path("degree").asText());
-                education1.setCollege(jsonNode.path("college").asText());
-                education1.setStartYear(jsonNode.path("start_year").asText());
-                education1.setEndYear(jsonNode.path("end_year").asText());
-                educations.add(education1);
+                Education newEducation = new Education();
+                newEducation.setDegree(jsonNode.path("degree").asText());
+                newEducation.setCollege(jsonNode.path("college").asText());
+                newEducation.setStartYear(jsonNode.path("start_year").asText());
+                newEducation.setEndYear(jsonNode.path("end_year").asText());
+                educations.add(newEducation);
             }
         }else{
-            Education education1 = new Education();
-            education1.setDegree(education.path("degree").asText());
-            education1.setCollege(education.path("college").asText());
-            education1.setStartYear(education.path("start_year").asText());
-            education1.setEndYear(education.path("end_year").asText());
-            educations.add(education1);
+            Education newEducation = new Education();
+            newEducation.setDegree(education.path("degree").asText());
+            newEducation.setCollege(education.path("college").asText());
+            newEducation.setStartYear(education.path("start_year").asText());
+            newEducation.setEndYear(education.path("end_year").asText());
+            educations.add(newEducation);
         }
         return educations;
     }
