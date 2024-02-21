@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./CvTemplate.css";
 import image from "/public/logo.png";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
+import RemoveCircleRoundedIcon from "@mui/icons-material/RemoveCircleRounded";
 
 const CvTemplate = ({
   personId,
@@ -229,12 +232,16 @@ const CvTemplate = ({
                         >
                           {tech.name}
                         </span>
-                        <img
+                        <RemoveCircleRoundedIcon
+                          id="delete-icon"
+                          onClick={() => handleDeleteTechnology(tech.name)}
+                        />
+                        {/* <img
                           className="delete-icon"
                           src={"public/del.png"}
                           alt="delete"
                           onClick={() => handleDeleteTechnology(tech.name)}
-                        />
+                        /> */}
                       </div>
                       {index < technologies.length - 1 && (
                         <span className="comma">, </span>
@@ -251,18 +258,8 @@ const CvTemplate = ({
                       onChange={handleNewTechnologyChange}
                       placeholder="Add new technology"
                     />
-                    <img
-                      id="cancel"
-                      src={"public/cancel.webp"}
-                      alt="cancel"
-                      onClick={(e) => handleCancel(e)}
-                    />
-                    <img
-                      id="addTech"
-                      src="public/check-mark-icon-green-0.png"
-                      alt="bb"
-                      onClick={handleSaveTechnology}
-                    />
+                    <ClearIcon id="cancel" onClick={(e) => handleCancel(e)} />
+                    <CheckIcon id="addTech" onClick={handleSaveTechnology} />
                   </div>
                 )}
               </div>
@@ -373,18 +370,11 @@ const CvTemplate = ({
                       </div>
                     </div>
                     <div id="choice">
-                      <img
+                      <ClearIcon
                         id="cancelEd"
-                        src={"public/cancel.webp"}
-                        alt="cancel"
                         onClick={(e) => handleCancelEducation(e)}
                       />
-                      <img
-                        id="addEd"
-                        src="public/check-mark-icon-green-0.png"
-                        alt="bb"
-                        onClick={handleAddEducation}
-                      />
+                      <CheckIcon id="addEd" onClick={handleAddEducation} />
                     </div>
                   </div>
                 )}

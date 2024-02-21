@@ -311,12 +311,13 @@ input {
   margin: 20px 79px;
   flex-direction: row-reverse;
 }
-.delete-icon {
+#delete-icon {
   display: none;
 }
 
-.tech-name:hover + .delete-icon {
-  display: flex;
+.tech-name:hover + #delete-icon {
+  display: inline;
+  flex-direction: row-reverse;
   height: 15px;
   width: 15px;
   cursor: pointer;
@@ -332,4 +333,11 @@ input {
 #technologiesR:hover {
   cursor: pointer;
   color: grey;
+}
+#addEd:hover,
+#cancel:hover,
+#addTech:hover,
+#cancelEd:hover {
+  color: grey;
+  cursor: pointer;
 }
