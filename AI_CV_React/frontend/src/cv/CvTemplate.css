@@ -311,3 +311,25 @@ input {
   margin: 20px 79px;
   flex-direction: row-reverse;
 }
+.delete-icon {
+  display: none;
+}
+
+.tech-name:hover + .delete-icon {
+  display: flex;
+  height: 15px;
+  width: 15px;
+  cursor: pointer;
+  margin-left: 0px;
+}
+.technology-container {
+  display: inline-block;
+}
+
+.comma {
+  display: inline-block;
+}
+#technologiesR:hover {
+  cursor: pointer;
+  color: grey;
+}

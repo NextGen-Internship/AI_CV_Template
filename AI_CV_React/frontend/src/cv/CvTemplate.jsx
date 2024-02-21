@@ -40,6 +40,26 @@ const CvTemplate = ({
     setSummary(newSummary);
   };
 
+  const handleDeleteTechnology = (name) => {
+    const storedToken = localStorage.getItem("jwtToken");
+    const techToDelete = {
+      name: name,
+    };
+
+    axios
+      .delete(`http://localhost:8080/technology`, {
+        data: techToDelete,
+        params: { personId },
+        headers: {
+          Authorization: `Bearer ${storedToken}`,
+        },
+      })
+      .then((response) => {})
+      .catch((error) => {
+        console.error("Error removing technology:", error);
+      });
+  };
+
   const handleEdit = (index) => {
     setEditableIndex(index);
     setIsParagraphClicked(true);
@@ -47,7 +67,6 @@ const CvTemplate = ({
 
   const handleSaveTechnology = () => {
     const storedToken = localStorage.getItem("jwtToken");
-    console.log("newt" + newTechnology);
     const addTech = {
       name: newTechnology,
     };
@@ -60,7 +79,6 @@ const CvTemplate = ({
         },
       })
       .then((response) => {
-        console.log(response.data);
         setNewTechnology("");
         setShowNewTechnologyInput(false);
         onAddTechnology(personEmail);
@@ -69,6 +87,7 @@ const CvTemplate = ({
         console.error("Error adding technology:", error);
       });
   };
+
   const handleCancel = (e) => {
     setShowNewTechnologyInput(false);
     e.stopPropagation();
@@ -192,17 +211,34 @@ const CvTemplate = ({
                   <p onClick={() => handleEdit(personSummary)}>{summary}</p>
                 )}
               </div>
-              <div
-                className="first"
-                onClick={() => setShowNewTechnologyInput(true)}
-              >
-                <h3>Technologies</h3>
+              <div className="first">
+                <h3
+                  id="technologiesR"
+                  onClick={() => setShowNewTechnologyInput(true)}
+                >
+                  Technologies
+                </h3>
                 <div className="line"></div>
                 <i>
                   {technologies.map((tech, index) => (
                     <React.Fragment key={index}>
-                      {tech.name}
-                      {index < technologies.length - 1 ? ", " : ""}
+                      <div className="technology-container">
+                        <span
+                          className="tech-name"
+                          onClick={() => handleDeleteTechnology(tech.name)}
+                        >
+                          {tech.name}
+                        </span>
+                        <img
+                          className="delete-icon"
+                          src={"public/del.png"}
+                          alt="delete"
+                          onClick={() => handleDeleteTechnology(tech.name)}
+                        />
+                      </div>
+                      {index < technologies.length - 1 && (
+                        <span className="comma">, </span>
+                      )}
                     </React.Fragment>
                   ))}
                 </i>
@@ -214,7 +250,6 @@ const CvTemplate = ({
                       value={newTechnology}
                       onChange={handleNewTechnologyChange}
                       placeholder="Add new technology"
-                      // onBlur={(e) => handleCancel(e)}
                     />
                     <img
                       id="cancel"
