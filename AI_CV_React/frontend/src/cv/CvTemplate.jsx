@@ -11,6 +11,7 @@ const CvTemplate = ({
   technologies,
   education,
   experiences,
+  onAddTechnology,
 }) => {
   const [editableIndex, setEditableIndex] = useState(false);
   const [newTechnology, setNewTechnology] = useState("");
@@ -80,6 +81,7 @@ const CvTemplate = ({
       .then((response) => {
         setNewTechnology("");
         setShowNewTechnologyInput(false);
+        onAddTechnology(personEmail);
       })
       .catch((error) => {
         console.error("Error adding technology:", error);

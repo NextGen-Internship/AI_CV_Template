@@ -6,7 +6,7 @@ const UploadHistory = ({ onSearchItemClicked }) => {
   const [uploadHistory, setUploadHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItemId, setSelectedItemId] = useState(null);
   const storedToken = localStorage.getItem("jwtToken");
 
   const fetchUploadHistory = async () => {
@@ -29,6 +29,7 @@ const UploadHistory = ({ onSearchItemClicked }) => {
   };
 
   const handleItemClick = (item) => {
+    setSelectedItemId((prevId) => (prevId === item.id ? null : item.id));
     onSearchItemClicked(item);
   };
 
@@ -41,18 +42,28 @@ const UploadHistory = ({ onSearchItemClicked }) => {
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error.message}</p>}
       <div className="upload-history">
-        {uploadHistory.map((item) => (
-          <div
-            key={item.id}
-            className="upload-item"
-            onClick={() => handleItemClick(item)}
-          >
-            <p>
-              CV: {item.personEmail} - Date:{" "}
-              {new Date(item.createdDate).toLocaleString()}
-            </p>
-          </div>
-        ))}
+        <table className="upload-table">
+          <thead>
+            <tr>
+              <th>CV Email</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {uploadHistory.map((item) => (
+              <tr
+                key={item.id}
+                className={
+                  selectedItemId === item.id ? "selected-row" : "upload-item"
+                }
+                onClick={() => handleItemClick(item)}
+              >
+                <td>{item.personEmail}</td>
+                <td>{new Date(item.createdDate).toLocaleString()}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
