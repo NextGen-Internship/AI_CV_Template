@@ -63,6 +63,12 @@ public class TechnologyServiceImpl implements TechnologyService {
     public Optional<Technology> findTechnology(String name) {
         return technologyRepository.findByName(name);
     }
+
+    @Override
+    public void removeTechnology(Technology technology, long personId) {
+        Technology technologyToDelete = technologyRepository.findByName(technology.getName()).orElseThrow(() ->new DataNotFoundException("Technology with name " + technology.getName() + " not found") );
+        personService.removeTechnology(technologyToDelete, personId);
+    }
 }
 
 

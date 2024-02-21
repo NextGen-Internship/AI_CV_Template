@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -98,6 +99,14 @@ public class PersonServiceImpl implements PersonService {
         person.getEducation().add(education);
         personRepository.save(person);
         return education;
+    }
+
+    @Override
+    public boolean removeTechnology(Technology technologyToDelete, long personId) {
+        Person person = personRepository.findById(personId).orElseThrow(() -> new DataNotFoundException("Person with id " + personId + " not found"));
+        person.getTechnologies().remove(technologyToDelete);
+        personRepository.save(person);
+        return true;
     }
 }
 

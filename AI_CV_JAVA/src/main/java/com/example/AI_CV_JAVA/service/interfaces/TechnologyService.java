@@ -20,5 +20,7 @@ public interface TechnologyService {
     boolean addTechnology(String name, long personId);
 
     Optional<Technology> findTechnology(String name);
+
+    void removeTechnology(Technology technology, long personId);
 }
 
