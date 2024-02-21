@@ -19,7 +19,7 @@ const ComponentToPrint = React.forwardRef(
       technologies,
       education,
       experiences,
-      onAddTechnology,
+      onAddInformation,
     },
     ref
   ) => (
@@ -32,7 +32,7 @@ const ComponentToPrint = React.forwardRef(
         technologies={technologies}
         education={education}
         experiences={experiences}
-        onAddTechnology={onAddTechnology}
+        onAddInformation={onAddInformation}
       />
     </div>
   )
@@ -57,17 +57,23 @@ const PdfDownload = ({ email }) => {
     content: () => componentRef.current,
   });
 
-  const handleAddTechnology = () => {
+  const handleAddInformation = () => {
     if (selectedItem != null) {
       fetchCVTemplate(selectedItem);
-      setSelectedItem(null);
     } else {
-      const isValid = validateEmail(personEmailSave);
-      if (isValid) {
-        fetchByEmail(personEmailSave);
-      }
+      fetchByEmail(personEmailSave);
     }
   };
+
+  // const handleAddEducation = () => {
+  //   if (selectedItem != null) {
+  //     fetchCVTemplate(selectedItem);
+  //   } else {
+  //     if (isValid) {
+  //       fetchByEmail(personEmailSave);
+  //     }
+  //   }
+  // };
 
   const validateEmail = (inputEmail) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -87,26 +93,32 @@ const PdfDownload = ({ email }) => {
   const fetchByEmail = async (email) => {
     const storedToken = localStorage.getItem("jwtToken");
 
-    try {
-      const emailExistsResponse = await axios.get(
-        `http://localhost:8080/person/emailExists/${email}`,
-        {
-          headers: {
-            Authorization: `Bearer ${storedToken}`,
-          },
-        }
-      );
+    const isValid = validateEmail(email);
+    if (personId != null) {
+      if (isValid) {
+        try {
+          const emailExistsResponse = await axios.get(
+            `http://localhost:8080/person/emailExists/${email}`,
+            {
+              headers: {
+                Authorization: `Bearer ${storedToken}`,
+              },
+            }
+          );
 
-      if (!emailExistsResponse.data) {
-        setEmailError("Person with this email doesn't exist");
-        return;
-      } else {
-        setEmailError("");
+          if (!emailExistsResponse.data) {
+            setEmailError("Person with this email doesn't exist");
+            return;
+          } else {
+            setEmailError("");
+          }
+        } catch (error) {
+          setEmailError("An error occurred while checking email existence");
+          return;
+        }
       }
-    } catch (error) {
-      setEmailError("An error occurred while checking email existence");
-      return;
     }
+
     try {
       const response = await axios.get(
         `http://localhost:8080/person/${email}`,
@@ -134,14 +146,19 @@ const PdfDownload = ({ email }) => {
   const fetchCVTemplate = async (item) => {
     try {
       fetchByEmail(item.personEmail);
+      setPersonEmailSave(item.personEmail);
     } catch (error) {
       setEmailError("Error fetching CV template:", error);
     }
   };
 
   const handleSearchItemClicked = (item) => {
-    setSelectedItem(item);
-    fetchCVTemplate(item);
+    if (selectedItem === item) {
+      setSelectedItem(null);
+    } else {
+      setSelectedItem(item);
+      fetchCVTemplate(item);
+    }
   };
 
   const handleInputChange = (e) => {
@@ -244,7 +261,7 @@ const PdfDownload = ({ email }) => {
               technologies={technologies}
               education={education}
               experiences={experiences}
-              onAddTechnology={handleAddTechnology}
+              onAddInformation={handleAddInformation}
             />
           </div>
         </div>

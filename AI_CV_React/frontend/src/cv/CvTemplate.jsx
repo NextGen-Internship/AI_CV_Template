@@ -11,7 +11,7 @@ const CvTemplate = ({
   technologies,
   education,
   experiences,
-  onAddTechnology,
+  onAddInformation,
 }) => {
   const [editableIndex, setEditableIndex] = useState(false);
   const [newTechnology, setNewTechnology] = useState("");
@@ -54,7 +54,11 @@ const CvTemplate = ({
           Authorization: `Bearer ${storedToken}`,
         },
       })
-      .then((response) => {})
+      .then((response) => {
+        setNewTechnology("");
+        setShowNewTechnologyInput(false);
+        onAddInformation(personEmail);
+      })
       .catch((error) => {
         console.error("Error removing technology:", error);
       });
@@ -81,7 +85,7 @@ const CvTemplate = ({
       .then((response) => {
         setNewTechnology("");
         setShowNewTechnologyInput(false);
-        onAddTechnology(personEmail);
+        onAddInformation(personEmail);
       })
       .catch((error) => {
         console.error("Error adding technology:", error);
@@ -161,6 +165,7 @@ const CvTemplate = ({
           endYear: "",
         });
         setIsEducationFormVisible(false);
+        onAddInformation(personEmail);
       })
       .catch((error) => {
         console.error("Error adding education:", error);
