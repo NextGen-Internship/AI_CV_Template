@@ -197,7 +197,6 @@ const PdfDownload = ({ email }) => {
             clearInput={clearInput}
           />
           {emailError && <p className="error-message">{emailError}</p>}
-          {/* <div className="section-label-download">Download PDF:</div> */}
           <button className="btn-download" onClick={handlePrint}>
             Download Pdf
           </button>
