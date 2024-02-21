@@ -6,7 +6,7 @@ import json
 from dotenv import load_dotenv
 
 
-def handle_cv(cv):
+def handle_cv(cv, email):
     app.secret_key = os.getenv('OPENAI_API_KEY')
     client = OpenAI(api_key=app.secret_key)
     completion = client.chat.completions.create(
@@ -29,7 +29,8 @@ def handle_cv(cv):
                 "the start"
                 "year and end year separate as start_year and end_year,"
                 "and the role of the last"
-                "company in a json format,and only blankfactor gmail as gmail, don't send anything else that, is not specified"
+                "company in a json format,"
+                "and a seperate node with only blankfactor gmail as gmail, don't send anything else that, is not specified"
                 "Also the gmail field in the json should always be called gmail. Also make sure that if there are two emails, "
                 "also get the Blankfactor one, it's at the end and it end with @blankfactor.com."
                 },
@@ -45,5 +46,20 @@ def handle_cv(cv):
             print(chunk.choices[0].delta.content, end="")
             processed_data += chunk.choices[0].delta.content
 
-    processed_data_json = json.loads(processed_data)
+    
+    try:
+        data_json = json.loads(processed_data)       
+        email_from_prompt = data_json['gmail'] 
+        if email != email_from_prompt.strip():
+            data_json['gmail'] = email
+            processed_data = json.dumps(data_json)
+    except json.decoder.JSONDecodeError as e:
+        print("Error decoding JSON:", e)        
+    
+
+    try:
+        processed_data_json = json.loads(processed_data)
+    except json.decoder.JSONDecodeError as e:
+        print("Error decoding JSON:", e)
+
     publish_message_to_rabbitmq(processed_data_json)
