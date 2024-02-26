@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./CvTemplate.css";
 import image from "/public/logo.png";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
+import RemoveCircleRoundedIcon from "@mui/icons-material/RemoveCircleRounded";
 
 const CvTemplate = ({
   personId,
@@ -247,10 +250,8 @@ const CvTemplate = ({
                         >
                           {tech.name}
                         </span>
-                        <img
-                          className="delete-icon"
-                          src={"public/del.png"}
-                          alt="delete"
+                        <RemoveCircleRoundedIcon
+                          id="delete-icon"
                           onClick={() => handleDeleteTechnology(tech.name)}
                         />
                       </div>
