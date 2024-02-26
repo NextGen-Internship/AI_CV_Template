@@ -48,11 +48,15 @@ def handle_cv(cv, email):
 
     
     try:
-        data_json = json.loads(processed_data)       
-        email_from_prompt = data_json['gmail'] 
-        if email != email_from_prompt.strip():
+        data_json = json.loads(processed_data)    
+        if 'gmail' in data_json:   
+            email_from_prompt = data_json['gmail'] 
+            if email != email_from_prompt.strip():
+                data_json['gmail'] = email
+                processed_data = json.dumps(data_json)
+        else:
             data_json['gmail'] = email
-            processed_data = json.dumps(data_json)
+            processed_data = json.dumps(data_json)       
     except json.decoder.JSONDecodeError as e:
         print("Error decoding JSON:", e)        
     

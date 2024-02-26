@@ -170,7 +170,25 @@ const CvTemplate = ({
   const handleCancelEducation = (e) => {
     e.stopPropagation();
     setIsEducationFormVisible(false);
+    setEducationForm({
+      degree: "",
+      college: "",
+      startYear: "",
+      endYear: "",
+    });
   };
+
+  useEffect(() => {
+    setEducationForm({
+      degree: "",
+      college: "",
+      startYear: "",
+      endYear: "",
+    });
+    setIsEducationFormVisible(false);
+    setShowNewTechnologyInput(false);
+    setIsParagraphClicked(false);
+  }, [personName]);
 
   const generateYears = (startYear) => {
     const currentYear = new Date().getFullYear();
