@@ -401,7 +401,7 @@ const CvTemplate = ({
                         className="cancel-icon"
                         onClick={handleCancelEducation}
                       >
-                        <i class="fa fa-times">Cancle</i>
+                        <i class="fa fa-times">Cancel</i>
                       </div>
                     </div>
                   </div>
