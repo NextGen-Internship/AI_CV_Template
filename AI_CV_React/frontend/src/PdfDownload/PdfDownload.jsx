@@ -65,16 +65,6 @@ const PdfDownload = ({ email }) => {
     }
   };
 
-  // const handleAddEducation = () => {
-  //   if (selectedItem != null) {
-  //     fetchCVTemplate(selectedItem);
-  //   } else {
-  //     if (isValid) {
-  //       fetchByEmail(personEmailSave);
-  //     }
-  //   }
-  // };
-
   const validateEmail = (inputEmail) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
