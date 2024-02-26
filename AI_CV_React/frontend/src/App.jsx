@@ -11,6 +11,7 @@ import LogOut from "./Login/Logout";
 import CvTemplate from "./cv/CvTemplate";
 import WebSocket from "./WebSocket/WebSocket";
 import SearchHistory from "./activity/SearchHistory";
+import Compare from "./Comapring/Compare";
 import {
   BrowserRouter as Router,
   Routes,
@@ -144,6 +145,7 @@ function App() {
                   setMessages={setMessages}
                 ></WebSocket>
                 {selectedEmail && <PdfDownload email={selectedEmail} />}
+
                 <Footer></Footer>
               </>
             ) : (
@@ -151,6 +153,7 @@ function App() {
             )
           }
         />
+
         <Route path="/" element={<Navigate to="/home-page" replace />} />
       </Routes>
     </Router>

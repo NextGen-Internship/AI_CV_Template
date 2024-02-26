@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +29,7 @@ public class PdfServiceImpl implements PdfService {
     private final ActivityService activityService;
     private final UserService userService;
     private final TechnologyService technologyService;
+    private final StorageService storageService;
 
 
     public List<Experience> mapExperiences(JsonNode experiencesNode) {
@@ -52,6 +54,7 @@ public class PdfServiceImpl implements PdfService {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(jsonMessage);
         Person person = new Person();
+        person.setS3URL(jsonNode.path("S3URL").asText());
         person.setName(jsonNode.path("name").asText());
         person.setSummary(jsonNode.path("summary").asText());
         person.setTechnologies(mapTechnologies(jsonNode.path("technologies")));
@@ -115,7 +118,9 @@ public class PdfServiceImpl implements PdfService {
         PDDocument document = PDDocument.load(file.getInputStream());
         PDFTextStripper pdfStripper = new PDFTextStripper();
         String text = pdfStripper.getText(document);
-        String textToSend = text + "Blankfactor gmail: " + gmail;
+        URL url =  storageService.uploadFile(file);
+        String textToSend = text + " S3URL: " + url;
+        textToSend += "Blankfactor gmail: " + gmail;
         User user = userService.getCurrentUser();
         List<Activity> activities = user.getActivities();
         activities.add(activityService.crteateActivity(user, gmail, Type.Uploaded));

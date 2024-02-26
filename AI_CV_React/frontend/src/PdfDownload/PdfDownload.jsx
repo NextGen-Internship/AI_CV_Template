@@ -7,6 +7,7 @@ import "./PdfDownload.css";
 import { useReactToPrint } from "react-to-print";
 import SearchHistory from "../activity/SearchHistory";
 import UploadHistory from "../activity/UploadHistory";
+import Compare from "../Comapring/Compare";
 
 const ComponentToPrint = React.forwardRef(
   (
@@ -52,11 +53,10 @@ const PdfDownload = ({ email }) => {
   const [activeTab, setActiveTab] = useState(0);
   const [selectedItem, setSelectedItem] = useState(null);
   const componentRef = useRef(null);
-
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
-
+  console.log("person email " + personEmail);
   const handleAddTechnology = () => {
     if (selectedItem != null) {
       fetchCVTemplate(selectedItem);
@@ -125,7 +125,7 @@ const PdfDownload = ({ email }) => {
       setExperiences(response.data.experience);
       setEducation(response.data.education);
       setTechnologies(response.data.technologies);
-      clearInput();
+      // clearInput();
     } catch (error) {
       setEmailError("An error occurred while fetching person data");
     }
@@ -133,7 +133,9 @@ const PdfDownload = ({ email }) => {
 
   const fetchCVTemplate = async (item) => {
     try {
+      setPersonEmailSave(item.personEmail);
       fetchByEmail(item.personEmail);
+      console.log(item.personEmail);
     } catch (error) {
       setEmailError("Error fetching CV template:", error);
     }
@@ -187,66 +189,69 @@ const PdfDownload = ({ email }) => {
 
   return (
     <div id="download-div">
-      <div style={{ display: "flex", marginBottom: "10px" }}>
-        <div className="search-section">
-          <div className="section-label-search">Find CV & Download</div>
-          <SearchCv
-            email={personEmail}
-            handleInputChange={handleInputChange}
-            handleFetchData={handleButtonClick}
-            clearInput={clearInput}
-          />
-          {emailError && <p className="error-message">{emailError}</p>}
-          <button className="btn-download" onClick={handlePrint}>
-            Download Pdf
-          </button>
-          <div className="tabs-container">
-            <div className="tabs">
-              <span
-                className={activeTab === 0 ? "tab active" : "tab"}
-                onClick={() => handleTabClick(0)}
-              >
-                Upload History
-              </span>
-              <span
-                className={activeTab === 1 ? "tab active" : "tab"}
-                onClick={() => handleTabClick(1)}
-              >
-                Search History
-              </span>
-            </div>
-            <div className="tab-content">
-              {activeTab === 0 && (
-                <div className="content">
-                  <UploadHistory
-                    onSearchItemClicked={handleSearchItemClicked}
-                  ></UploadHistory>
-                </div>
-              )}
-              {activeTab === 1 && (
-                <div className="content">
-                  <SearchHistory
-                    onSearchItemClicked={handleSearchItemClicked}
-                  ></SearchHistory>
-                </div>
-              )}
-            </div>
+      <div className="search-section">
+        <h1 className="section-label-search"> Find CV & Download </h1>
+
+        <SearchCv
+          email={personEmail}
+          handleInputChange={handleInputChange}
+          handleFetchData={handleButtonClick}
+          clearInput={clearInput}
+        />
+        {emailError && <p className="error-message">{emailError}</p>}
+        <button className="btn-download" onClick={handlePrint}>
+          Download Pdf
+        </button>
+
+        <div className="tabs-container">
+          <div className="tabs">
+            <span
+              className={activeTab === 0 ? "tab active" : "tab"}
+              onClick={() => handleTabClick(0)}
+            >
+              Upload History
+            </span>
+            <span
+              className={activeTab === 1 ? "tab active" : "tab"}
+              onClick={() => handleTabClick(1)}
+            >
+              Search History
+            </span>
+          </div>
+          <div className="tab-content">
+            {activeTab === 0 && (
+              <div className="content">
+                <UploadHistory
+                  onSearchItemClicked={handleSearchItemClicked}
+                ></UploadHistory>
+              </div>
+            )}
+            {activeTab === 1 && (
+              <div className="content">
+                <SearchHistory
+                  onSearchItemClicked={handleSearchItemClicked}
+                ></SearchHistory>
+              </div>
+            )}
           </div>
         </div>
-        <div className="cv-section">
-          <div className="entire-cv">
-            <ComponentToPrint
-              ref={componentRef}
-              personId={personId}
-              personEmail={personEmail}
-              personName={personName}
-              personSummary={personSummary}
-              technologies={technologies}
-              education={education}
-              experiences={experiences}
-              onAddTechnology={handleAddTechnology}
-            />
-          </div>
+      </div>
+      <div className="cv-section">
+        <div id="ooldCv">
+          <Compare email={personEmailSave}></Compare>
+        </div>
+        <div className="entire-cv">
+          <ComponentToPrint
+            ref={componentRef}
+            personId={personId}
+            personEmail={personEmail}
+            personName={personName}
+            personSummary={personSummary}
+            technologies={technologies}
+            education={education}
+            experiences={experiences}
+            onAddTechnology={handleAddTechnology}
+          />
         </div>
       </div>
     </div>
