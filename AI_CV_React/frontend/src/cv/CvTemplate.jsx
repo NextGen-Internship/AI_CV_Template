@@ -5,6 +5,7 @@ import image from "/public/logo.png";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import RemoveCircleRoundedIcon from "@mui/icons-material/RemoveCircleRounded";
+import { startYear } from "../constants/constants.js";
 
 const CvTemplate = ({
   personId,
@@ -341,7 +342,7 @@ const CvTemplate = ({
                             readOnly
                           />
                           <ul className="options">
-                            {generateYears(1960).map((year) => (
+                            {generateYears(startYear).map((year) => (
                               <li
                                 key={year}
                                 onClick={(e) => {
@@ -375,7 +376,7 @@ const CvTemplate = ({
                           />
                           <ul className="options">
                             {generateYears(
-                              parseInt(educationForm.startYear) || 1960
+                              parseInt(educationForm.startYear) || startYear
                             ).map((year) => (
                               <li
                                 key={year}
