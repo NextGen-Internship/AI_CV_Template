@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./CvTemplate.css";
 import image from "/public/logo.png";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
+import RemoveCircleRoundedIcon from "@mui/icons-material/RemoveCircleRounded";
+import { startYear } from "../constants/constants.js";
 
 const CvTemplate = ({
   personId,
@@ -175,7 +179,25 @@ const CvTemplate = ({
   const handleCancelEducation = (e) => {
     e.stopPropagation();
     setIsEducationFormVisible(false);
+    setEducationForm({
+      degree: "",
+      college: "",
+      startYear: "",
+      endYear: "",
+    });
   };
+
+  useEffect(() => {
+    setEducationForm({
+      degree: "",
+      college: "",
+      startYear: "",
+      endYear: "",
+    });
+    setIsEducationFormVisible(false);
+    setShowNewTechnologyInput(false);
+    setIsParagraphClicked(false);
+  }, [personName]);
 
   const generateYears = (startYear) => {
     const currentYear = new Date().getFullYear();
@@ -234,10 +256,8 @@ const CvTemplate = ({
                         >
                           {tech.name}
                         </span>
-                        <img
-                          className="delete-icon"
-                          src={"public/del.png"}
-                          alt="delete"
+                        <RemoveCircleRoundedIcon
+                          id="delete-icon"
                           onClick={() => handleDeleteTechnology(tech.name)}
                         />
                       </div>
@@ -256,18 +276,16 @@ const CvTemplate = ({
                       onChange={handleNewTechnologyChange}
                       placeholder="Add new technology"
                     />
-                    <img
-                      id="cancel"
-                      src={"public/cancel.webp"}
-                      alt="cancel"
-                      onClick={(e) => handleCancel(e)}
-                    />
-                    <img
-                      id="addTech"
-                      src="public/check-mark-icon-green-0.png"
-                      alt="bb"
+
+                    <div
+                      className="save-icon-small"
                       onClick={handleSaveTechnology}
-                    />
+                    >
+                      <i class="fa fa-check"></i>
+                    </div>
+                    <div className="cancel-icon-small" onClick={handleCancel}>
+                      <i class="fa fa-times"></i>
+                    </div>
                   </div>
                 )}
               </div>
@@ -298,6 +316,7 @@ const CvTemplate = ({
                         name="degree"
                         value={educationForm.degree}
                         onChange={handleEducationFormChange}
+                        className="inputField"
                       />
                       <input
                         type="text"
@@ -305,9 +324,10 @@ const CvTemplate = ({
                         name="college"
                         value={educationForm.college}
                         onChange={handleEducationFormChange}
+                        className="inputField"
                       />
                     </div>
-                    <div id="years">
+                    <div id="years" className="form-group">
                       <div className="year-select-wrapper">
                         <div
                           className={`select-wrapper ${
@@ -323,10 +343,11 @@ const CvTemplate = ({
                             name="startYear"
                             value={educationForm.startYear}
                             onChange={handleEducationFormChange}
+                            className="inputField"
                             readOnly
                           />
                           <ul className="options">
-                            {generateYears(1920).map((year) => (
+                            {generateYears(startYear).map((year) => (
                               <li
                                 key={year}
                                 onClick={(e) => {
@@ -355,11 +376,12 @@ const CvTemplate = ({
                             name="endYear"
                             value={educationForm.endYear}
                             onChange={handleEducationFormChange}
+                            className="inputField"
                             readOnly
                           />
                           <ul className="options">
                             {generateYears(
-                              parseInt(educationForm.startYear) || 1920
+                              parseInt(educationForm.startYear) || startYear
                             ).map((year) => (
                               <li
                                 key={year}
@@ -378,18 +400,15 @@ const CvTemplate = ({
                       </div>
                     </div>
                     <div id="choice">
-                      <img
-                        id="cancelEd"
-                        src={"public/cancel.webp"}
-                        alt="cancel"
-                        onClick={(e) => handleCancelEducation(e)}
-                      />
-                      <img
-                        id="addEd"
-                        src="public/check-mark-icon-green-0.png"
-                        alt="bb"
-                        onClick={handleAddEducation}
-                      />
+                      <div className="save-icon" onClick={handleAddEducation}>
+                        <i class="fa fa-check">Save</i>
+                      </div>
+                      <div
+                        className="cancel-icon"
+                        onClick={handleCancelEducation}
+                      >
+                        <i class="fa fa-times">Cancel</i>
+                      </div>
                     </div>
                   </div>
                 )}
