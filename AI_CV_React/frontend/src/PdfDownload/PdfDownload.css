@@ -10,7 +10,7 @@
   margin-left: 10px;
 }
 
-.download-div {
+#download-div {
   display: flex;
   flex-direction: column;
 }
@@ -18,7 +18,6 @@
 .search-section {
   flex: 1;
   flex: 0 0 30%;
-  margin-top: 50px;
   margin-right: 50px;
   margin-left: 8%;
   align-items: center;
@@ -29,8 +28,9 @@
 }
 
 .cv-section {
-  flex: 1;
   margin-right: 50px;
+  display: flex;
+  margin-top: 20px;
 }
 
 .entire-cv {
@@ -50,7 +50,7 @@
 
 .tabs-container {
   font-family: Arial, sans-serif;
-  margin-top: 70px;
+  margin-top: 20px;
 }
 
 .tabs {
@@ -83,4 +83,13 @@
 
 .error-message {
   color: red;
+}
+
+#ooldCv {
+  width: 50%;
+  height: 100%;
+  margin-left: 8%;
+}
+#SANDD {
+  display: inline;
 }

@@ -41,4 +41,7 @@ public class Person {
     @Column
     @OneToMany(cascade = CascadeType.ALL)
     private List<Education> education;
+
+    @Column(length = 1000)
+    private String S3URL;
 }
